@@ -1,0 +1,182 @@
+{
+  "default": {
+    "language": {
+      "en": "English",
+      "ch": "中文"
+    },
+    "system": {
+      "title": "高级",
+      "clipboard": {
+        "success": "复制成功",
+        "fail": "复制失败"
+      }
+    },
+    "app": {
+      "title": "应用",
+      "log": {
+        "title": "日志"
+      },
+      "problems": {
+        "title": "刷题工具",
+        "NeedingEnhance": "错题集",
+        "Practice": "刷题"
+      },
+      "phyGrade": {
+        "title": "体育成绩",
+        "rules": {
+          "title": "规则设置",
+          "about": {
+            "title": "说明"
+          },
+          "subject": {
+            "title": "科目"
+          },
+          "standard": {
+            "title": "标准"
+          },
+          "scorepair": {
+            "title": "评判分数"
+          }
+        },
+        "detail": {
+          "title": "成绩统计卡"
+        },
+        "exam": {
+          "title": "考核"
+        },
+        "list": {
+          "title": "成绩单"
+        },
+        "statistics": {
+          "title": "单位统计"
+        }
+      },
+      "file": {
+        "title": "文件"
+      },
+      "dwz": {
+        "title": "短网址"
+      },
+      "manager": {
+        "title": "后台管理"
+      },
+      "iframepage": {
+        "title": "页面"
+      },
+      "memberRate": {
+        "title": "评比",
+        "summary": {
+          "title": "评比情况"
+        }
+      }
+    },
+    "utils": {
+      "title": "工具",
+      "qrCode": {
+        "title": "二维码",
+        "Create": {
+          "title": "生成"
+        },
+        "Scan": {
+          "title": "扫描"
+        }
+      }
+    }
+  },
+  "form": {
+    "company": {
+      "title": "单位",
+      "auditBy": "审核单位",
+      "createBy": "来自单位",
+      "involved": "涉及单位"
+    },
+    "user": {
+      "title": "成员",
+      "auditBy": "审核人",
+      "createBy": "创建人",
+      "from": "来源人"
+    },
+    "date": {
+      "title": "日期"
+    }
+  },
+  "application": {
+    "title": "休假管理",
+    "new": "我要休假",
+    "audit": "休假审批",
+    "detail": "休假申请详情",
+    "my": "我的假期",
+    "setting": {
+      "title": "管理",
+      "application": {
+        "title": "休假申请",
+        "auditStream": "审批流",
+        "exportXls": "Excel模板"
+      },
+      "users": {
+        "title": "用户管理",
+        "social": "家庭情况",
+        "company": "单位情况"
+      },
+      "updateRecord": "发布记录"
+    }
+  },
+  "navbar": {
+    "dashboard": "统计",
+    "logOut": "退出登录",
+    "profile": "个人信息",
+    "welcome": "首页"
+  },
+  "register": {
+    "company": {
+      "disabledVacation": "是否当年无假"
+    },
+    "title": "注册新的账号",
+    "new": "注册新号",
+    "checkemail": "认证邮箱",
+    "audit": "审核注册",
+    "linkdood": "用于发送最新消息"
+  },
+  "login": {
+    "title": "登录",
+    "defaultTitle": "登录",
+    "username": "用户名",
+    "password": "密码"
+  },
+  "profiles": {
+    "activity": "基本信息",
+    "timeline": "大事记",
+    "account": "账号日志"
+  },
+  "comments": {
+    "title": "资讯",
+    "notice": {
+      "title": "通知"
+    },
+    "bbs": {
+      "title": "论坛"
+    },
+    "suggest": {
+      "title": "意见建议"
+    }
+  },
+  "settings": {
+    "title": "设置选项",
+    "fixedHeader": "侧边栏标题",
+    "tagsView": "标签栏",
+    "theme": "主题",
+    "refresh": "刷新",
+    "close": "关闭",
+    "closeAll": "关闭全部",
+    "closeOthers": "关闭其他",
+    "sidebarLogo": "侧边栏logo"
+  },
+  "errorLog": {
+    "title": "错误日志"
+  },
+  "about": {
+    "version": {
+      "title": "发布记录"
+    }
+  }
+}

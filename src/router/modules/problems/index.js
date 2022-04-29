@@ -2,8 +2,12 @@ import Layout from '@/layout'
 
 const router = {
   path: '/problems',
+  meta: {
+    title: 'default.app.problems.title',
+    icon: 'user',
+    noCache: true
+  },
   component: Layout,
-  hidden: true,
   children: [
     {
       path: 'Practice',

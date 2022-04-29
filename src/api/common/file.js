@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 import { sha256 } from '@/utils/crypto/sha256'
 const CryptoJS = require('crypto-js')
-export function upload({ data, file }) {
+export function upload ({ data, file }) {
   const { filePath, fileName, isHidden, anonymous } = data
   var fd = new FormData()
   fd.append('file', file)
@@ -22,7 +22,7 @@ export function upload({ data, file }) {
     }).catch(e => rej(e))
   })
 }
-function caculate_sha256(contractFile) {
+function caculate_sha256 (contractFile) {
   return new Promise((res, rej) => {
     const reader = new FileReader()
     const blobSlice = File.prototype.mozSlice || File.prototype.webkitSlice || File.prototype.slice
@@ -36,7 +36,7 @@ function caculate_sha256(contractFile) {
     reader.onerror = (e) => { rej(e) }
   })
 }
-function arrayBufferToWordArray(ab) {
+function arrayBufferToWordArray (ab) {
   var i8a = new Uint8Array(ab)
   var a = []
   for (var i = 0; i < i8a.length; i += 4) {
@@ -52,7 +52,7 @@ function arrayBufferToWordArray(ab) {
  * @param {*} fileid
  * @returns
  */
-export function download(fileid, responseType) {
+export function download (fileid, responseType) {
   const opt = {
     responseType,
     params: {
@@ -71,7 +71,7 @@ export function download(fileid, responseType) {
  * @param {*} pages
  * @returns
  */
-export function folderFiles({ userid, path, pages }) {
+export function folderFiles ({ userid, path, pages }) {
   return request.get('file/folderFiles', {
     params: {
       userid,
@@ -90,7 +90,7 @@ export function folderFiles({ userid, path, pages }) {
  * @param {*} pages
  * @returns
  */
-export function requestFolder({ userid, path, pages }) {
+export function requestFolder ({ userid, path, pages }) {
   return request.get('file/folders', {
     params: {
       userid,
@@ -109,7 +109,7 @@ export function requestFolder({ userid, path, pages }) {
  * @param {*} filename
  * @returns
  */
-export function requestFile({ userid, filePath, fileName }) {
+export function requestFile ({ userid, filePath, fileName }) {
   return request.get('file/load', {
     params: {
       userid,
@@ -127,18 +127,14 @@ export function requestFile({ userid, filePath, fileName }) {
  * @param {*} filename
  * @returns
  */
-export function downloadByPath({ userid, path, filename, ignoreError, responseType }) {
+export function downloadByPath ({ userid, path, filename, ignoreError, responseType }) {
   const opt = {
     responseType,
-    params: {
-      userid,
-      path,
-      filename
-    },
     ignoreError
   }
   if (!opt.responseType) delete opt.responseType
-  return request.get('file/frompath', opt)
+  const api = 'file/frompath'
+  return request.get(`${api}/${path}/${filename}`, opt)
 }
 
 /**
@@ -150,7 +146,7 @@ export function downloadByPath({ userid, path, filename, ignoreError, responseTy
  * @param {*} clientKey
  * @returns
  */
-export function deleteFile({ userid, filepath, filename, clientKey }) {
+export function deleteFile ({ userid, filepath, filename, clientKey }) {
   return request.delete('file/remove', {
     params: {
       userid,
@@ -167,7 +163,7 @@ export function deleteFile({ userid, filepath, filename, clientKey }) {
  * @export
  * @returns
  */
-export function status() {
+export function status () {
   return request.get('file/status')
 }
 
@@ -178,7 +174,7 @@ export function status() {
  * @param {*} id 文件id
  * @param {*} auth 授权码
  */
-export function getClientKey(id, auth) {
+export function getClientKey (id, auth) {
   return request.post('file/clientKey', {
     id,
     auth
