@@ -1,0 +1,73 @@
+.panel {
+  position: relative;
+  height: 5rem;
+  margin-bottom: 0.1875rem;
+  transition: all 0.5s;
+  &:hover {
+    background-color: #479dff3e;
+    box-shadow: 3px 3px 6px 3px rgba(255, 255, 255, 0.3);
+    transform: translateY(4px);
+  }
+}
+.panel::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.12rem;
+  height: 0.12rem;
+  border-left: 0.03rem solid #02a6b5;
+  border-top: 0.03rem solid #02a6b5;
+  content: "";
+}
+.panel::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0.12rem;
+  height: 0.12rem;
+  border-right: 0.03rem solid #02a6b5;
+  border-top: 0.03rem solid #02a6b5;
+  content: "";
+}
+.panel .panel-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.panel .panel-footer::before {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0.12rem;
+  height: 0.12rem;
+  border-left: 0.03rem solid #02a6b5;
+  border-bottom: 0.03rem solid #02a6b5;
+  content: "";
+}
+.panel .panel-footer::after {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0.12rem;
+  height: 0.12rem;
+  border-right: 0.03rem solid #02a6b5;
+  border-bottom: 0.03rem solid #02a6b5;
+  content: "";
+}
+.panel h2 {
+  height: 0.6rem;
+  color: #fff;
+  line-height: 0.6rem;
+  text-align: center;
+  font-size: 0.25rem;
+  font-weight: 400;
+}
+.panel h2 a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 0.125rem;
+}
+.panel .chart {
+  height: 3rem;
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>请升级你的浏览器</title>
+    <meta
+      name="description"
+      content="这是一个开放的旧版IE升级提示页，普通用户可通过本页介绍快速了解为何要升级旧版IE浏览器以及如何升级浏览器，开发者可引用本页提供的代码为网站接入旧版IE升级提示。"
+    />
+    <base href="." target="_blank" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <link type="text/css" rel="stylesheet" href="./styles/support.style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <h1 id="version-title">{{ webconfig.browser.title }}</h1>
+      <p>
+        <span>你正在使用</span>
+        <em id="version-current">{{ webconfig.browser.current }}</em>
+        <span>，</span>
+        <em id="version-require">{{ webconfig.browser.require }}</em>
+        <span>。</span>
+        <span id="version-result">{{ wenconfig.browser.result }}</span>
+      </p>
+      <div
+        id="version-direct-return"
+        class="btn-return"
+        onclick="ignore_browser()"
+      >
+        点击返回到首页
+      </div>
+      <h1 id="version-title-description">
+        {{ webconfig.browser.title_description }}
+      </h1>
+      <div class="hr"></div>
+      <h2>请注意：Windows 7 及 Internet Explorer 的支持服务已终止</h2>
+      <p>
+        自2016年1月12日起，微软不再为 IE 11以下版本提供相应支持和更新；
+        自2022年6月15日起，微软不再为任何版本的IE提供支持和更新。没有关键的浏览器安全更新，您的电脑可能易受有害病毒、间谍软件和其他恶意软件的攻击，它们可以窃取或损害您的业务数据和信息。请参阅
+        <a href="./end-of-ie-support"
+          >微软对旧版 Internet Explorer 的支持服务已终止的说明</a
+        >
+        。
+      </p>
+      <div class="hr"></div>
+      <h2>更先进的浏览器</h2>
+      <p class="targetline">
+        推荐使用以下浏览器的最新版本。如果你的电脑已有以下浏览器的最新版本则直接使用该浏览器极速模式访问即可。
+      </p>
+      <ul id="browser-list" class="browser-list">
+        <li class="browser chrome">
+          <a href="/s/browser-google" id="browser-chrome-link"
+            ><img
+              src="./image/chrome.png"
+              width="34"
+              height="34"
+              alt="谷歌浏览器"
+            />谷歌浏览器 <span id="browser-chrome-badge">Google Chrome</span></a
+          >
+          <a href="/s/browser-google-x64">x64</a>
+          <a href="/s/browser-google-x86">x86</a>
+        </li>
+        <li class="browser firefox">
+          <a href="/s/browser-firefox" id="browser-firefox-link"
+            ><img
+              src="./image/firefox.png"
+              width="34"
+              height="34"
+              alt="火狐浏览器"
+            />火狐浏览器<span id="browser-firefox-badge"
+              >Mozilla Firefox</span
+            ></a
+          >
+
+          <a href="/s/browser-firefox-x64">x64</a>
+          <a href="/s/browser-firefox-x86">x86</a>
+        </li>
+        <li class="browser edge">
+          <a href="/s/browser-edge" id="browser-edge-link"
+            ><img
+              src="./image/edge.png"
+              width="34"
+              height="34"
+              alt="微软浏览器"
+            />微软浏览器<span id="browser-edge-badge">Microsoft Edge</span></a
+          >
+
+          <a href="/s/browser-edge-x64">x64</a>
+          <a href="/s/browser-edge-x86">x86</a>
+        </li>
+      </ul>
+      <!-- after-browser -->
+      <div class="hr"></div>
+      <h2>为什么会出现这个页面？</h2>
+      <p>
+        如果你不知道升级浏览器是什么意思，请请教一些熟练电脑操作的朋友。如果你使用的不是IE浏览器，而是360浏览器、QQ浏览器、搜狗浏览器等，出现这个页面是因为你使用的不是该浏览器的最新版本，升级至最新即可。
+      </p>
+      <div class="hr"></div>
+      <h2>一起抵制IE和基于IE内核的浏览器</h2>
+      <p>
+        为了兼容这个曾经的浏览器霸主，网页设计人员需要做大量的代码工作。对于普通用户而言，低版本IE更是一个岌岌可危的安全隐患，在Windows历史上几次大的木马病毒事件都是利用IE漏洞进行传播。所以，请和我们一起抵制IE的过期版本！
+      </p>
+      <div class="hr"></div>
+      <p>
+        Copyright ©
+        <script>
+          document.write(" - " + new Date().getFullYear());
+        </script>
+        serfend. All Rights Reserved
+      </p>
+    </div>
+  </body>
+  <script src="check_version.js"></script>
+  <script>
+    check_unsupport_tip();
+  </script>
+</html>

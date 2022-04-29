@@ -1,0 +1,73 @@
+.login-form {
+  position: relative;
+  max-width: 400px;
+  min-width: 350px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.tips {
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 10px;
+
+  span {
+    &:first-of-type {
+      margin-right: 16px;
+    }
+  }
+}
+
+.title-container {
+  position: relative;
+
+  .title {
+    font-size: 26px;
+    margin: 0px auto 40px auto;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .set-language {
+    color: #333;
+    position: absolute;
+    top: 3px;
+    font-size: 18px;
+    right: 0px;
+    cursor: pointer;
+  }
+}
+
+.show-pwd {
+  position: absolute;
+  right: 10px;
+  top: 7px;
+  font-size: 16px;
+  cursor: pointer;
+  user-select: none;
+}
+
+
+
+.login-container {
+  .el-input {
+    display: inline-block;
+    height: 47px;
+    width: 85%;
+
+    input {
+      background: transparent;
+      border: 0px;
+      border-radius: 0px;
+      padding: 12px 5px 12px 15px;
+      height: 47px;
+    }
+  }
+
+  .el-form-item {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    color: #454545;
+  }
+}

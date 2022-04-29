@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:description"
+      content="<%= webpackConfig.description %>"
+    />
+    <meta name="description" content="<%= webpackConfig.description %>" />
+    <meta name="keywords" content="<%= webpackConfig.keywords %>" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="<%= BASE_URL %>favicon-16x16.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="<%= BASE_URL %>favicon-32x32.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="64x64"
+      href="<%= BASE_URL %>favicon-64x64.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="128x128"
+      href="<%= BASE_URL %>favicon-128x128.ico"
+    />
+    <meta
+      property="og:image"
+      content="https://i.loli.net/2020/05/12/IAsdu3iVXPeNRK6.jpg"
+    />
+    <title><%= webpackConfig.name %></title>
+  </head>
+
+  <body>
+    <div id="app"></div>
+    <script src="/p/common/unsupport/check_version.js"></script>
+    <script>
+      check_if_need_redirect();
+    </script>
+  </body>
+</html>

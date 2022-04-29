@@ -1,0 +1,10 @@
+.right-hover-panel {
+  position: fixed;
+  right: -18rem;
+  width: 20rem;
+  z-index: 1;
+  transition: all ease 0.5s;
+  &:hover {
+    right: 0rem;
+  }
+}

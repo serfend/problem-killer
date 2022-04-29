@@ -1,0 +1,24 @@
+::-webkit-scrollbar {
+  height: 20px;
+  overflow: visible;
+  width: 10px;
+  background: white;
+  // border-left: 1px solid #DDD;
+}
+
+::-webkit-scrollbar-track {
+  background-clip: padding-box;
+  border: solid transparent;
+  border-width: 0;
+  &:hover,&:active {
+      background-color: rgba(0,0,0,.05);
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,.2);
+  background-clip: padding-box;
+  border: solid transparent;
+  border-width: 3px 3px 3px 4px;
+  border-radius: 6px;
+}

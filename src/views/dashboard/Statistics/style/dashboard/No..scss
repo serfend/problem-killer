@@ -1,0 +1,61 @@
+.no {
+  background: rgba(101, 132, 226, 0.1);
+  padding: 0.1875rem;
+}
+.no .no-hd {
+  position: relative;
+  border: 1px solid rgba(25, 186, 139, 0.17);
+}
+.no .no-hd::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  width: 0.15rem;
+  height: 0.05rem;
+  border-top: 2px solid #02a6b5;
+  border-left: 2px solid #02a6b5;
+}
+.no .no-hd::after {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 0.15rem;
+  height: 0.05rem;
+  border-right: 0.01rem solid #02a6b5;
+  border-bottom: 0.01rem solid #02a6b5;
+}
+.no .no-hd ul {
+  display: flex;
+}
+.no .no-hd ul li {
+  position: relative;
+  flex: 1;
+  line-height: 1rem;
+  font-size: 0.875rem;
+  color: #ffeb7b;
+  text-align: center;
+  font-family: "electronicFont";
+}
+.no .no-hd ul li::after {
+  content: "";
+  position: absolute;
+  top: 25%;
+  right: 0;
+  height: 50%;
+  width: 0.01rem;
+  background: rgba(255, 255, 255, 0.2);
+}
+.no .no-bd ul {
+  display: flex;
+}
+.no .no-bd ul li {
+  flex: 1;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.325rem;
+  height: 0.5rem;
+  line-height: 0.5rem;
+  padding-top: 0.125rem;
+}

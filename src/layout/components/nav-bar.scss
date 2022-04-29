@@ -1,0 +1,79 @@
+@import "@/styles/variables";
+.navbar {
+  height: 3rem;
+  overflow: hidden;
+  position: relative;
+  background: $navbarColor;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.2);
+
+  .hamburger-container {
+    line-height: 2.8rem;
+    height: 100%;
+    float: left;
+    cursor: pointer;
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.025);
+    }
+  }
+  .menu-link {
+    color: $menuText;
+  }
+  .breadcrumb-container {
+    float: left;
+  }
+
+  .errLog-container {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .right-menu {
+    float: right;
+    margin-right: 2rem;
+    height: 100%;
+    line-height: 3rem;
+
+    &:focus {
+      outline: none;
+    }
+    %right-menu-item-base {
+      display: inline-block;
+      height: 95%;
+      font-size: 1rem;
+      color: $menuText;
+      vertical-align: text-bottom;
+
+      &.hover-effect {
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.025);
+        }
+      }
+    }
+    .right-menu-item {
+      @extend %right-menu-item-base;
+    }
+    .right-menu-2-item {
+      @extend %right-menu-item-base;
+      margin-top: 0.2rem;
+      font-size: 0.5rem;
+      line-height: 1.5rem;
+      color: $menuActiveText;
+    }
+    .avatar-container {
+      cursor: pointer;
+      .user-avatar {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+}

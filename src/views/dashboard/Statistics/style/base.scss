@@ -1,0 +1,27 @@
+@import "./base-var.scss";
+li {
+  list-style: none;
+}
+/* 声明字体*/
+@font-face {
+  font-family: electronicFont;
+  src: url(~@/assets/dashboard/fonts/DS-DIGIT.ttf);
+}
+
+%background-img {
+  background: url(~@/assets/dashboard/images/bg.jpg) no-repeat top center;
+  background-size: 100% 100%;
+}
+%background-dark {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0.02rem, transparent 0),
+    linear-gradient(rgba(255, 255, 255, 0.05) 0.02rem, transparent 0);
+  background-color: rgb(11, 1, 85);
+  background-size: 0.2rem 0.2rem;
+}
+%base-bar-pseudo {
+  content: "";
+  height: 1px;
+  width: 0;
+  bottom: 0;
+  position: absolute;
+}

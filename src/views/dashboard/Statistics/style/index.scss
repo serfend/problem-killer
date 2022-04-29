@@ -1,0 +1,25 @@
+@import "./title.scss";
+@import "./base.scss";
+@import "./dashboard";
+// .container {
+
+//   height: 100%;
+//   width: 100%;
+//   position: fixed;
+// }
+%full-screen {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.container-bg {
+  @extend %background-img;
+  @extend %full-screen;
+}
+.container {
+  @extend %background-dark;
+  @extend %full-screen;
+}

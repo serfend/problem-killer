@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+  "settings": {
+    "workbench.iconTheme": "vscode-great-icons",
+    "vue3snippets.jsxBracketSameLine": true,
+    "vue3snippets.bracketSpacing": false,
+    "vue3snippets.enable-compile-vue-file-on-did-save-code": false,
+    "eslint.format.enable": true,
+    "vetur.format.defaultFormatter.html": "prettyhtml"
+  }
+}

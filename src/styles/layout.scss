@@ -1,0 +1,148 @@
+.layout {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+.layout.row {
+  flex-direction: row;
+}
+.layout.row.reverse {
+  flex-direction: row-reverse;
+}
+.layout.column {
+  flex-direction: column;
+}
+.layout.column.reverse {
+  flex-direction: column-reverse;
+}
+.layout.column > .flex {
+  max-width: 100%;
+}
+.layout.wrap {
+  flex-wrap: wrap;
+}
+.flex,
+.child-flex > * {
+  flex: 1 1 auto;
+  max-width: 100%;
+}
+.align-start {
+  align-items: flex-start;
+}
+.align-end {
+  align-items: flex-end;
+}
+.align-center {
+  align-items: center;
+}
+.align-baseline {
+  align-items: baseline;
+}
+.align-self-start {
+  align-self: flex-start;
+}
+.align-self-end {
+  align-self: flex-end;
+}
+.align-self-center {
+  align-self: center;
+}
+.align-self-baseline {
+  align-self: baseline;
+}
+.align-content-start {
+  align-content: flex-start;
+}
+.align-content-end {
+  align-content: flex-end;
+}
+.align-content-center {
+  align-content: center;
+}
+.align-content-space-between {
+  align-content: space-between;
+}
+.align-content-space-around {
+  align-content: space-around;
+}
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-space-around {
+  justify-content: space-around;
+}
+.justify-space-between {
+  justify-content: space-between;
+}
+.justify-self-start {
+  justify-self: flex-start;
+}
+.justify-self-end {
+  justify-self: flex-end;
+}
+.justify-self-center {
+  justify-self: center;
+}
+.justify-self-baseline {
+  justify-self: baseline;
+}
+.spacer {
+  flex-grow: 1 !important;
+}
+.grow {
+  flex-grow: 1 !important;
+  flex-shrink: 0 !important;
+}
+.shrink {
+  flex-grow: 0 !important;
+  flex-shrink: 1 !important;
+}
+.scroll-y {
+  overflow-y: auto;
+}
+.fill-height {
+  height: 100%;
+}
+.hide-overflow {
+  overflow: hidden !important;
+}
+.show-overflow {
+  overflow: visible !important;
+}
+.no-wrap {
+  white-space: nowrap;
+}
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.d-flex {
+  display: flex !important;
+}
+.d-inline-flex {
+  display: inline-flex !important;
+}
+.d-flex > *,
+.d-inline-flex > * {
+  flex: 1 1 auto !important;
+}
+.d-block {
+  display: block !important;
+}
+.d-inline-block {
+  display: inline-block !important;
+}
+.d-inline {
+  display: inline !important;
+}
+.d-none {
+  display: none !important;
+}

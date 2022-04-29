@@ -1,0 +1,90 @@
+// global transition css
+
+/* fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
+/* fade-transform */
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 1s;
+}
+
+.fade-transform-enter {
+  opacity: 0;
+  transform: scale(0);
+  transition: all 1s;
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: scale(0);
+  position: absolute;
+}
+
+/* breadcrumb transition */
+%breadcrumb-enter-active-base,
+%breadcrumb-enter-base,
+%breadcrumb-leave-active-base,
+%breadcrumb-move-base {
+  transition: all 0.5s;
+  opacity: 0;
+  transform: translateX(2em);
+}
+
+%breadcrumb-leave-active-base {
+  position: absolute;
+}
+
+.breadcrumb-enter-active,
+.breadcrumb-leave-active,
+.breadcrumb-enter,
+.breadcrumb-move {
+  @extend %breadcrumb-enter-active-base;
+}
+.breadcrumb-leave-active {
+  @extend %breadcrumb-leave-active-base;
+}
+
+
+
+.breadcrumb-margin-enter-active,
+.breadcrumb-margin-leave-active,
+.breadcrumb-margin-enter,
+.breadcrumb-margin-move {
+  @extend %breadcrumb-enter-active-base;
+  margin:1rem 0 1rem 0;
+}
+.breadcrumb-margin-leave-active {
+  @extend %breadcrumb-leave-active-base;
+}
+
+.fade-out-item {
+  transition: all ease 0.5s;
+  overflow: hidden;
+}
+.fade-out-enter-active {
+  opacity: 1 !important;
+}
+.fade-out-leave-active {
+  opacity: 1 !important;
+  position: fixed;
+}
+.fade-out-enter {
+  opacity: 0 !important;
+  // transform: translateX(-10rem);
+}
+.fade-out-leave-to {
+  opacity: 0 !important;
+  // transform: translateX(10rem);
+}
+.fade-out-move {
+  transition: all 0.6s ease;
+}

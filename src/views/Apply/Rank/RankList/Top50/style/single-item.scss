@@ -1,0 +1,119 @@
+li {
+  height: 48px;
+}
+
+li:nth-child(2n) {
+  background: #fafbfc;
+}
+
+li dt {
+  float: left;
+}
+
+li dt .rank-number {
+  position: relative;
+  width: 86px;
+  height: 34px;
+  line-height: 34px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 24px;
+  padding-left: 10px;
+  margin: 7px 0 0 7px;
+}
+
+li dt .rank-number span {
+  position: absolute;
+  right: 10px;
+  top: 7px;
+  width: 17px;
+  height: 17px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAYAAAB24g05AAAABGdBTUEAALGPC/xhBQAAAK9JREFUKBWNkjsOwjAQRGOadNC5zCVCmQvkQFwCOBZngC4HQHTQL2+QLedjh6z05LV3ZiQ7cVWhzMwzOoHB1Tn3LEiXx5gbGCCW+mapzJxICGPz9pAV8/+QDeZyyIr5zUzMK70JEw+5O8vYBUohvkJwgXn9zPGNGSooF3LeRdFo/dD3fPdbPAt9z16zaZGsKzxA9YJuqkg7zYKGxe6gn41fzayGFvZJnu/QHOAItRRfqP5u/3/C0/QAAAAASUVORK5CYII=)
+    no-repeat 50%;
+}
+
+li dt .rank-number.up {
+  background: #ffa5a5;
+}
+
+li dt .rank-number.up span {
+  -webkit-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+
+li dt .rank-number.down {
+  background: #9dd6ff;
+}
+
+li dt .rank-number.down span {
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+li dt .rank-number.balance {
+  background: #84f9da;
+}
+
+li dt .rank-number.balance span {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAALCAQAAADYHhWPAAAAaklEQVQY02NgoDH4z/KfDQhZEAJ+/6/9//H/wH9tKN/l/8X/f/+DwL//1//7gYSM///5DwGP//MC+Wr/v/9HBr//GzH870YS8AUqqvqPDroxFVViU2QMNBC/dcbYHO6M5PBrYIcTGQSEAQASJrCU6gEZzgAAAABJRU5ErkJggg==)
+    no-repeat 50%;
+}
+
+li dd {
+  position: relative;
+  width: 680px;
+  float: left;
+  margin-left: 50px;
+  height: 34px;
+  line-height: 34px;
+  margin-top: 7px;
+}
+
+li dd em {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+li dd .name-info {
+  display: flex;
+}
+li dd .name-info .name-info-avatar {
+  width: 40px;
+}
+li dd .name-info .href-enable {
+  cursor: pointer;
+}
+
+li dd .name-info .img {
+  float: left;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+}
+
+li dd .name-info span {
+  float: left;
+  font-size: 14px;
+  padding-left: 20px;
+}
+li.normal-item a:hover .uname {
+  color: #23ade5;
+}
+
+li.normal-item .rank-number {
+  font-style: italic;
+}
+
+li.normal-item .uname {
+  color: #666;
+}
+
+li.normal-item .live {
+  margin-left: 15px;
+}
+
+li.normal-item .score {
+  font-style: normal;
+}
