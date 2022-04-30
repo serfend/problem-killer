@@ -3,7 +3,7 @@
     <el-form v-if="options" label-width="5rem" inline>
       <el-form-item label="刷题模式">
         <el-tooltip content="刷题模式将无需填入答案，直接选会或不会即可，更高效">
-          <el-switch v-model="options.mode" />
+          <el-switch v-model="options.practice_mode" />
         </el-tooltip>
       </el-form-item>
       <el-form-item label="斩杀模式">
@@ -42,8 +42,9 @@ export default {
     options: {
       handler(val) {
         const name = this.database
-        api.user_database_detail({ name, key: train_options, val })
-        this.$emit('update:data', val)
+        api.user_database_detail({ name, key: train_options, val }).then(data => {
+          this.$emit('change', val)
+        })
       },
       immediate: true,
       deep: true
