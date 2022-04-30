@@ -9,6 +9,7 @@
         <el-button size="mini" type="info" @click="practice_submit(false)">不会做</el-button>
       </span>
       <el-button v-show="!showAnswer" type="text" @click="requireShowAnswer">查看解析</el-button>
+      <span v-if="need_practice" class="problem-info">{{ need_practice }}</span>
     </span>
   </span>
 </template>
@@ -28,15 +29,25 @@ export default {
     beenSolved: false
   }),
   computed: {
-    options() {
+    need_practice () {
+      const { data, current_problems } = this
+      const d = current_problems[data.id]
+      const { need_practice } = d
+      if (need_practice <= 0) return `已拿下${(-need_practice) + 1}次`
+      return `还需要巩固${need_practice}次`
+    },
+    current_problems () {
+      return this.$store.state.problems.current_problems
+    },
+    options () {
       return this.$store.state.problems.current_options
     },
   },
   methods: {
-    requireShowAnswer() {
+    requireShowAnswer () {
       this.$emit('update:showAnswer', true)
     },
-    practice_submit(is_right) {
+    practice_submit (is_right) {
       this.requireShowAnswer()
       this.beenSolved = true
       this.$emit('onAnswer', is_right)
@@ -45,6 +56,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.problem-info {
+  color: #ccc;
+  font-size: 0.9rem;
+}
 </style>
