@@ -20,7 +20,7 @@
               <div>{{ status.total }}</div>
             </el-form-item>
             <el-form-item label="平均用时">
-              <div>{{ Math.ceil(100 * status.total_time / status.total)/100 }}秒</div>
+              <div>{{ Math.ceil(status.total_time / status.total)/1000 }}秒</div>
             </el-form-item>
             <el-form-item label="上次出错">
               <div>{{ parseTime(status.last_wrong) }}</div>

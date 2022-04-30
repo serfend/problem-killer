@@ -1,5 +1,5 @@
 <template>
-  <el-card style="transition:all ease 0.5s">
+  <el-card style="transition:all ease 0.5s" @mouseenter.native="onMouseEnter" @mouseleave.native="recordSpendTime">
     <template #header>
       <ProblemHeader :show-answer.sync="showAnswer" v-bind="$props" @onAnswer="onAnswer" />
     </template>
@@ -26,7 +26,9 @@ export default {
   data: () => ({
     showAnswer: false,
     userAnswerResult: null,
-    userAnswerConfirmResult: false
+    userAnswerConfirmResult: false,
+    lastEnter: 0,
+    time_spent: 0
   }),
   computed: {
     current_database() {
@@ -41,6 +43,14 @@ export default {
     }
   },
   methods: {
+    onMouseEnter() {
+      this.lastEnter = new Date()
+    },
+    recordSpendTime() {
+      const { lastEnter } = this
+      const d = new Date() - lastEnter
+      this.time_spent += d
+    },
     onAnswer(is_right) {
       this.userAnswerResult = is_right
       if (!is_right) this.update_problem(false)
@@ -53,10 +63,10 @@ export default {
     },
     update_problem(is_right) {
       const database = this.current_database.name
-      const { data } = this
+      const { data, time_spent } = this
       api.user_problem_result({ database }).then(v => {
         const problem_id = data.id || data.content
-        const val = statistics_problem(v[problem_id], is_right)
+        const val = statistics_problem(v[problem_id], is_right, time_spent)
         this.$emit('onSubmit', is_right)
         api.user_problem_result({ database, problem_id, val })
       })
