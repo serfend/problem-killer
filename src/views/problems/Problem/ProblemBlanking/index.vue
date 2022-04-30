@@ -1,13 +1,66 @@
 <template>
-  <div>111</div>
+  <div>
+    <div class="content-container">
+      <h3>{{ index+1 }}.</h3>
+      <span>
+        <span>
+          <component :is="b.type" v-for="(b,bindex) in blanking" :key="bindex" v-model="user_input[b.i]" v-bind="b.attrs" :style="b.style">{{ b.value }}</component>
+        </span>
+      </span>
+    </div>
+  </div>
 </template>
 
 <script>
+import { build_input, build_span } from '../loader'
 export default {
   label: '填空',
   name: 'ProblemBlanking',
   props: {
-    data: { type: Object, default: null }
+    data: { type: Object, default: null },
+    index: { type: Number, default: null }
+  },
+  data: () => ({
+    blanking: null,
+    user_input: []
+  }),
+  watch: {
+    data: {
+      handler (val) {
+        this.refresh(val)
+      },
+      immediate: true,
+      deep: true
+    }
+  },
+  methods: {
+    refresh (v) {
+      if (!v) {
+        this.blanking = null
+        return
+      }
+      const { content, answer, analysis } = v
+      console.log(content, answer, analysis)
+      const c = (content && `${content}。`) || null
+      const b = c && c.split('{{ANS}}') || []
+      if (!b.length) {
+        this.blanking = null
+        return
+      }
+      const r = []
+      this.user_input = new Array(b.length - 1)
+      b.map((v, index) => {
+        r.push(build_span(index, v))
+        r.push(build_input(index, v))
+      })
+      r.pop()
+      this.blanking = r
+    }
   }
 }
 </script>
+<style lang="scss" scoped>
+.content-container{
+  display: flex;
+}
+</style>

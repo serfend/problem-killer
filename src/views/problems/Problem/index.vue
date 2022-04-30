@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <component :is="type" v-if="type" />
+  <div class="singe-problem">
+    <component :is="type" v-if="type" v-bind="$props" />
     <div v-else>暂不支持的题型{{ d.type }}</div>
   </div>
 </template>
@@ -37,5 +37,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.singe-problem{
+  margin-top:1rem;
+}
 </style>
