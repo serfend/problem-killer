@@ -13,7 +13,8 @@ export default {
     Problem: () => import('@/views/problems/Problem')
   },
   props: {
-    data: { type: Array, default: () => [] }
+    data: { type: Array, default: () => [] },
+    options: { type: Object, default: null }
   }
 }
 </script>
