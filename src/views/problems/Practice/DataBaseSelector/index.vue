@@ -7,7 +7,6 @@
 
 <script>
 import { get_all_database_summary } from '../../Problem/loader'
-import api from '@/api/problems'
 export default {
   name: 'DataBaseSelector',
   components: {
@@ -31,12 +30,11 @@ export default {
     })
   },
   methods: {
-    requireStart(v) {
+    requireStart (v) {
+      if (!v) return
       this.loading = true
-      api.user_database_detail({ name: v.name }).then(data => {
-        this.$store.dispatch('problems/select_database', { database: v, info: data }).then(() => {
-          this.$emit('requireStart', v)
-        })
+      this.$store.dispatch('problems/select_database', { database: v }).then(() => {
+        this.$emit('requireStart', v)
       }).finally(() => {
         this.loading = false
       })
@@ -45,5 +43,4 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 </style>

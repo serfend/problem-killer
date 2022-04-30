@@ -1,9 +1,11 @@
 export const CreateUserInfo = () => ({
   history: [],
   score: {
-    average: 0,
-    max: 0,
-    min: 100
+    average: null,
+    max: null,
+    min: null,
+    total: null,
+    total_time: 0
   }
 }
 )

@@ -15,8 +15,7 @@ export default {
   },
   props: {
     data: { type: Object, default: null },
-    index: { type: Number, default: null },
-    options: { type: Object, default: null }
+    index: { type: Number, default: null }
   },
   data: () => ({
     blanking: null,

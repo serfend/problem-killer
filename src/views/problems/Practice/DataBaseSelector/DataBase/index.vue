@@ -4,7 +4,7 @@
       <div class="header">
         <h3>{{ d.alias || '未命名的题库' }}</h3>
         <span v-if="user_info && user_info.score" class="header-score">{{ user_info.score.average }}分</span>
-        <el-rate :value="5.0" disabled show-score text-color="#cc8200" score-template="{value}分" />
+        <el-rate :value="d.star||5.0" disabled show-score text-color="#cc8200" score-template="{value}分" />
       </div>
     </template>
     <el-row :gutter="20">
@@ -20,11 +20,13 @@
           </div>
           <el-form v-if="user_info.score">
             <el-form-item label="均分">
-              <el-progress :percentage="user_info.score.average" :text-inside="true" :stroke-width="20" class="normal-progress" />
+              <el-progress :percentage="user_info.score.average || 0" :text-inside="true" :stroke-width="20" class="normal-progress" />
             </el-form-item>
             <el-form-item>
-              <span>最高分:{{ user_info.score.max }}</span>
-              <span>最低分:{{ user_info.score.min }}</span>
+              <span>满分:{{ user_info.score.total || '无' }}</span>
+              <span>参加次数:{{ user_info.score.total_time || '无' }}</span>
+              <span>最高分:{{ user_info.score.max || '无' }}</span>
+              <span>最低分:{{ user_info.score.min || '无' }}</span>
             </el-form-item>
           </el-form>
         </div>
@@ -51,7 +53,11 @@ export default {
   data: () => ({
     loading: false,
     user_info: null,
-    showHistory: false
+    showHistory: false,
+    pages: {
+      pageIndex: 0,
+      pageSize: 5
+    }
   }),
   computed: {
     d() {
@@ -72,6 +78,7 @@ export default {
     onDataChanged(val) {
       this.loading = true
       const name = this.d.name
+      // TODO 支持多页
       api.user_database_detail({ name })
         .then((data) => {
           if (!data || !data.score) { data = CreateUserInfo() }

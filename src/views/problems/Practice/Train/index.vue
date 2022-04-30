@@ -1,7 +1,7 @@
 <template>
   <div v-if="name" v-loading="loading" class="train">
     <div v-if="database">
-      <h1>题库：{{ database.description }}</h1>
+      <h1>题库：{{ database.alias || database.description }}</h1>
       <TrainOptions :database="name" />
       <el-divider />
       <ProblemList :data="database.problems" />

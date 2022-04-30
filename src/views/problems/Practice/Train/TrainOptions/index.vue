@@ -43,6 +43,7 @@ export default {
       handler(val) {
         const name = this.database
         api.user_database_detail({ name, key: train_options, val }).then(data => {
+          if (val) { this.$store.dispatch('problems/update_database') }
           this.$emit('change', val)
         })
       },
