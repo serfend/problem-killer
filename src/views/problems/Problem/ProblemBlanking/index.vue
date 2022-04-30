@@ -1,6 +1,6 @@
 <template>
   <span>
-    <component :is="b.type" v-for="(b,bindex) in blanking" :key="bindex" v-model="user_input[b.i]" v-bind="b.attrs" :style="b.style">{{ b.value }}
+    <component :is="b.type" v-for="(b,bindex) in blanking" :ref="`${b.type}${b.i}`" :key="bindex" v-model="user_input[b.i]" v-bind="b.attrs" :style="b.style" @keyup.enter.native="onSubmit(b)">{{ b.value }}
     </component>
   </span>
 </template>
@@ -31,6 +31,23 @@ export default {
     }
   },
   methods: {
+    onSubmit(v) {
+      const iCount = v.i + 1
+      if (iCount < this.user_input.length) {
+        const d = this.$refs[`${v.type}${iCount}`]
+        const c = d[0]
+        c && c.focus()
+        return
+      }
+      return this.judgeSubmit(this.user_input)
+    },
+    judgeSubmit(result) {
+      const answer = this.data.answer
+      const is_right = !answer.find((i, index) => {
+        return i !== result[index]
+      })
+      this.$emit('onUserSubmit', is_right)
+    },
     refresh (v) {
       if (!v) {
         this.blanking = null

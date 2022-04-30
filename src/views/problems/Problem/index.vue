@@ -1,7 +1,7 @@
 <template>
   <div class="singe-problem">
-    <ProblemBase v-if="type" v-bind="$props" :completed.sync="completed" @onSubmit="v=>$emit('onSubmit',v)">
-      <component :is="type" v-bind="$props" />
+    <ProblemBase v-if="type" ref="base" v-bind="$props" :completed.sync="completed" @onSubmit="v=>$emit('onSubmit',v)">
+      <component :is="type" v-bind="$props" @onUserSubmit="onSubmit" />
     </ProblemBase>
     <div v-else>暂不支持的题型{{ d.type }}</div>
   </div>
@@ -47,7 +47,12 @@ export default {
       immediate: true
     }
   },
-  methods: {}
+  methods: {
+    onSubmit(v) {
+      const c = this.$refs.base
+      c && c.onSubmit(v)
+    }
+  }
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <el-card style="transition:all ease 0.5s" @mouseenter.native="onMouseEnter" @mouseleave.native="recordSpendTime">
     <template #header>
-      <ProblemHeader :show-answer.sync="showAnswer" v-bind="$props" @onAnswer="onAnswer" />
+      <ProblemHeader ref="header" :show-answer.sync="showAnswer" v-bind="$props" @onAnswer="onAnswer" />
     </template>
     <div class="content-container">
       <slot />
@@ -43,6 +43,10 @@ export default {
     }
   },
   methods: {
+    onSubmit(is_right) {
+      const c = this.$refs.header
+      c && c.practice_submit(is_right)
+    },
     onMouseEnter() {
       this.lastEnter = new Date()
     },
