@@ -1,17 +1,15 @@
 <template>
   <div style="min-height:50rem">
     <transition-group name="slide-fade" mode="out-in" tag="ul" class="slide-container" @enter="enter" @before-enter="beforeEnter" @before-leave="beforeLeave">
-      <li
-        v-for="(d,index) in filtered_data"
-        v-show="item_should_show(d)"
-        :key="d.id"
-        :data-index="index"
-        class="slide-fade-item"
-      >
+      <li v-for="(d,index) in filtered_data" v-show="item_should_show(d)" :key="d.id" :data-index="index" class="slide-fade-item">
         <Problem :data="d" :index="index" v-bind="$props" :completed.sync="d.completed" @onSubmit="v=>onSubmit(d,v)" />
       </li>
       <li v-if="status.total<=status.solved" key="tip" class="slide-fade-item" style="text-align:center">
-        <el-button type="text" @click="reset">已完成本轮练习，再来一轮吧~</el-button>
+        <el-button type="text" @click="reset()">已完成本轮练习，再来一轮吧~</el-button>
+        <div>
+          <el-button type="text" :disabled="!Object.keys(wrong_current).length" @click="reset_current()">复习本轮错题</el-button>
+          <el-button type="text" :disabled="!Object.keys(wrong_history).length" @click="reset_history()">再刷历史错题</el-button>
+        </div>
       </li>
     </transition-group>
   </div>
@@ -34,8 +32,13 @@ export default {
       solved: 0,
       wrong: 0
     },
+    wrong_current: {},
+    wrong_history: {}
   }),
   computed: {
+    current_problems () {
+      return this.$store.state.problems.current_problems
+    },
     options () {
       return this.$store.state.problems.current_options
     },
@@ -48,44 +51,91 @@ export default {
       immediate: true
     },
     status: {
-      handler(val) {
+      handler (val) {
+        if (!val) return
         this.$emit('update:status', val)
+        if (val.total <= val.solved) {
+          this.$store.dispatch('problems/update_database')
+        }
       },
       deep: true,
       immediate: true
     }
   },
   methods: {
-    item_should_show(d) {
+    item_should_show (d) {
       const { options } = this
-      const r = !d.completed || !options.kill_problem
+      let r = false
+      if (options.show_only_error_current) {
+        r = !!this.wrong_current[d.id]
+      } else if (options.show_only_error_history) {
+        r = !!this.wrong_history[d.id]
+      } else {
+        r = !options.kill_problem || !d.completed
+      }
       return r
     },
     onSubmit (v, is_right) {
       const { status } = this
       status.solved++
-      if (!is_right) status.wrong++
+      if (!is_right) {
+        status.wrong++
+        this.wrong_current[v.id] = true
+      }
     },
-    reset () {
+    reset (data) {
       this.filtered_data = null
-      setTimeout(() => {
-        this.init()
-      }, 1e2)
-    },
-    init() {
-      let d = this.data || []
-      d = d.map(i => {
-        const r = Object.assign({ id: i.content }, i)
-        r.completed = false
-        return r
+      this.$store.dispatch('problems/update_database').then(() => {
+        setTimeout(() => {
+          this.init(data)
+        }, 1e2)
       })
+    },
+    reset_current () {
+      const dict = this.wrong_current
+      return this.reset_by_dict(dict)
+    },
+    reset_history () {
+      const dict = this.wrong_history
+      return this.reset_by_dict(dict)
+    },
+    reset_by_dict(dict) {
+      const data = this.filtered_data
+        .filter(i => dict[i.id])
+      return this.reset(data)
+    },
+    init (data) {
+      const d = this.init_problems(data)
+      this.init_status(d)
+      this.init_wrong_set(d)
+    },
+    init_status (d) {
       const status = {
         total: d.length,
         solved: 0,
         wrong: 0
       }
       this.status = status
+    },
+    init_wrong_set (d) {
+      this.wrong_current = {}
+      const dict = {}
+      const { current_problems } = this
+      d.map(i => {
+        const item = current_problems[i.id]
+        if (item.need_practice > 0) dict[i.id] = item.need_practice
+      })
+      this.wrong_history = dict
+    },
+    init_problems (data) {
+      let d = data || this.data || []
+      d = d.map(i => {
+        const r = Object.assign({ id: i.content }, i)
+        r.completed = false
+        return r
+      })
       this.filtered_data = d
+      return d
     },
     beforeEnter (el) {
       el.style.opacity = 0
