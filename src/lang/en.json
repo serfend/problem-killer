@@ -96,15 +96,9 @@
     }
   },
   "application": {
-    "title": "vacation manage",
-    "new": "wanna a vacation",
-    "audit": "audit sb/s vacation",
-    "detail": "detail of apply",
-    "my": "mine vacation",
     "setting": {
       "title": "setting options",
       "application": {
-        "title": "vacation apply",
         "auditStream": "audit stream",
         "exportXls": "export Excel model"
       },
@@ -124,7 +118,6 @@
   },
   "register": {
     "company": {
-      "disabledVacation": "no vacation"
     },
     "title": "register",
     "new": "register",

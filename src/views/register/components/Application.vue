@@ -83,10 +83,8 @@
 <script>
 import { getUserSummary } from '@/api/user/userinfo'
 import { accountPassword } from '@/api/account'
-import ThirdpardChecker from '@/components/ThirdpardAccount/Checker'
 export default {
   name: 'Application',
-  components: { ThirdpardChecker },
   props: {
     isRegister: {
       type: Boolean,

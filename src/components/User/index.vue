@@ -45,7 +45,6 @@
     </div>
     <div v-else>
       <el-divider />
-      <VacationDescriptionContent :userid="userid" style="font-size:12px;line-height:18px" />
       <div style="text-align:center">
         <el-button type="text" @click="mouseLeave">关闭</el-button>
       </div>
@@ -58,9 +57,7 @@ import { getUserAvatar, getUserSocial } from '@/api/user/userinfo'
 export default {
   name: 'UserItem',
   components: {
-    ContactMe: () => import('@/components/ContactMe'),
-    VacationDescriptionContent: () =>
-      import('@/components/Vacation/VacationDescriptionContent')
+    ContactMe: () => import('@/components/ContactMe')
   },
   props: {
     data: { type: Object, default: () => ({}) },

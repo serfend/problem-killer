@@ -18,7 +18,6 @@
       </template>
       <el-form>
         <UserSocial :form="social" />
-        <VacationDescriptionContent :users-vacation="vacation" style="margin-top:1rem" />
       </el-form>
     </el-card>
 
@@ -83,18 +82,15 @@ import {
   getUserSocialRecord,
   modifySettle
 } from '@/api/user/usersocial'
-import { getUserSocial, getUsersVacationLimit } from '@/api/user/userinfo'
 import AuthCode from '@/components/AuthCode'
 import UserSelector from '@/components/User/UserSelector'
 import UserSocial from '@/views/register/components/Social'
-import VacationDescriptionContent from '@/components/Vacation/VacationDescriptionContent'
 export default {
   name: 'Social',
   components: {
     AuthCode,
     UserSelector,
-    UserSocial,
-    VacationDescriptionContent
+    UserSocial
   },
   data: () => ({
     userid: '',
@@ -107,8 +103,7 @@ export default {
       code: ''
     },
     social: null,
-    socialModefied: false,
-    vacation: null
+    socialModefied: false
   }),
   computed: {
     currentUser() {
@@ -150,14 +145,12 @@ export default {
     refresh() {
       this.refreshRecord()
       this.refreshSocial()
-      this.refreshVacation()
     },
     submitNewSettle() {
       this.loading_social = true
       modifySettle(this.userid, this.social.settle, this.auth)
         .then(data => {
           this.$message.success('家庭情况已修改')
-          this.refreshVacation()
           this.refreshSocial()
         })
         .finally(() => {
@@ -185,22 +178,6 @@ export default {
     },
     refreshSocial() {
       this.loading_social = true
-      getUserSocial(this.userid, true)
-        .then(data => {
-          this.social = data
-          this.$nextTick(() => {
-            this.socialModefied = false
-          })
-        })
-        .finally(() => {
-          this.loading_social = false
-        })
-    },
-    refreshVacation() {
-      const { userid } = this
-      getUsersVacationLimit({ userid }).then(data => {
-        this.vacation = data
-      })
     }
   }
 }

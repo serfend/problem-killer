@@ -51,14 +51,5 @@ export default [
     path: '',
     hidden: true,
     component: () => import('@/views/welcome/problem_pratice')
-  }, {
-    path: '/about/version',
-    component: () => import('@/views/UpdateRecord/VersionDisplay'),
-    hidden: true,
-    name: 'versionDisplay',
-    meta: {
-      title: 'about.version.title',
-      icon: 'fanhuima'
-    }
   }
 ]

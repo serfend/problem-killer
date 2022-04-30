@@ -67,7 +67,6 @@ export function getUserAllInfo(id) {
         diy
       }
       u.base.base.time_Birthday = u.base.base.time_BirthDay // bug prop name fix
-      u.company.company.accountStatus = u.application.accountStatus // TODO move to application show whole account status instead of show only vacation issue
       resolve(u)
     }).catch(err => reject(err))
   })

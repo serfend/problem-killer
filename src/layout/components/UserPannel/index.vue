@@ -16,7 +16,6 @@
         :showout="userCardIsShowing"
         :data="currentUser.data"
         :avatar="currentUser.avatar"
-        :vacation="currentUser.vacation"
       />
       <div class="menu-divider" />
       <el-menu style="border-right: none">

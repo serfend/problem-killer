@@ -39,26 +39,10 @@
             </template>
           </el-table-column>
           <el-table-column prop="dutiesName" label="职务" width="150" />
-          <el-table-column label="全年假" width="70">
-            <template slot-scope="scope">{{ scope.row.vacation.yearlyLength }}天</template>
-          </el-table-column>
-          <el-table-column label="路途" width="50">
-            <template slot-scope="scope">{{ scope.row.vacation.maxTripTimes }}次</template>
-          </el-table-column>
           <el-table-column prop="accountAuthStatus" label="状态" width="100">
             <template slot-scope="scope">
               <el-tag :type="scope.row.accountAuthStatus == 1?'success': scope.row.accountAuthStatus == 0?'info':'danger'">
                 {{ scope.row.accountAuthStatus == 1 ? '已认证' : scope.row.accountAuthStatus == 0 ? '待认证' : '已退回' }}</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="vacation.description" label="休假详情描述">
-            <template slot-scope="scope">
-              <span slot="reference">{{ scope.row.vacation.description }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="vacation.description" label="休假率">
-            <template slot-scope="scope">
-              <VacationDescription :users-vacation="scope.row.vacation" />
             </template>
           </el-table-column>
         </el-table>
@@ -92,7 +76,7 @@
 
 <script>
 import { getMembers } from '@/api/company'
-import { getUsersVacationLimit, getUserAvatar } from '@/api/user/userinfo'
+import { getUserAvatar } from '@/api/user/userinfo'
 import { checkUserValid } from '@/utils/validate'
 import { debounce } from '@/utils'
 import { companyTypes } from '../components/dictionary'
@@ -101,7 +85,6 @@ export default {
   components: {
     UserSelector: () => import('@/components/User/UserSelector'),
     CompanySelector: () => import('@/components/Company/CompanySelector'),
-    VacationDescription: () => import('@/components/Vacation/VacationDescription'),
     Pagination: () => import('@/components/Pagination'),
     Login: () => import('@/views/login'),
     User: () => import('@/components/User'),
@@ -196,12 +179,10 @@ export default {
           new Promise((resolve, reject) => {
             const item = this.waitToAuthRegisterUsers[i]
             return Promise.all([
-              getUserAvatar(item.id),
-              getUsersVacationLimit({ userid: item.id })
+              getUserAvatar(item.id)
             ])
-              .then(([avatar, vacation]) => {
+              .then(([avatar]) => {
                 item.avatar = avatar.url
-                item.vacation = vacation
                 resolve()
               })
               .catch(err => reject(err))
@@ -215,7 +196,6 @@ export default {
         const obj = {
           userHasShow: false,
           avatar: '',
-          vacation: {},
           accountAuthStatus: checkUserValid(item.inviteBy)
         }
         return Object.assign(item, obj)

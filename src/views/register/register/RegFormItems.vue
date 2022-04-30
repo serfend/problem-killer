@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { stepOptions, createForm, Const_DisabledVacation } from './config'
+import { stepOptions, createForm } from './config'
 import { getUserAllInfo } from '@/api/user/usercompany'
 import { checkUserValid } from '@/utils/validate'
 export default {
@@ -102,7 +102,7 @@ export default {
           f.Application = data.application
           const duties = data.duties || {}
           const { company, companyOfManage } = data.company
-          const { invitedBy, accountStatus } = data.application
+          const { invitedBy } = data.application
           const c = {
             company,
             companyOfManage,
@@ -112,16 +112,8 @@ export default {
             title: {
               name: duties.title
             },
-            titleDate: duties.titleDate,
-            disabledVacation:
-              (accountStatus & Const_DisabledVacation) > 0 ? 1 : -1
+            titleDate: duties.titleDate
           }
-          const cmps = ['companyCodeOfApplyVacation', 'companyCodeOfApplyInday']
-          cmps.map(i => {
-            const c_item = data.company[i] || {}
-            c[`${i}Enable`] = c_item.enable
-            c[i] = c_item.company
-          })
           f.Company = c
           this.$emit('update:selectIsInvalidAccount', checkUserValid(invitedBy))
           this.nowSelectCompany = company

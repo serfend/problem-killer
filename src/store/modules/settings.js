@@ -1,8 +1,6 @@
 import variables from '@/styles/element-variables.scss'
 import defaultSettings from '@/settings'
-import {
-  getUpdateRecord
-} from '@/api/common/version'
+
 import { timeZone } from '@/api/common/static'
 import { Message } from 'element-ui'
 
@@ -89,16 +87,7 @@ const actions = {
     state
   }) {
     return new Promise((resolve, reject) => {
-      getUpdateRecord({ pageIndex: 0, pageSize: 1, appName: state.title }).then(data => {
-        if (data.list && data.list.length > 0) {
-          const version = data.list[0]
-          state.version = version.version
-          state.description = version.description
-          state.noice = data.notice || '暂无信息'
-          state.create = version.create
-        }
-        resolve()
-      }).catch(e => reject())
+      resolve()
     })
   },
   sync_time({ commit, state }) {

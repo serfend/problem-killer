@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { qrCodeEncode } from '@/api/common/qrCode'
+import jsQR from 'jsqr'
 import { fileToBase64 } from '@/utils/file'
 export default {
   name: 'QrCodeGenerate',

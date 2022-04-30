@@ -60,6 +60,7 @@
     "js-cookie": "3.0.1",
     "jsencrypt": "^3.2.1",
     "jsonlint": "1.6.3",
+    "jsqr": "^1.4.0",
     "jszip": "3.7.1",
     "lottie-web": "^5.8.1",
     "mock.js": "^0.2.0",

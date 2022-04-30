@@ -16,14 +16,6 @@
         <el-link slot="reference" type="primary" href="/#/settings/system/Comments/suggest/">意见反馈</el-link>
       </el-popover>
     </el-popover>
-    <el-popover placement="top" trigger="hover" @show="policyHasShow = true">
-      <ContactMe
-        v-if="policyHasShow"
-        content="https://serfend.top/s/policy_vacation.md"
-        description="扫码查看相关政策"
-      />
-      <el-link slot="reference" type="primary" href="/#/markdown?filename=policy_vacation.md">相关政策</el-link>
-    </el-popover>
     <div style="float:right;color:#bbb">
       <span>©2020 sf</span>
       <a v-if="ICP" href="http://beian.miit.gov.cn">{{ ICP }}</a>

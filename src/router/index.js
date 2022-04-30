@@ -29,17 +29,6 @@ export const constantRoutes = [
       icon: 'chart',
       hide_footer: true
     }
-  },
-  {
-    path: '/dashboard',
-    component: () => import('@/views/dashboard/index'),
-    name: 'Dashboard',
-    hidden: true,
-    meta: {
-      title: 'dashboard',
-      icon: 'chart',
-      hide_footer: true
-    }
   }, problems
 ].concat(others)
 

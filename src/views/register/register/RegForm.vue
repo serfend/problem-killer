@@ -91,7 +91,6 @@ import {
   removeAccount,
   authUserRegister
 } from '@/api/account'
-import { Const_DisabledVacation } from './config'
 export default {
   name: 'RegForm',
   components: {
@@ -199,21 +198,6 @@ export default {
         }
       )
     },
-    set_account_status_disable_vacation(f) {
-      const app = f.Application
-      // reset status to normal
-      if (!app.accountStatus) app.accountStatus = 0
-      if ((app.accountStatus & Const_DisabledVacation) > 0) {
-        app.accountStatus -= Const_DisabledVacation
-      }
-      // syn status to disabled vacation
-      if (f.Company.disabledVacation > 0) {
-        app.accountStatus += Const_DisabledVacation
-      }
-    },
-    set_account_status(f) {
-      this.set_account_status_disable_vacation(f)
-    },
     next_step(step) {
       return this.$refs.reg.next_step(step)
     },
@@ -278,7 +262,6 @@ export default {
     },
     switch_login() {
       this.$store.dispatch('user/logout')
-      this.$router.push({ path: '/apply/vacation/myApply/' })
     }
   }
 }

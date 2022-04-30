@@ -11,20 +11,12 @@
       <el-tag class="userduties">{{ data.dutiesName }}</el-tag>
       <el-tag class="userduties">{{ data.userTitle }}</el-tag>
     </div>
-    <div v-if="vacation" style="width:100%">
-      <div style="height:0.7em" />
-      <div class="menu-divider" />
-      <VacationSummary style="margin:0.3em" :data="vacation" />
-      <div class="menu-divider" />
-    </div>
   </div>
 </template>
 
 <script>
-import VacationSummary from './VacationSummary'
 export default {
   name: 'UserSummary',
-  components: { VacationSummary },
   model: {
     prop: 'data',
     event: 'changed'
@@ -35,10 +27,6 @@ export default {
       default: null
     },
     data: {
-      type: Object,
-      default: null
-    },
-    vacation: {
       type: Object,
       default: null
     },

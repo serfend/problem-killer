@@ -2,7 +2,6 @@ import {
   getUserBase,
   getUserSummary,
   getUserAvatar,
-  getUsersVacationLimit
 } from '@/api/user/userinfo'
 import {
   login,
@@ -27,7 +26,6 @@ const state = {
   companyid: '',
   dutiesType: '',
   userid: '',
-  vacation: {}, // 当前休假状态
   avatar: defaultAvatar,
   introduction: '',
   roles: [],
@@ -76,9 +74,6 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
-  },
-  SET_VACA: (state, vacation) => {
-    state.vacation = vacation
   }
 }
 
@@ -90,13 +85,11 @@ const actions = {
     setTimeout(() => {
       state.loading = false
     }, 1e3)
-    const a = this.dispatch('vacation/initDic')
     const b = this.dispatch('user/initBase').then(() => {
       const b1 = this.dispatch('user/initAvatar')
-      const b2 = this.dispatch('user/initVacation')
-      return Promise.all([b1, b2])
+      return Promise.all([b1])
     })
-    return Promise.all([a, b])
+    return Promise.all([b])
   },
   // user login
   login({
@@ -165,26 +158,6 @@ const actions = {
         return resolve()
       }).catch(() => {
         commit('SET_AVATAR', defaultAvatar)
-        return reject()
-      })
-    })
-  },
-  initVacation({
-    commit,
-    state
-  }) {
-    return new Promise((resolve, reject) => {
-      getUsersVacationLimit({ ignoreErr: true }).then(data => {
-        commit('SET_VACA', {
-          yearlyLength: 0,
-          nowTimes: 0,
-          leftLength: 0,
-          onTripTimes: 0,
-          maxTripTimes: 0,
-          ...data
-        })
-        return resolve()
-      }).catch(() => {
         return reject()
       })
     })

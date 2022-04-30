@@ -129,7 +129,6 @@
   },
   "register": {
     "company": {
-      "disabledVacation": "是否当年无假"
     },
     "title": "注册新的账号",
     "new": "注册新号",

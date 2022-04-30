@@ -65,4 +65,3 @@ export const createForm = () => ({
   confirmPassword: ''
 })
 
-export const Const_DisabledVacation = 4

@@ -83,11 +83,6 @@ export function createSetting() {
           clearable: true
         }
       }
-    },
-    memberCard: {
-      label: '翻牌器设置',
-      value: memberCardDefault(),
-      type: () => import('@/views/dashboard/Statistics/components/NumberCounter/MembersCounter/Settings')
     }
   }
 }
