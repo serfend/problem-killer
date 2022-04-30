@@ -1,6 +1,8 @@
 <template>
   <div class="singe-problem">
-    <component :is="type" v-if="type" v-bind="$props" />
+    <ProblemBase v-if="type" v-bind="$props" :completed.sync="completed">
+      <component :is="type" v-bind="$props" />
+    </ProblemBase>
     <div v-else>暂不支持的题型{{ d.type }}</div>
   </div>
 </template>
@@ -14,14 +16,18 @@ import { getTypeName } from './type_dispatch'
 export default {
   name: 'Problem',
   components: {
-    ...modules
+    ...modules,
+    ProblemBase: () => import('./ProblemBase')
   },
   props: {
+    show: { type: Boolean, default: true },
     data: { type: Object, default: null },
-    index: { type: Number, default: null }
+    index: { type: Number, default: null },
+    options: { type: Object, default: null }
   },
   data: () => ({
-    ProblemType: api.ProblemType
+    ProblemType: api.ProblemType,
+    completed: false
   }),
   computed: {
     d () {
@@ -31,6 +37,14 @@ export default {
       const { d } = this
       const t = getTypeName(d.type)
       return t
+    }
+  },
+  watch: {
+    completed: {
+      handler(val) {
+        this.$emit('update:completed', val)
+      },
+      immediate: true
     }
   },
   methods: {}

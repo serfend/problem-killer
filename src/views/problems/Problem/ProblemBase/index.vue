@@ -1,16 +1,17 @@
 <template>
   <el-card style="transition:all ease 0.5s">
     <template #header>
-      <ProblemHeader :show-answer.sync="showAnswer" v-bind="$props" />
+      <ProblemHeader :show-answer.sync="showAnswer" v-bind="$props" @onAnswer="onAnswer" />
     </template>
     <div class="content-container">
       <slot />
     </div>
-    <ProblemAnalysis :show-answer.sync="showAnswer" v-bind="$props" />
+    <ProblemAnalysis :show-answer.sync="showAnswer" v-bind="$props" :user-answer-result="userAnswerResult" :user-answer-confirm-result="userAnswerConfirmResult" @onAnswerResult="onAnswerResult" />
   </el-card>
 </template>
 
 <script>
+import api from '@/api/problems'
 export default {
   name: 'ProblemBase',
   components: {
@@ -19,11 +20,46 @@ export default {
   },
   props: {
     data: { type: Object, default: null },
-    index: { type: Number, default: null },
-    options: { type: Object, default: null }
+    index: { type: Number, default: null }
   },
   data: () => ({
-    showAnswer: false
-  })
+    showAnswer: false,
+    userAnswerResult: null,
+    userAnswerConfirmResult: false
+  }),
+  computed: {
+    current_database() {
+      return this.$store.state.problems.current_database
+    }
+  },
+  watch: {
+    userAnswerConfirmResult: {
+      handler(val) {
+        this.$emit('update:completed', val)
+      }
+    }
+  },
+  methods: {
+    onAnswer(is_right) {
+      this.userAnswerResult = is_right
+      if (!is_right) this.update_problem(false)
+    },
+    onAnswerResult(is_right) {
+      this.userAnswerConfirmResult = true
+      if (this.userAnswerResult === false) return
+      this.update_problem(is_right)
+    },
+    update_problem(is_right) {
+      const database = this.current_database.name
+      const { data } = this
+      api.user_problem_result({ database }).then(v => {
+        const problem_id = data.id || data.content
+        const val = v[problem_id] || { total: 0, wrong: 0 }
+        val.total++
+        if (!is_right)val.wrong++
+        api.user_problem_result({ database, problem_id, val })
+      })
+    }
+  }
 }
 </script>

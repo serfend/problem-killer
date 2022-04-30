@@ -2,7 +2,7 @@
   <div v-if="name" v-loading="loading" class="train">
     <div v-if="database">
       <h1>题库：{{ database.description }}</h1>
-      <TrainOptions v-model="options" :database="name" />
+      <TrainOptions :database="name" />
       <el-divider />
       <ProblemList :data="database.problems" />
     </div>
@@ -22,11 +22,7 @@ export default {
   },
   data: () => ({
     database: null,
-    loading: false,
-    options: {
-      pratice_mode: false,
-      kill_problem: false
-    }
+    loading: false
   }),
   watch: {
     name: {

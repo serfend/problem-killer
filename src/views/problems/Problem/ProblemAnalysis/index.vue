@@ -28,6 +28,10 @@
           </el-form>
         </el-col>
       </el-row>
+      <div v-if="userAnswerResult!==null&&!userAnswerConfirmResult">
+        <el-button type="success" class="btn-primary" @click="$emit('onAnswerResult',true)">确认会做</el-button>
+        <el-button type="danger" class="btn-primary" @click="$emit('onAnswerResult',false)">确认不会做</el-button>
+      </div>
     </div>
   </transition>
 </template>
@@ -37,12 +41,18 @@ export default {
   name: 'ProblemAnalysis',
   props: {
     data: { type: Object, default: null },
-    showAnswer: { type: Boolean, default: false }
+    showAnswer: { type: Boolean, default: false },
+    options: { type: Object, default: null },
+    userAnswerResult: { type: Boolean, default: null },
+    userAnswerConfirmResult: { type: Boolean, default: false }
   }
 }
 </script>
 <style lang="scss" scoped>
 .analysis-btn-hide{
   width:100%;
+}
+.btn-primary{
+  width: 49%;
 }
 </style>

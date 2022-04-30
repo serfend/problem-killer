@@ -1,13 +1,8 @@
 <template>
-  <div>
-    <ProblemBase v-bind="$props">
-      <span>
-        <component :is="b.type" v-for="(b,bindex) in blanking" :key="bindex" v-model="user_input[b.i]" v-bind="b.attrs" :style="b.style">{{ b.value }}
-        </component>
-      </span>
-    </ProblemBase>
-  </div>
-
+  <span>
+    <component :is="b.type" v-for="(b,bindex) in blanking" :key="bindex" v-model="user_input[b.i]" v-bind="b.attrs" :style="b.style">{{ b.value }}
+    </component>
+  </span>
 </template>
 
 <script>
@@ -16,7 +11,7 @@ export default {
   label: '填空',
   name: 'ProblemBlanking',
   components: {
-    ProblemBase: () => import('../ProblemBase')
+
   },
   props: {
     data: { type: Object, default: null },
