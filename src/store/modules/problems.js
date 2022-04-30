@@ -15,7 +15,7 @@ const actions = {
       api.user_database_detail({ name: database.name })
         .then(info => {
           state.current_database = database
-          state.current_problems = info.problems
+          state.current_problems = info.problems || {}
           state.current_options = info.train_options
           console.log('select_database', state)
           return res()

@@ -15,17 +15,21 @@
           </el-form>
         </el-col>
         <el-col :span="8">
-          <el-form label-width="5rem">
-            <el-form-item label="刷题数">
-              <div>0</div>
-            </el-form-item>
-            <el-form-item label="正确数">
-              <div>0</div>
+          <el-form v-if="status" label-width="5rem">
+            <el-form-item label="总刷题数">
+              <div>{{ status.total }}</div>
             </el-form-item>
             <el-form-item label="平均用时">
-              <div>0</div>
+              <div>{{ Math.ceil(100 * status.total_time / status.total)/100 }}秒</div>
+            </el-form-item>
+            <el-form-item label="上次出错">
+              <div>{{ parseTime(status.last_wrong) }}</div>
+            </el-form-item>
+            <el-form-item label="错误数">
+              <div>{{ status.wrong }}</div>
             </el-form-item>
           </el-form>
+          <div v-else>暂无统计</div>
         </el-col>
       </el-row>
       <div v-if="userAnswerResult!==null&&!userAnswerConfirmResult" class="btn-group">
@@ -37,6 +41,7 @@
 </template>
 
 <script>
+import { parseTime } from '@/utils'
 export default {
   name: 'ProblemAnalysis',
   props: {
@@ -45,6 +50,19 @@ export default {
     options: { type: Object, default: null },
     userAnswerResult: { type: Boolean, default: null },
     userAnswerConfirmResult: { type: Boolean, default: false }
+  },
+  computed: {
+    status () {
+      const { data, current_problems } = this
+      const d = current_problems[data.id]
+      return d
+    },
+    current_problems () {
+      return this.$store.state.problems.current_problems
+    },
+  },
+  methods: {
+    parseTime
   }
 }
 </script>

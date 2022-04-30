@@ -1,5 +1,5 @@
 export function statistics_problem(val, is_right) {
-  if (!val) val = { total: 0, wrong: 0, need_practice: 0, last_wrong: null }
+  if (!val) val = { total: 0, wrong: 0, need_practice: 0, last_wrong: null, total_time: 0 }
   val.total++
   val.need_practice--
   if (!is_right) {

@@ -123,7 +123,7 @@ export default {
       const { current_problems } = this
       d.map(i => {
         const item = current_problems[i.id]
-        if (item.need_practice > 0) dict[i.id] = item.need_practice
+        if (item && item.need_practice > 0) dict[i.id] = item.need_practice
       })
       this.wrong_history = dict
     },

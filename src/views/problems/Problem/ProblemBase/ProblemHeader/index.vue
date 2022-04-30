@@ -32,9 +32,10 @@ export default {
     need_practice () {
       const { data, current_problems } = this
       const d = current_problems[data.id]
+      if (!d) return '暂无记录'
       const { need_practice } = d
-      if (need_practice <= 0) return `已拿下${(-need_practice) + 1}次`
-      return `还需要巩固${need_practice}次`
+      if (need_practice < 0) return `已拿下${-need_practice}次`
+      return `还需要巩固${need_practice + 1}次`
     },
     current_problems () {
       return this.$store.state.problems.current_problems
