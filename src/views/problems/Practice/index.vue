@@ -1,9 +1,7 @@
 <template>
   <el-card>
-    <h2>刷题</h2>
-    <el-form label-width="5rem">
-      <DataBaseSelector v-model="database" />
-    </el-form>
+    <DataBaseSelector v-show="showSelector" v-model="database" @requireStart="requireStart" />
+    <Train v-show="!showSelector" :name="database" />
   </el-card>
 </template>
 
@@ -11,10 +9,18 @@
 export default {
   name: 'Practice',
   components: {
-    DataBaseSelector: () => import('./DataBaseSelector')
+    DataBaseSelector: () => import('./DataBaseSelector'),
+    Train: () => import('./Train')
   },
   data: () => ({
-    database: null
-  })
+    database: null,
+    showSelector: true
+  }),
+  methods: {
+    requireStart(v) {
+      this.database = v.name
+      this.showSelector = false
+    }
+  }
 }
 </script>

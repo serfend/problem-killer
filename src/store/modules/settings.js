@@ -48,8 +48,8 @@ export function re_syn_time() {
   timeZone().then(data => {
     const { left, right } = data
     const now = new Date() - 0
-    state.currentTime_left = new Date(left.value)
-    state.currentTime_right = new Date(right.value)
+    state.currentTime_left = new Date(left && left.value)
+    state.currentTime_right = new Date(right && right.value)
     state.currentTimeDelta_left = state.currentTime_left - now
     state.currentTimeDelta_right = state.currentTime_right - now
     if (Math.abs(state.currentTimeDelta_left) > 5000 * 60) {

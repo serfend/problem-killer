@@ -2,7 +2,6 @@
   "database": [
     {
       "name": "blanking_0to100",
-      "alias": "填空题0-100",
       "index": 0
     }
   ]
