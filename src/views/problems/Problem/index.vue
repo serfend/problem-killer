@@ -1,6 +1,6 @@
 <template>
   <div class="singe-problem">
-    <ProblemBase v-if="type" v-bind="$props" :completed.sync="completed">
+    <ProblemBase v-if="type" v-bind="$props" :completed.sync="completed" @onSubmit="v=>$emit('onSubmit',v)">
       <component :is="type" v-bind="$props" />
     </ProblemBase>
     <div v-else>暂不支持的题型{{ d.type }}</div>

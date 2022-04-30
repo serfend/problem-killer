@@ -7,12 +7,12 @@
           <el-divider />
           <TrainOptions :database="name" />
           <el-divider />
-          <TrainStatus />
+          <TrainStatus :data="problem_status" />
         </el-col>
         <el-col :span="18" class="train-container">
           <div class="train">
             <h1>题库：{{ database.alias || database.description }}</h1>
-            <ProblemList :data="database.problems" />
+            <ProblemList :data="database.problems" :status.sync="problem_status" />
           </div>
         </el-col>
       </el-row>
@@ -36,7 +36,8 @@ export default {
   data: () => ({
     database: null,
     loading: false,
-    problem_focus: null
+    problem_focus: null,
+    problem_status: null
   }),
   watch: {
     name: {

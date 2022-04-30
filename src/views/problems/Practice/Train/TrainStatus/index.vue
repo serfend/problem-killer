@@ -1,14 +1,14 @@
 <template>
   <el-card>
-    <el-form label-width="5rem" inline>
+    <el-form v-if="data" label-width="5rem">
       <el-form-item label="总题数">
-        <span>{{ d.length }}</span>
+        <span>{{ data.total }}</span>
       </el-form-item>
       <el-form-item label="已完成">
-        <span>{{ d.length }}</span>
+        <span>{{ data.solved }}</span>
       </el-form-item>
       <el-form-item label="总错题">
-        <span>{{ d.length }}</span>
+        <span>{{ data.wrong }}</span>
       </el-form-item>
       <el-form-item label="开始时间">
         <span>{{ parseTime(time_start) }}</span>
@@ -24,16 +24,14 @@
 import { parseTime } from '@/utils'
 export default {
   name: 'TrainStatus',
+  props: {
+    data: { type: Object, default: null }
+  },
   data: () => ({
     time_start: new Date(),
     time_spent: null,
     timer: null
   }),
-  computed: {
-    d () {
-      return this.$store.state.problems.current_problems
-    }
-  },
   mounted () {
     this.timer = setInterval(() => {
       const t = new Date()

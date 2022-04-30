@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { statistics_problem } from './statistics'
 import api from '@/api/problems'
 export default {
   name: 'ProblemBase',
@@ -55,9 +56,8 @@ export default {
       const { data } = this
       api.user_problem_result({ database }).then(v => {
         const problem_id = data.id || data.content
-        const val = v[problem_id] || { total: 0, wrong: 0 }
-        val.total++
-        if (!is_right)val.wrong++
+        const val = statistics_problem(v[problem_id], is_right)
+        this.$emit('onSubmit', is_right)
         api.user_problem_result({ database, problem_id, val })
       })
     }
