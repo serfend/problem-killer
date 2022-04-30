@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Problem v-for="(d,index) in data" :key="index" :data="d" :index="index" />
+    <div v-for="(d,index) in data" :key="index">
+      <Problem :data="d" :index="index" />
+    </div>
   </div>
 </template>
 

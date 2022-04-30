@@ -1,7 +1,8 @@
 <template>
-  <div v-if="name" v-loading="loading">
+  <div v-if="name" v-loading="loading" class="train">
     <div v-if="database">
       <h1>题库：{{ database.description }}</h1>
+      <TrainOptions v-model="options" :database="name" />
       <el-divider />
       <ProblemList :data="database.problems" />
     </div>
@@ -13,25 +14,30 @@ import api from '@/api/problems'
 export default {
   name: 'Train',
   components: {
-    ProblemList: () => import('./ProblemList')
+    ProblemList: () => import('./ProblemList'),
+    TrainOptions: () => import('./TrainOptions')
   },
   props: {
     name: { type: String, default: null }
   },
   data: () => ({
     database: null,
-    loading: false
+    loading: false,
+    options: {
+      pratice_mode: false,
+      kill_problem: false
+    }
   }),
   watch: {
     name: {
-      handler(val) {
+      handler (val) {
         this.refresh()
       },
       immediate: true
     }
   },
   methods: {
-    refresh() {
+    refresh () {
       const { name } = this
       if (!name) return
       this.loading = true
@@ -44,3 +50,6 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+
+</style>

@@ -3,14 +3,43 @@ const api = '/data/problems/'
 export function get_database () {
   return request.get(`${api}index.json`, {})
 }
-export const ProblemType = {
-  unknown: 0,
-  blanking: 1,
-  single_select: 2,
-  multi_select: 3,
-  judging: 4,
-  long_answer: 5
+const r = {
+  get_database,
+  get_database_detail,
+  user_database_detail,
+  user_database_summary
 }
+export const ProblemTypeDict = {
+  0: ['unknown', '未知'],
+  1: ['blanking', '填空题'],
+  2: ['single_select', '单项选择题'],
+  3: ['multi_select', '多项选择题'],
+  4: ['judging', '判断题'],
+  5: ['long_answer', '简答题'],
+}
+const Problem = {
+  'Type': 0,
+  'Alias': 1
+}
+const initProblem = () => {
+  Object.keys(Problem).map(name => {
+    const index = Problem[name]
+    Problem[name] = {}
+    const i = Problem[name]
+    Object.keys(ProblemTypeDict).map(k => {
+      const key = ProblemTypeDict[k][index]
+      i[key] = Number(k)
+    })
+    const field = `Problem${name}`
+    r[field] = i
+    const reverse = {}
+    Object.keys(i).map(k => {
+      reverse[i[k]] = k
+    })
+    r[`${field}Reverse`] = reverse
+  })
+}
+initProblem()
 const tCheck = t => Object.prototype.toString.call(t)
 const GetProblemType = (() => {
   const tArray = tCheck([])
@@ -20,17 +49,17 @@ const GetProblemType = (() => {
   const dict = {}
   dict[tArray] = (a) => {
     const first = a[0]
-    if (!first) return ProblemType.unknown
-    if (tCheck(first) === tStr) return ProblemType.blanking
-    return ProblemType.multi_select
+    if (!first) return r.ProblemType.unknown
+    if (tCheck(first) === tStr) return r.ProblemType.blanking
+    return r.ProblemType.multi_select
   }
-  dict[tStr] = () => ProblemType.long_answer
-  dict[tBool] = () => ProblemType.judging
-  dict[tNum] = () => ProblemType.single_select
+  dict[tStr] = () => r.ProblemType.long_answer
+  dict[tBool] = () => r.ProblemType.judging
+  dict[tNum] = () => r.ProblemType.single_select
   return answer => {
     const t = tCheck(answer)
     const f = dict[t]
-    if (!f) return ProblemType.unknown
+    if (!f) return r.ProblemType.unknown
     return f(answer)
   }
 })()
@@ -61,40 +90,30 @@ const api_user = 'problems/database/'
  * @param {*} val 新的值
  * @return {*}
  */
-export function user_database_detail ({ name, val }) {
-  return new Promise((res, rej) => {
-    const path = `${api_user}/db/${name}`
-    if (val) {
-      localStorage.setItem(path, JSON.stringify(val))
-      return res()
-    }
-    const d = localStorage.getItem(path)
-    res((d && JSON.parse(d)) || {})
-  })
+export function user_database_detail ({ name, key, val }) {
+  const path = `${api_user}db/${name}`
+  return common_data({ path, key, val })
 }
 
+export function common_data({ path, key, val }) {
+  return new Promise((res, rej) => {
+    const d = localStorage.getItem(path)
+    const data = (d && JSON.parse(d)) || {}
+    if (key) {
+      data[key] = val
+      localStorage.setItem(path, JSON.stringify(data))
+    }
+    res(data)
+  })
+}
 /**
  * 用户统计信息
  *
  * @export
- * @param {*} val 新的值
  * @return {*}
  */
-export function user_database_summary ({ val }) {
-  return new Promise((res, rej) => {
-    const path = `${api_user}/summary`
-    if (val) {
-      localStorage.setItem(path, JSON.stringify(val))
-      return res()
-    }
-    const d = localStorage.getItem(path)
-    res((d && JSON.parse(d)) || {})
-  })
+export function user_database_summary ({ key, val }) {
+  const path = `${api_user}/summary`
+  return common_data({ path, key, val })
 }
-export default {
-  ProblemType,
-  get_database,
-  get_database_detail,
-  user_database_detail,
-  user_database_summary
-}
+export default r
