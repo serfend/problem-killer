@@ -7,7 +7,8 @@ const r = {
   get_database,
   get_database_detail,
   user_database_detail,
-  user_database_summary
+  user_database_summary,
+  user_problem_result
 }
 export const ProblemTypeDict = {
   0: ['unknown', '未知'],
@@ -95,6 +96,23 @@ export function user_database_detail ({ name, key, val }) {
   return common_data({ path, key, val })
 }
 
+/**
+ * 获取做题统计
+ *
+ * @export
+ * @param {*} { database, problem_id, val }
+ */
+export function user_problem_result({ database, problem_id, val }) {
+  return new Promise((res, rej) => {
+    user_database_detail({ name: database }).then(data => {
+      const problems = data.problems || {}
+      res(problems)
+      if (problem_id === undefined) return
+      problems[problem_id] = val
+      user_database_detail({ name: database, key: 'problems', val: problems })
+    })
+  })
+}
 export function common_data({ path, key, val }) {
   return new Promise((res, rej) => {
     const d = localStorage.getItem(path)
