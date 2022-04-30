@@ -1,7 +1,12 @@
 <template>
   <el-card>
-    <DataBaseSelector v-show="showSelector" v-model="database" @requireStart="requireStart" />
-    <Train v-show="!showSelector" :name="database" />
+    <transition-group name="slide-fade">
+      <DataBaseSelector v-if="showSelector" key="2" v-model="database" @requireStart="requireStart" />
+      <div v-if="!showSelector" key="1">
+        <el-button type="danger" style="margin-bottom:0.5rem" @click="requireStart()">返回</el-button>
+        <Train :name="database" />
+      </div>
+    </transition-group>
   </el-card>
 </template>
 
@@ -17,9 +22,9 @@ export default {
     showSelector: true
   }),
   methods: {
-    requireStart(v) {
-      this.database = v.name
-      this.showSelector = false
+    requireStart (v) {
+      if (v) this.database = v.name
+      this.showSelector = !v
     }
   }
 }

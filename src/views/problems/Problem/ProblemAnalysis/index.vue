@@ -28,7 +28,7 @@
           </el-form>
         </el-col>
       </el-row>
-      <div v-if="userAnswerResult!==null&&!userAnswerConfirmResult">
+      <div v-if="userAnswerResult!==null&&!userAnswerConfirmResult" class="btn-group">
         <el-button type="success" class="btn-primary" @click="$emit('onAnswerResult',true)">确认会做</el-button>
         <el-button type="danger" class="btn-primary" @click="$emit('onAnswerResult',false)">确认不会做</el-button>
       </div>
@@ -49,10 +49,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.analysis-btn-hide{
-  width:100%;
+.analysis-btn-hide {
+  width: 100%;
 }
-.btn-primary{
-  width: 49%;
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  .btn-primary {
+    width: 45%;
+  }
 }
 </style>

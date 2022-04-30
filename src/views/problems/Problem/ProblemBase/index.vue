@@ -47,6 +47,7 @@ export default {
     onAnswerResult(is_right) {
       this.userAnswerConfirmResult = true
       if (this.userAnswerResult === false) return
+      this.showAnswer = false
       this.update_problem(is_right)
     },
     update_problem(is_right) {

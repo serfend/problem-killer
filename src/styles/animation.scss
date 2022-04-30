@@ -1,3 +1,19 @@
+.slide-fade-item {
+  list-style-type: none;
+  transition: all ease 1s;
+  font-size: 1.5rem;
+  opacity: 1;
+}
+.slide-fade-enter, .slide-fade-leave-to{
+  opacity: 0;
+  transform: translateX(100%);
+}
+.slide-fade-leave-active {
+  opacity: 1;
+  position: absolute;
+}
+
+
 .flashing {
   animation: flashing-item 5s 1 ease;
 }

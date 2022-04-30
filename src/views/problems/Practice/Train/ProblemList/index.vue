@@ -1,9 +1,10 @@
 <template>
   <div style="min-height:50rem">
-    <transition-group name="slide-fade" mode="out-in" tag="ul" class="slide-container" @enter="enter" @before-enter="beforeEnter">
-      <li v-for="(d,index) in filtered_data" v-show="!d.completed" :key="d.id" class="slide-fade-item">
+    <transition-group name="slide-fade" mode="out-in" tag="ul" class="slide-container" @enter="enter" @before-enter="beforeEnter" @before-leave="beforeLeave">
+      <li v-for="(d,index) in filtered_data" v-show="(!d.completed||!options.kill_problem)&&should_show" :key="d.id" :data-index="index" class="slide-fade-item">
         <Problem :data="d" :index="index" v-bind="$props" :completed.sync="d.completed" />
       </li>
+      <li v-if="left_count">1</li>
     </transition-group>
   </div>
 </template>
@@ -19,14 +20,22 @@ export default {
     data: { type: Array, default: () => [] }
   },
   data: () => ({
-    filtered_data: null
+    filtered_data: null,
+    left_count: 0,
+    inner_should_show: false
   }),
   computed: {
-    options () {
-      const d = this.$store.state.problems.current_info
-      return d && d.train_info
+    should_show: {
+      get() {
+        return this.inner_should_show
+      },
+      set(v) {
+        this.inner_should_show = v
+      }
     },
-
+    options () {
+      return this.$store.state.problems.current_options
+    },
   },
   watch: {
     data: {
@@ -37,6 +46,9 @@ export default {
           return r
         })
         this.filtered_data = d
+        setTimeout(() => {
+          this.should_show = true
+        }, 1e3)
       },
       immediate: true
     }
@@ -55,23 +67,12 @@ export default {
           { complete: done }
         )
       }, delay)
+    },
+    beforeLeave(el, done) {
+      return this.beforeEnter(el)
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.slide-fade-item {
-  list-style-type: none;
-  transition: all ease 1s;
-  font-size: 1.5rem;
-  opacity: 1;
-}
-.slide-fade-enter, .slide-fade-leave-to{
-  opacity: 0;
-  transform: translateX(100%);
-}
-.slide-fade-leave-active {
-  position: absolute;
-}
-
 </style>
