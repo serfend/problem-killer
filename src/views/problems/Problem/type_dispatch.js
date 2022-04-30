@@ -1,15 +1,8 @@
-import { ProblemType } from '@/api/problems'
-const ProblemTypeValue2Key = (() => {
-  const r = {}
-  Object.keys(ProblemType).map(i => {
-    r[ProblemType[i]] = i
-  })
-  return r
-})()
+import api from '@/api/problems'
 
 export function getTypeName (type) {
   if (!type) return null
-  const t = ProblemTypeValue2Key[type]
+  const t = api.ProblemTypeReverse[type]
   if (!t) return null
   const handle_single = t => {
     const suffix = t.substring(1)
