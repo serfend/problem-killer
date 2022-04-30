@@ -2,13 +2,23 @@
   "description": "测试理论题库",
   "problems": [
     {
-      "content": "我们都知道2+2={{ANS}}，2*3={{ANS}}",
+      "content": "2+2={{ANS}}，2*3={{ANS}}是我们都知道的",
       "answer": ["4", "6"],
       "analysis": "这里填入解析"
     },
     {
       "content": "我们都知道2+5={{ANS}}，2*1={{ANS}}",
       "answer": ["7", "2"],
+      "analysis": "这里填入解析"
+    },
+    {
+      "content": "我们都知道3+5={{ANS}}，2*1={{ANS}}",
+      "answer": ["8", "2"],
+      "analysis": "这里填入解析"
+    },
+    {
+      "content": "我们都知道4+5={{ANS}}，2*1={{ANS}}",
+      "answer": ["9", "2"],
       "analysis": "这里填入解析"
     }
   ]
