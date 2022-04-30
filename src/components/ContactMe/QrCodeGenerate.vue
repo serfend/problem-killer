@@ -66,7 +66,8 @@ export default {
       if (this.onLoading) return
       this.onLoading = true
       var self = this
-      qrCodeEncode(
+      debugger
+      jsQR.qrCodeEncode(
         this.innerUrl,
         {
           fileName: this.icon,
