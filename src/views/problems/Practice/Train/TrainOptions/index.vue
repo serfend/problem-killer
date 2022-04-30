@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <el-card v-loading="loading">
     <el-form v-if="options" label-width="5rem" inline>
       <el-form-item label="刷题模式">
         <el-tooltip content="刷题模式将无需填入答案，直接选会或不会即可，更高效">
@@ -11,8 +11,18 @@
           <el-switch v-model="options.kill_problem" />
         </el-tooltip>
       </el-form-item>
+      <el-form-item label="本轮错题">
+        <el-tooltip content="查看本次练习中出现的错题">
+          <el-switch v-model="options.show_only_error_current" />
+        </el-tooltip>
+      </el-form-item>
+      <el-form-item label="历史错题">
+        <el-tooltip content="查看最近练习中出现的错题">
+          <el-switch v-model="options.show_only_error_history" />
+        </el-tooltip>
+      </el-form-item>
     </el-form>
-  </div>
+  </el-card>
 </template>
 
 <script>
@@ -34,13 +44,13 @@ export default {
   }),
   watch: {
     database: {
-      handler(v) {
+      handler (v) {
         this.refresh()
       },
       immediate: true
     },
     options: {
-      handler(val) {
+      handler (val) {
         const name = this.database
         api.user_database_detail({ name, key: train_options, val }).then(data => {
           if (val) { this.$store.dispatch('problems/update_database') }
@@ -52,7 +62,7 @@ export default {
     }
   },
   methods: {
-    refresh() {
+    refresh () {
       const name = this.database
       if (!name) return
       this.loading = true
@@ -67,5 +77,4 @@ export default {
 </script>
 
 <style>
-
 </style>

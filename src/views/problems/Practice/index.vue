@@ -1,9 +1,7 @@
 <template>
   <el-card>
     <DataBaseSelector v-show="showSelector" v-model="database" @requireStart="requireStart" />
-    <div class="train-container">
-      <Train v-show="!showSelector" :name="database" class="train" />
-    </div>
+    <Train v-show="!showSelector" :name="database" />
   </el-card>
 </template>
 
@@ -27,11 +25,4 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.train-container{
-  display: flex;
-    justify-content: center;
-}
-.train {
-  width: 60rem;
-}
 </style>

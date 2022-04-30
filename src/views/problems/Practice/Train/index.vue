@@ -1,10 +1,21 @@
 <template>
-  <div v-if="name" v-loading="loading" class="train">
+  <div v-if="name" v-loading="loading">
     <div v-if="database">
-      <h1>题库：{{ database.alias || database.description }}</h1>
-      <TrainOptions :database="name" />
-      <el-divider />
-      <ProblemList :data="database.problems" />
+      <el-row>
+        <el-col :span="6">
+          <ProblemOverview :data="database.problems" :focus.sync="problem_focus" />
+          <el-divider />
+          <TrainOptions :database="name" />
+          <el-divider />
+          <TrainStatus />
+        </el-col>
+        <el-col :span="18" class="train-container">
+          <div class="train">
+            <h1>题库：{{ database.alias || database.description }}</h1>
+            <ProblemList :data="database.problems" />
+          </div>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -14,15 +25,18 @@ import api from '@/api/problems'
 export default {
   name: 'Train',
   components: {
+    ProblemOverview: () => import('./ProblemOverview'),
     ProblemList: () => import('./ProblemList'),
-    TrainOptions: () => import('./TrainOptions')
+    TrainOptions: () => import('./TrainOptions'),
+    TrainStatus: () => import('./TrainStatus')
   },
   props: {
     name: { type: String, default: null }
   },
   data: () => ({
     database: null,
-    loading: false
+    loading: false,
+    problem_focus: null
   }),
   watch: {
     name: {
@@ -47,5 +61,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+.train-container {
+  display: flex;
+  justify-content: center;
+}
+.train {
+  width: 64rem;
+  padding: 0 2rem 0 2rem;
+  border: 1px solid #ddd;
+}
 </style>
