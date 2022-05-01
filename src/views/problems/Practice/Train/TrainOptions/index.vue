@@ -11,11 +11,6 @@
           <el-switch v-model="options.kill_problem" />
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="本轮错题">
-        <el-tooltip content="查看本次练习中出现的错题">
-          <el-switch v-model="options.show_only_error_current" />
-        </el-tooltip>
-      </el-form-item>
       <el-form-item label="历史错题">
         <el-tooltip content="查看最近练习中出现的错题">
           <el-switch v-model="options.show_only_error_history" />
@@ -73,7 +68,6 @@ export default {
     options: {
       practice_mode: true,
       kill_problem: true,
-      show_only_error_current: false,
       show_only_error_history: false,
       problem_range_start: 0,
       problem_range_end: 0,

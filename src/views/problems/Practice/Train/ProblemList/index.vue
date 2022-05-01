@@ -1,7 +1,7 @@
 <template>
   <div v-loading="loading" style="min-height:50rem">
     <transition-group name="slide-fade" mode="out-in" tag="ul" class="slide-container" @enter="enter" @before-enter="beforeEnter" @before-leave="beforeLeave">
-      <li v-for="(d,index) in filtered_data" v-show="item_should_show(d)" :key="d.id" :data-index="index" class="slide-fade-item">
+      <li v-for="(d,index) in filtered_data" v-show="!d.completed" :key="d.id" :data-index="index" class="slide-fade-item">
         <Problem :ref="`p${index}`" :data="d" :index="index" v-bind="$props" :completed.sync="d.completed" @onSubmit="v=>onSubmit(d,v)" />
       </li>
       <li v-if="show_completed_tip" key="tip" class="slide-fade-item" style="text-align:center">
@@ -49,12 +49,11 @@ export default {
       return debounce(() => { this.reset() }, 2e2)
     },
     show_completed_tip () {
-      const { status, options } = this
-      if (options.show_only_error_current) {
-        return Object.keys(this.wrong_current).length <= 0
-      } else if (options.show_only_error_history) {
+      const { status, options, filtered_data } = this
+      if (!filtered_data || !filtered_data.length) return true
+      if (options.show_only_error_history) {
         const dict = this.wrong_history
-        return !this.filtered_data.find(i => !i.completed && dict[i.id])
+        return !filtered_data.find(i => !i.completed && dict[i.id])
       }
       return status.total <= status.solved
     }
@@ -83,15 +82,6 @@ export default {
     },
   },
   methods: {
-    item_should_show (d) {
-      const { options } = this
-      if (options.show_only_error_current) {
-        return !!this.wrong_current[d.id]
-      } else if (options.show_only_error_history) {
-        return this.wrong_history[d.id] && !d.completed
-      }
-      return !options.kill_problem || !d.completed
-    },
     onSubmit (v, is_right) {
       const { status } = this
       status.solved++
@@ -146,7 +136,7 @@ export default {
       const { current_problems } = this
       d.map(i => {
         const item = current_problems[i.id]
-        if (item && item.combo_kill < 3) dict[i.id] = item.combo_kill
+        if (item && item.combo_kill < 3 && item.wrong) dict[i.id] = item.combo_kill
       })
       this.wrong_history = dict
     },
