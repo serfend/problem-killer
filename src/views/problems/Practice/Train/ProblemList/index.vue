@@ -17,6 +17,8 @@
 
 <script>
 import Velocity from 'velocity-animate'
+import { debounce } from '@/utils'
+import { shuffle } from '@/utils/data-handle'
 export default {
   name: 'ProblemList',
   components: {
@@ -42,11 +44,38 @@ export default {
     options () {
       return this.$store.state.problems.current_options
     },
+    problem_range() {
+      const r = this.options
+      return r && r.problem_range
+    },
+    shuffle_problem() {
+      const r = this.options
+      console.log('shuffle')
+      return (r && r.shuffle_problem) || false
+    },
+    requireReset() {
+      return debounce(() => { this.reset() }, 2e2)
+    }
   },
   watch: {
     data: {
       handler (val) {
-        this.reset()
+        this.requireReset()
+      },
+      immediate: true
+    },
+    problem_range: {
+      handler(val, prev) {
+        if (prev && (!val || !val.find((c, index) => c !== prev[index]))) return
+        this.requireReset()
+      },
+      immediate: true,
+      deep: true
+    },
+    shuffle_problem: {
+      handler(val) {
+        console.log('shuffle_problem', val)
+        this.requireReset()
       },
       immediate: true
     },
@@ -84,7 +113,7 @@ export default {
       }
     },
     reset (data) {
-      this.filtered_data = null
+      // this.filtered_data = null
       this.$store.dispatch('problems/update_database').then(() => {
         setTimeout(() => {
           this.init(data)
@@ -127,8 +156,15 @@ export default {
       })
       this.wrong_history = dict
     },
+    do_filter_problems(problems) {
+      const { problem_range, shuffle_problem } = this
+      let r = problems.slice(problem_range[0], problem_range[1])
+      if (shuffle_problem) r = shuffle(r)
+      return r
+    },
     init_problems (data) {
       let d = data || this.data || []
+      d = this.do_filter_problems(d)
       d = d.map(i => {
         const r = Object.assign({ id: i.content }, i)
         r.completed = false

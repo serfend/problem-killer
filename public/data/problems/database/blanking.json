@@ -4,22 +4,60 @@
   "star": 4.5,
   "problems": [
     {
-      "content": "2+2={{ANS}}，2*3={{ANS}}是我们都知道的",
+      "content": "2+212={{ANS}}，2*3={{ANS}}是我们都知道的",
       "answer": ["4", "6"],
       "analysis": "这里填入解析"
     },
     {
-      "content": "我们都知道2+5={{ANS}}，2*1={{ANS}}",
+      "content": "我11们都知道2+5={{ANS}}，2*1={{ANS}}",
       "answer": ["7", "2"],
       "analysis": "这里填入解析"
     },
     {
-      "content": "我们都知道3+5={{ANS}}，2*1={{ANS}}",
+      "content": "我10们都知道3+5={{ANS}}，2*1={{ANS}}",
       "answer": ["8", "2"],
       "analysis": "这里填入解析"
     },
     {
-      "content": "我们都知道4+5={{ANS}}，2*1={{ANS}}",
+      "content": "我9们都知道4+5={{ANS}}，2*1={{ANS}}",
+      "answer": ["9", "2"],
+      "analysis": "这里填入解析"
+    },{
+      "content": "2+28={{ANS}}，2*3={{ANS}}是我们都知道的",
+      "answer": ["4", "6"],
+      "analysis": "这里填入解析"
+    },
+    {
+      "content": "我们7都知道2+5={{ANS}}，2*1={{ANS}}",
+      "answer": ["7", "2"],
+      "analysis": "这里填入解析"
+    },
+    {
+      "content": "我们6都知道3+5={{ANS}}，2*1={{ANS}}",
+      "answer": ["8", "2"],
+      "analysis": "这里填入解析"
+    },
+    {
+      "content": "我们5都知道4+5={{ANS}}，2*1={{ANS}}",
+      "answer": ["9", "2"],
+      "analysis": "这里填入解析"
+    },{
+      "content": "2+24={{ANS}}，2*3={{ANS}}是我们都知道的",
+      "answer": ["4", "6"],
+      "analysis": "这里填入解析"
+    },
+    {
+      "content": "我们3都知道2+5={{ANS}}，2*1={{ANS}}",
+      "answer": ["7", "2"],
+      "analysis": "这里填入解析"
+    },
+    {
+      "content": "我们2都知道3+5={{ANS}}，2*1={{ANS}}",
+      "answer": ["8", "2"],
+      "analysis": "这里填入解析"
+    },
+    {
+      "content": "我们1都知道4+5={{ANS}}，2*1={{ANS}}",
       "answer": ["9", "2"],
       "analysis": "这里填入解析"
     }

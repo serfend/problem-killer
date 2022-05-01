@@ -192,3 +192,15 @@ function direct_transition_Array(rawArray, interval, actionQueue, cb) {
     direct_transition_Array(rawArray, interval, actionQueue, cb)
   }, interval)
 }
+
+export function shuffle(raw_array) {
+  if (!raw_array) return raw_array
+  raw_array = typeof raw_array === 'string' ? raw_array.split('') : raw_array
+  const order_set = new Array(raw_array.length).fill(0).map((i, index) => index)
+  const r = raw_array.map(i => {
+    const index = Math.floor(Math.random() * order_set.length)
+    const val = order_set.splice(index, 1)[0]
+    return raw_array[val]
+  })
+  return r
+}

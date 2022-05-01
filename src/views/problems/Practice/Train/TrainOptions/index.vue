@@ -21,7 +21,25 @@
           <el-switch v-model="options.show_only_error_history" />
         </el-tooltip>
       </el-form-item>
+      <el-form-item label="随机题序">
+        <el-tooltip content="将题目的顺序打乱">
+          <el-switch v-model="options.shuffle_problem" />
+        </el-tooltip>
+      </el-form-item>
     </el-form>
+    <div style="display:flex;align-items: center;">
+      <div style="width:100%">
+        <el-slider v-model="options.problem_range" range show-stops :max="(problems && problems.length)||0" :min="0" />
+        <el-tooltip content="本次训练的题目范围">
+          <div>
+            <span>从</span>
+            <el-input-number v-model="options.problem_range[0]" size="mini" :max="options.problem_range[1]" style="width:40%" />
+            <span>到</span>
+            <el-input-number v-model="options.problem_range[1]" size="mini" :min="options.problem_range[0]" style="width:40%" />
+          </div>
+        </el-tooltip>
+      </div>
+    </div>
   </el-card>
 </template>
 
@@ -36,12 +54,21 @@ export default {
   },
   props: {
     database: { type: String, default: null },
-    data: { type: Object, default: null }
+    problems: { type: Array, default: null }
   },
   data: () => ({
     loading: false,
-    options: null
+    options: {
+      practice_mode: true,
+      kill_problem: true,
+      show_only_error_current: false,
+      show_only_error_history: false,
+      problem_range: [0, 10],
+      shuffle_problem: false
+    }
   }),
+  computed: {
+  },
   watch: {
     database: {
       handler (v) {
@@ -67,7 +94,9 @@ export default {
       if (!name) return
       this.loading = true
       api.user_database_detail({ name }).then(data => {
-        this.options = (data && data[train_options]) || {}
+        const r = (data && data[train_options]) || {}
+        console.log('user_database_detail', r)
+        this.options = Object.assign(this.options, r)
       }).finally(() => {
         this.loading = false
       })

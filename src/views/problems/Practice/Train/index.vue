@@ -2,19 +2,19 @@
   <div v-if="name" v-loading="loading">
     <div v-if="database">
       <el-row>
-        <el-col :span="6">
-          <ProblemOverview :data="database.problems" :focus.sync="problem_focus" />
-          <el-divider />
-          <TrainOptions :database="name" />
-          <el-divider />
-          <TrainStatus :data="problem_status" />
-        </el-col>
-        <el-col :span="18" class="train-container">
+        <el-col :span="16" class="train-container">
           <div class="train">
             <h1>题库：{{ database.alias || database.description }}</h1>
             <ProblemList :data="database.problems" :status.sync="problem_status" />
           </div>
         </el-col>
+        <div style="position:fixed;right:2rem;width:30%">
+          <ProblemOverview :data="database.problems" :focus.sync="problem_focus" />
+          <el-divider />
+          <TrainOptions :database="name" :problems="database.problems" />
+          <el-divider />
+          <TrainStatus :data="problem_status" />
+        </div>
       </el-row>
     </div>
   </div>
@@ -28,7 +28,7 @@ export default {
     ProblemOverview: () => import('./ProblemOverview'),
     ProblemList: () => import('./ProblemList'),
     TrainOptions: () => import('./TrainOptions'),
-    TrainStatus: () => import('./TrainStatus')
+    TrainStatus: () => import('./TrainStatus'),
   },
   props: {
     name: { type: String, default: null }
