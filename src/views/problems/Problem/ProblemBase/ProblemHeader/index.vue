@@ -52,6 +52,13 @@ export default {
       this.$emit('update:showAnswer', true)
     },
     practice_submit (is_right) {
+      if (this.beenSolved) {
+        this.$message.warning('已提交过答案啦')
+        return
+      }
+      if (!is_right) this.$message.error('做错了，仔细看看哦~')
+      else this.$message.success('做对啦~')
+
       this.requireShowAnswer()
       this.beenSolved = true
       this.$emit('onAnswer', is_right)
