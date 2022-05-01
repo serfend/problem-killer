@@ -100,8 +100,11 @@ export default {
       }
     },
     focus_next(new_focus) {
+      const { filtered_data, current_focus } = this
       if (new_focus < 0) new_focus = 0
-      if (new_focus > this.filtered_data.length) new_focus = this.filtered_data.length
+      if (new_focus > filtered_data.length)new_focus = filtered_data.length
+      const step = current_focus > new_focus ? -1 : 1 // 方向规定
+      while (filtered_data[new_focus] && !filtered_data[new_focus].show)new_focus += step // 仅显示未隐藏的
       console.log('focus next', new_focus)
       this.current_focus = new_focus
     },
@@ -169,10 +172,10 @@ export default {
       const options = this.options
       const { problem_range_start, problem_range_end, shuffle_problem, new_problem, combo_problem } = options
       const dic = this.current_problems
-      let r = problems.slice(problem_range_start, problem_range_end)
+      let r = problems.slice(problem_range_start, problem_range_end || problems.length)
       if (shuffle_problem) r = shuffle(r)
-      if (combo_problem) r = r.filter(i => (dic[i.id].combo_kill || 0) < combo_problem)
-      if (new_problem) r = r.filter(i => !dic[i.id].total)
+      if (combo_problem) r = r.filter(i => (dic[i.id] && dic[i.id].combo_kill) || combo_problem > 0)
+      if (new_problem) r = r.filter(i => !(dic[i.id] && dic[i.id].total))
       return r
     },
     init_problems (data) {
