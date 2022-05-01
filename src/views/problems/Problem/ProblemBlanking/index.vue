@@ -15,6 +15,7 @@ export default {
   },
   props: {
     data: { type: Object, default: null },
+    focus: { type: Boolean, default: false },
     index: { type: Number, default: null }
   },
   data: () => ({
@@ -28,9 +29,21 @@ export default {
       },
       immediate: true,
       deep: true
+    },
+    focus: {
+      handler(val) {
+        if (val)document.addEventListener('keyup', this.keyInput)
+        else document.removeEventListener('keyup', this.keyInput)
+      }
     }
   },
   methods: {
+    keyInput(v) {
+      const { ctrlKey, altKey, key } = v
+      console.log('key input', ctrlKey, altKey, key, this.data.id)
+      if (!ctrlKey || !altKey) return
+      if (key === 'Enter') this.onSubmit({ type: 'el-input', i: -1 })
+    },
     onSubmit(v) {
       const iCount = v.i + 1
       if (iCount < this.user_input.length) {

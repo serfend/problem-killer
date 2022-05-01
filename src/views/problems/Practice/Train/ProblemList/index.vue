@@ -2,7 +2,7 @@
   <div v-loading="loading" style="min-height:50rem">
     <transition-group name="slide-fade" mode="out-in" tag="ul" class="slide-container" @enter="enter" @before-enter="beforeEnter" @before-leave="beforeLeave">
       <li v-for="(d,index) in filtered_data" v-show="!d.completed" :key="d.id" :data-index="index" class="slide-fade-item">
-        <Problem :ref="`p${index}`" :data="d" :index="index" v-bind="$props" :completed.sync="d.completed" @onSubmit="v=>onSubmit(d,v)" />
+        <Problem :ref="`p${index}`" :data="d" :index="index" v-bind="$props" :completed.sync="d.completed" :focus="current_focus===index" @onSubmit="v=>onSubmit(d,v)" />
       </li>
       <li v-if="show_completed_tip" key="tip" class="slide-fade-item" style="text-align:center">
         <el-button type="text" @click="reset()">已完成本轮练习，再来一轮吧~</el-button>
@@ -29,6 +29,7 @@ export default {
   },
   data: () => ({
     loading: false,
+    current_focus: -1,
     filtered_data: null,
     status: {
       total: 0,
@@ -81,7 +82,29 @@ export default {
       immediate: true
     },
   },
+
+  mounted() {
+    document.addEventListener('keyup', this.onKeyUp)
+  },
+  destroyed() {
+    document.removeEventListener('keyup', this.onKeyUp)
+  },
   methods: {
+    onKeyUp(v) {
+      const { ctrlKey, shiftKey, key } = v
+      if (!ctrlKey || !shiftKey) return
+      if (key === 'ArrowUp') {
+        this.focus_next(this.current_focus - 1)
+      } else if (key === 'ArrowDown') {
+        this.focus_next(this.current_focus + 1)
+      }
+    },
+    focus_next(new_focus) {
+      if (new_focus < 0) new_focus = 0
+      if (new_focus > this.filtered_data.length) new_focus = this.filtered_data.length
+      console.log('focus next', new_focus)
+      this.current_focus = new_focus
+    },
     onSubmit (v, is_right) {
       const { status } = this
       status.solved++
@@ -89,6 +112,7 @@ export default {
         status.wrong++
         this.wrong_current[v.id] = true
       }
+      this.focus_next(this.current_focus + 1)
     },
     reset (data) {
       // this.filtered_data = null
@@ -117,6 +141,7 @@ export default {
             const c = this.$refs[`p${index}`][0]
             c && c.reset()
           })
+          this.focus_next(0)
         }, 2e2)
       }).finally(() => {
         this.loading = false

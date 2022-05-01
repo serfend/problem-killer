@@ -7,6 +7,7 @@ export function statistics_problem (val, is_right, time_spend) {
     total_time: 0, // 总耗时
     first_view: null // 首次见到此题
   }
+  if (!val)val = {}
   Object.keys(tmp).map(i => {
     if (!val[i])val[i] = tmp[i]
   })

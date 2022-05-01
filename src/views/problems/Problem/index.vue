@@ -1,7 +1,7 @@
 <template>
   <div class="singe-problem">
     <ProblemBase v-if="type" ref="base" v-bind="$props" :completed.sync="completed" @onSubmit="v=>$emit('onSubmit',v)">
-      <component :is="type" v-bind="$props" @onUserSubmit="onSubmit" />
+      <component :is="type" v-bind="$props" slot="content" @onUserSubmit="onSubmit" />
     </ProblemBase>
     <div v-else>暂不支持的题型{{ d.type }}</div>
   </div>
@@ -22,6 +22,7 @@ export default {
   props: {
     show: { type: Boolean, default: true },
     data: { type: Object, default: null },
+    focus: { type: Boolean, default: false },
     index: { type: Number, default: null },
     options: { type: Object, default: null }
   },

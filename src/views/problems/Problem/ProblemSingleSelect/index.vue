@@ -12,7 +12,7 @@
     >{{ b.value }}
     </component>
     <div class="p-ms">
-      <el-radio-group v-model="user_input">
+      <el-radio-group v-model="user_input" @keyup.native.enter="onSubmit">
         <el-radio v-for="(opt,oindex) in options" :key="oindex" :label="oindex+1">{{ `${String.fromCharCode(65+oindex)}.${opt}` }}</el-radio>
       </el-radio-group>
       <el-button type="text" class="pb" @click="onSubmit">提交</el-button>
@@ -30,6 +30,7 @@ export default {
   },
   props: {
     data: { type: Object, default: null },
+    focus: { type: Boolean, default: false },
     index: { type: Number, default: null }
   },
   data: () => ({
@@ -43,9 +44,24 @@ export default {
         this.refresh()
       },
       immediate: true
+    },
+    focus: {
+      handler (val) {
+        if (val) document.addEventListener('keyup', this.keyInput)
+        else document.removeEventListener('keyup', this.keyInput)
+      }
     }
   },
   methods: {
+    keyInput (v) {
+      const { ctrlKey, altKey, key } = v
+      console.log('key input', ctrlKey, altKey, key, this.data.id)
+      if (!ctrlKey || !altKey) return
+      if (key === 'Enter') return this.onSubmit()
+      const value = parseInt(v.key)
+      if (!value) return
+      this.user_input = value
+    },
     onSubmit () {
       const v = this.user_input
       return this.judgeSubmit(v)

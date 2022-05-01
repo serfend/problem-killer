@@ -1,12 +1,18 @@
 <template>
-  <el-card style="transition:all ease 0.5s" @mouseenter.native="onMouseEnter" @mouseleave.native="recordSpendTime">
+  <el-card :style="{'box-shadow':iFocus?'0 2px 12px 0 #0ff7f0':null}" class="base-card" @mouseenter.native="onMouseEnter" @mouseleave.native="onMouseLeave">
     <template #header>
       <ProblemHeader ref="header" :show-answer.sync="showAnswer" v-bind="$props" @onAnswer="onAnswer" />
     </template>
-    <div class="content-container">
-      <slot />
+    <div ref="content" class="content-container">
+      <slot name="content" v-bind="$props" />
     </div>
-    <ProblemAnalysis :show-answer.sync="showAnswer" v-bind="$props" :user-answer-result="userAnswerResult" :user-answer-confirm-result="userAnswerConfirmResult" @onAnswerResult="onAnswerResult" />
+    <ProblemAnalysis
+      :show-answer.sync="showAnswer"
+      v-bind="$props"
+      :user-answer-result="userAnswerResult"
+      :user-answer-confirm-result="userAnswerConfirmResult"
+      @onAnswerResult="onAnswerResult"
+    />
   </el-card>
 </template>
 
@@ -21,6 +27,7 @@ export default {
   },
   props: {
     data: { type: Object, default: null },
+    focus: { type: Boolean, default: false },
     index: { type: Number, default: null }
   },
   data: () => ({
@@ -28,51 +35,60 @@ export default {
     userAnswerResult: null,
     userAnswerConfirmResult: false,
     lastEnter: 0,
-    time_spent: 0
+    time_spent: 0,
+    mouse_active: false
   }),
   computed: {
-    current_database() {
+    current_database () {
       return this.$store.state.problems.current_database
+    },
+    iFocus () {
+      return this.focus || this.mouse_active
     }
   },
   watch: {
     userAnswerConfirmResult: {
-      handler(val) {
+      handler (val) {
         this.$emit('update:completed', val)
       }
     }
   },
   methods: {
-    reset() {
+    reset () {
       this.showAnswer = false
       this.userAnswerResult = null
       this.userAnswerConfirmResult = false
       const c = this.$refs.header
       c && c.reset()
     },
-    onSubmit(is_right) {
+    onSubmit (is_right) {
       const c = this.$refs.header
       c && c.practice_submit(is_right)
     },
-    onMouseEnter() {
+    onMouseEnter () {
       this.lastEnter = new Date()
+      this.mouse_active = true
     },
-    recordSpendTime() {
+    onMouseLeave () {
+      this.mouse_active = false
+      this.recordSpendTime()
+    },
+    recordSpendTime () {
       const { lastEnter } = this
       const d = new Date() - lastEnter
       this.time_spent += d
     },
-    onAnswer(is_right) {
+    onAnswer (is_right) {
       this.userAnswerResult = is_right
       if (!is_right) this.update_problem(false)
     },
-    onAnswerResult(is_right) {
+    onAnswerResult (is_right) {
       this.userAnswerConfirmResult = true
       if (this.userAnswerResult === false) return
       this.showAnswer = false
       this.update_problem(is_right)
     },
-    update_problem(is_right) {
+    update_problem (is_right) {
       const database = this.current_database.name
       const { data, time_spent } = this
       api.user_problem_result({ database }).then(v => {

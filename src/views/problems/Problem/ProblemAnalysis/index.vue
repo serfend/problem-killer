@@ -33,7 +33,7 @@
         </el-col>
       </el-row>
       <div v-if="userAnswerResult!==null&&!userAnswerConfirmResult" class="btn-group">
-        <el-button type="success" class="btn-primary" @click="$emit('onAnswerResult',true)">确认会做</el-button>
+        <el-button ref="btn_confirm" type="success" class="btn-primary" @click="$emit('onAnswerResult',true)">确认会做</el-button>
         <el-button type="danger" class="btn-primary" @click="$emit('onAnswerResult',false)">确认不会做</el-button>
       </div>
     </div>
@@ -60,6 +60,16 @@ export default {
     current_problems () {
       return this.$store.state.problems.current_problems
     },
+  },
+  watch: {
+    userAnswerResult: {
+      handler(val) {
+        setTimeout(() => {
+          const e = this.$refs.btn_confirm
+          e && e.$el.focus()
+        }, 2e2)
+      }
+    }
   },
   methods: {
     parseTime

@@ -30,6 +30,7 @@ export default {
   },
   props: {
     data: { type: Object, default: null },
+    focus: { type: Boolean, default: false },
     index: { type: Number, default: null }
   },
   data: () => ({
@@ -43,9 +44,29 @@ export default {
         this.refresh()
       },
       immediate: true
+    },
+    focus: {
+      handler (val) {
+        if (val) document.addEventListener('keyup', this.keyInput)
+        else document.removeEventListener('keyup', this.keyInput)
+      }
     }
   },
   methods: {
+    keyInput (v) {
+      const { ctrlKey, altKey, key } = v
+      console.log('key input', ctrlKey, altKey, key, this.data.id)
+      if (!ctrlKey || !altKey) return
+      if (key === 'Enter') return this.onSubmit()
+      const value = parseInt(key)
+      if (!value) return
+      const index = this.user_input.findIndex(i => i === value)
+      if (index > -1) {
+        this.user_input.splice(index, 1)
+        return
+      }
+      this.user_input.push(value)
+    },
     onSubmit () {
       const v = this.user_input
         .filter(i => i > 0)
@@ -70,6 +91,9 @@ export default {
       const r = []
       r.push(build_span(0, c))
       this.blanking = r
+    },
+    set_focus () {
+      console.log('focus single')
     }
   }
 }
