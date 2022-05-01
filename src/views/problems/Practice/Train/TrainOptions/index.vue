@@ -28,7 +28,10 @@
       </el-form-item>
     </el-form>
     <div style="display:flex;align-items: center;">
-      <div style="width:100%">
+      <el-card style="width:100%">
+        <template #header>
+          <h3>题库范围选取(共{{ (problems && problems.length)||0 }}题)</h3>
+        </template>
         <el-slider v-model="options.problem_range" range show-stops :max="(problems && problems.length)||0" :min="0" />
         <el-tooltip content="本次训练的题目范围">
           <div>
@@ -38,7 +41,7 @@
             <el-input-number v-model="options.problem_range[1]" size="mini" :min="options.problem_range[0]" style="width:40%" />
           </div>
         </el-tooltip>
-      </div>
+      </el-card>
     </div>
   </el-card>
 </template>
