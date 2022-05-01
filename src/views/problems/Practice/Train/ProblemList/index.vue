@@ -1,5 +1,5 @@
 <template>
-  <div style="min-height:50rem">
+  <div v-loading="loading" style="min-height:50rem">
     <transition-group name="slide-fade" mode="out-in" tag="ul" class="slide-container" @enter="enter" @before-enter="beforeEnter" @before-leave="beforeLeave">
       <li v-for="(d,index) in filtered_data" v-show="item_should_show(d)" :key="d.id" :data-index="index" class="slide-fade-item">
         <Problem :ref="`p${index}`" :data="d" :index="index" v-bind="$props" :completed.sync="d.completed" @onSubmit="v=>onSubmit(d,v)" />
@@ -28,6 +28,7 @@ export default {
     data: { type: Array, default: () => [] }
   },
   data: () => ({
+    loading: false,
     filtered_data: null,
     status: {
       total: 0,
@@ -44,19 +45,10 @@ export default {
     options () {
       return this.$store.state.problems.current_options
     },
-    problem_range() {
-      const r = this.options
-      return r && r.problem_range
-    },
-    shuffle_problem() {
-      const r = this.options
-      console.log('shuffle')
-      return (r && r.shuffle_problem) || false
-    },
-    requireReset() {
+    requireReset () {
       return debounce(() => { this.reset() }, 2e2)
     },
-    show_completed_tip() {
+    show_completed_tip () {
       const { status, options } = this
       if (options.show_only_error_current) {
         return Object.keys(this.wrong_current).length <= 0
@@ -74,27 +66,17 @@ export default {
       },
       immediate: true
     },
-    problem_range: {
-      handler(val, prev) {
-        if (prev && (!val || !val.find((c, index) => c !== prev[index]))) return
+    options: {
+      handler (val) {
         this.requireReset()
       },
       immediate: true,
       deep: true
     },
-    shuffle_problem: {
-      handler(val) {
-        this.requireReset()
-      },
-      immediate: true
-    },
     status: {
       handler (val) {
         if (!val) return
         this.$emit('update:status', val)
-        if (val.total <= val.solved) {
-          this.$store.dispatch('problems/update_database')
-        }
       },
       deep: true,
       immediate: true
@@ -120,11 +102,7 @@ export default {
     },
     reset (data) {
       // this.filtered_data = null
-      this.$store.dispatch('problems/update_database').then(() => {
-        setTimeout(() => {
-          this.init(data)
-        }, 1e2)
-      })
+      this.init(data)
     },
     reset_current () {
       const dict = this.wrong_current
@@ -134,21 +112,25 @@ export default {
       const dict = this.wrong_history
       return this.reset_by_dict(dict)
     },
-    reset_by_dict(dict) {
+    reset_by_dict (dict) {
       const data = this.filtered_data
         .filter(i => dict[i.id])
       return this.reset(data)
     },
     init (data) {
-      const d = this.init_problems(data)
-      this.init_status(d)
-      this.init_wrong_set(d)
-      setTimeout(() => {
-        this.filtered_data.map((i, index) => {
-          const c = this.$refs[`p${index}`][0]
-          c && c.reset()
-        })
-      }, 2e2)
+      this.loading = true
+      this.init_problems(data).then(d => {
+        this.init_status(d)
+        this.init_wrong_set(d)
+        setTimeout(() => {
+          this.filtered_data.map((i, index) => {
+            const c = this.$refs[`p${index}`][0]
+            c && c.reset()
+          })
+        }, 2e2)
+      }).finally(() => {
+        this.loading = false
+      })
     },
     init_status (d) {
       const status = {
@@ -164,26 +146,32 @@ export default {
       const { current_problems } = this
       d.map(i => {
         const item = current_problems[i.id]
-        if (item && item.need_practice > 0) dict[i.id] = item.need_practice
+        if (item && item.combo_kill < 3) dict[i.id] = item.combo_kill
       })
       this.wrong_history = dict
     },
-    do_filter_problems(problems) {
-      const { problem_range, shuffle_problem } = this
-      let r = problems.slice(problem_range[0], problem_range[1])
+    do_filter_problems (problems) {
+      const options = this.options
+      const { problem_range_start, problem_range_end, shuffle_problem, new_problem, combo_problem } = options
+      const dic = this.current_problems
+      let r = problems.slice(problem_range_start, problem_range_end)
       if (shuffle_problem) r = shuffle(r)
+      if (combo_problem) r = r.filter(i => (dic[i.id].combo_kill || 0) < combo_problem)
+      if (new_problem) r = r.filter(i => !dic[i.id].total)
       return r
     },
     init_problems (data) {
       let d = data || this.data || []
-      d = this.do_filter_problems(d)
-      d = d.map(i => {
-        const r = Object.assign({ id: i.content }, i)
-        r.completed = false
-        return r
+      return new Promise((res, rej) => {
+        d = d.map(i => {
+          const r = Object.assign({ id: i.content }, i)
+          r.completed = false
+          return r
+        })
+        d = this.do_filter_problems(d)
+        this.filtered_data = d
+        return res(d)
       })
-      this.filtered_data = d
-      return d
     },
     beforeEnter (el) {
       el.style.opacity = 0

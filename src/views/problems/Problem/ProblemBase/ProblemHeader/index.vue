@@ -9,7 +9,7 @@
         <el-button size="mini" type="info" @click="practice_submit(false)">不会做</el-button>
       </span>
       <el-button v-show="!showAnswer" type="text" @click="requireShowAnswer">查看解析</el-button>
-      <span v-if="need_practice" class="problem-info">{{ need_practice }}</span>
+      <span v-if="combo_kill_desc" class="problem-info">{{ combo_kill_desc }}</span>
     </span>
   </span>
 </template>
@@ -29,13 +29,12 @@ export default {
     beenSolved: false
   }),
   computed: {
-    need_practice () {
+    combo_kill_desc () {
       const { data, current_problems } = this
       const d = current_problems[data.id]
       if (!d) return '暂无记录'
-      const { need_practice } = d
-      if (need_practice < 0) return `已拿下${-need_practice}次`
-      return `还需要巩固${need_practice + 1}次`
+      const { combo_kill } = d
+      return `连对${combo_kill || 0}次`
     },
     current_problems () {
       return this.$store.state.problems.current_problems

@@ -79,6 +79,7 @@ export default {
         const problem_id = data.id || data.content
         const val = statistics_problem(v[problem_id], is_right, time_spent)
         this.$emit('onSubmit', is_right)
+        console.log('update problem', problem_id, val)
         api.user_problem_result({ database, problem_id, val })
       })
     }

@@ -26,19 +26,28 @@
           <el-switch v-model="options.shuffle_problem" />
         </el-tooltip>
       </el-form-item>
+      <el-form-item label="做新题">
+        <el-tooltip content="只做没做过的题">
+          <el-switch v-model="options.new_problem" />
+        </el-tooltip>
+      </el-form-item>
+      <el-form-item label="筛选连对">
+        <el-tooltip content="只做连对次数少于该次数的题">
+          <el-input-number v-model="options.combo_problem" />
+        </el-tooltip>
+      </el-form-item>
     </el-form>
     <div style="display:flex;align-items: center;">
       <el-card style="width:100%">
         <template #header>
           <h3>题库范围选取(共{{ (problems && problems.length)||0 }}题)</h3>
         </template>
-        <el-slider v-model="options.problem_range" range show-stops :max="(problems && problems.length)||0" :min="0" />
         <el-tooltip content="本次训练的题目范围">
           <div>
             <span>从</span>
-            <el-input-number v-model="options.problem_range[0]" size="mini" :max="options.problem_range[1]" style="width:40%" />
+            <el-input-number v-model="options.problem_range_start" size="mini" :max="options.problem_range_end" style="width:40%" />
             <span>到</span>
-            <el-input-number v-model="options.problem_range[1]" size="mini" :min="options.problem_range[0]" style="width:40%" />
+            <el-input-number v-model="options.problem_range_end" size="mini" :min="options.problem_range_start" style="width:40%" />
           </div>
         </el-tooltip>
       </el-card>
@@ -66,12 +75,13 @@ export default {
       kill_problem: true,
       show_only_error_current: false,
       show_only_error_history: false,
-      problem_range: [0, 10],
-      shuffle_problem: false
+      problem_range_start: 0,
+      problem_range_end: 0,
+      new_problem: false,
+      shuffle_problem: false,
+      combo_problem: 3
     }
   }),
-  computed: {
-  },
   watch: {
     database: {
       handler (v) {
