@@ -45,6 +45,9 @@ export default {
     },
   },
   methods: {
+    reset() {
+      this.beenSolved = false
+    },
     requireShowAnswer () {
       this.$emit('update:showAnswer', true)
     },

@@ -43,6 +43,13 @@ export default {
     }
   },
   methods: {
+    reset() {
+      this.showAnswer = false
+      this.userAnswerResult = null
+      this.userAnswerConfirmResult = false
+      const c = this.$refs.header
+      c && c.reset()
+    },
     onSubmit(is_right) {
       const c = this.$refs.header
       c && c.practice_submit(is_right)

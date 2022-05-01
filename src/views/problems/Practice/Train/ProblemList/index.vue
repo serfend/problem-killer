@@ -2,9 +2,9 @@
   <div style="min-height:50rem">
     <transition-group name="slide-fade" mode="out-in" tag="ul" class="slide-container" @enter="enter" @before-enter="beforeEnter" @before-leave="beforeLeave">
       <li v-for="(d,index) in filtered_data" v-show="item_should_show(d)" :key="d.id" :data-index="index" class="slide-fade-item">
-        <Problem :data="d" :index="index" v-bind="$props" :completed.sync="d.completed" @onSubmit="v=>onSubmit(d,v)" />
+        <Problem :ref="`p${index}`" :data="d" :index="index" v-bind="$props" :completed.sync="d.completed" @onSubmit="v=>onSubmit(d,v)" />
       </li>
-      <li v-if="status.total<=status.solved" key="tip" class="slide-fade-item" style="text-align:center">
+      <li v-if="show_completed_tip" key="tip" class="slide-fade-item" style="text-align:center">
         <el-button type="text" @click="reset()">已完成本轮练习，再来一轮吧~</el-button>
         <div>
           <el-button type="text" :disabled="!Object.keys(wrong_current).length" @click="reset_current()">复习本轮错题</el-button>
@@ -55,6 +55,16 @@ export default {
     },
     requireReset() {
       return debounce(() => { this.reset() }, 2e2)
+    },
+    show_completed_tip() {
+      const { status, options } = this
+      if (options.show_only_error_current) {
+        return Object.keys(this.wrong_current).length <= 0
+      } else if (options.show_only_error_history) {
+        const dict = this.wrong_history
+        return !this.filtered_data.find(i => !i.completed && dict[i.id])
+      }
+      return status.total <= status.solved
     }
   },
   watch: {
@@ -74,7 +84,6 @@ export default {
     },
     shuffle_problem: {
       handler(val) {
-        console.log('shuffle_problem', val)
         this.requireReset()
       },
       immediate: true
@@ -89,20 +98,17 @@ export default {
       },
       deep: true,
       immediate: true
-    }
+    },
   },
   methods: {
     item_should_show (d) {
       const { options } = this
-      let r = false
       if (options.show_only_error_current) {
-        r = !!this.wrong_current[d.id]
+        return !!this.wrong_current[d.id]
       } else if (options.show_only_error_history) {
-        r = !!this.wrong_history[d.id]
-      } else {
-        r = !options.kill_problem || !d.completed
+        return this.wrong_history[d.id] && !d.completed
       }
-      return r
+      return !options.kill_problem || !d.completed
     },
     onSubmit (v, is_right) {
       const { status } = this
@@ -137,6 +143,12 @@ export default {
       const d = this.init_problems(data)
       this.init_status(d)
       this.init_wrong_set(d)
+      setTimeout(() => {
+        this.filtered_data.map((i, index) => {
+          const c = this.$refs[`p${index}`][0]
+          c && c.reset()
+        })
+      }, 2e2)
     },
     init_status (d) {
       const status = {

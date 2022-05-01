@@ -51,6 +51,11 @@ export default {
     onSubmit(v) {
       const c = this.$refs.base
       c && c.onSubmit(v)
+    },
+    reset() {
+      this.completed = false
+      const c = this.$refs.base
+      c && c.reset()
     }
   }
 }
