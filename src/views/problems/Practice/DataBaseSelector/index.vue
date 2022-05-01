@@ -1,7 +1,9 @@
 <template>
   <div v-loading="loading">
     <h2>题库选取</h2>
-    <DataBase v-for="d in database_filtered" :key="d.name" :data="d" @requireStart="requireStart(d)" />
+    <div style="display:grid;grid-template-columns: min-content min-content;grid-row-gap:4rem;grid-column-gap:4rem;">
+      <DataBase v-for="d in database_filtered" :key="d.name" :data="d" @requireStart="requireStart(d)" />
+    </div>
   </div>
 </template>
 

@@ -3,6 +3,10 @@
     {
       "name": "blanking",
       "index": 0
+    },
+    {
+      "name": "multi",
+      "index": 0
     }
   ]
 }

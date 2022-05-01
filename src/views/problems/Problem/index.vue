@@ -49,6 +49,8 @@ export default {
   },
   methods: {
     onSubmit(v) {
+      if (!v) this.$message.error('做错了，仔细看看哦~')
+      else this.$message.success('做对啦~')
       const c = this.$refs.base
       c && c.onSubmit(v)
     },
