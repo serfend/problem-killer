@@ -78,9 +78,10 @@ export default {
       let answer = this.data.answer
       if (!answer) return this.$message.warn('本题无答案')
       answer = answer.sort((a, b) => a - b)
-      const is_right = answer.length !== result.length || !answer.find((i, index) => {
+      const is_right = answer.length === result.length && !answer.find((i, index) => {
         return i !== result[index]
       })
+      debugger
       this.$emit('onUserSubmit', is_right)
     },
     refresh () {
