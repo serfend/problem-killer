@@ -66,9 +66,10 @@ const GetProblemType = (() => {
 })()
 function handle_problems (problems) {
   if (!problems) return null
-  return problems.filter(i => i).map(i => {
+  return problems.filter(i => i).map((i, index) => {
     const { answer } = i
     i.type = GetProblemType(answer)
+    i.index = index
     return i
   })
 }

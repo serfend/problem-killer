@@ -2,6 +2,7 @@
   <span>
     <span>{{ index+1 }}.</span>
     <span v-if="data">
+      <span class="global-index">[{{ data.index + 1 }}]</span>
       <span v-if="data.score">{{ data.score }}分</span>
       <ProblemType :data="data.type" />
       <span v-if="options.practice_mode&&!beenSolved">
@@ -44,7 +45,7 @@ export default {
     },
   },
   methods: {
-    reset() {
+    reset () {
       this.beenSolved = false
     },
     requireShowAnswer () {
@@ -67,8 +68,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.problem-info {
+%description {
   color: #ccc;
   font-size: 0.9rem;
+}
+.problem-info {
+  @extend %description;
+}
+.global-index {
+  @extend %description;
 }
 </style>

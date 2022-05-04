@@ -35,17 +35,20 @@ export default {
   },
   mounted () {
     const { page } = this
+    this.loading = true
     get_all_database_summary(page).then(data => {
       this.database = data
       this.totalPage = data.length
+    }).finally(() => {
+      this.loading = false
     })
   },
   methods: {
-    requireStart (v) {
-      if (!v) return
+    requireStart (database) {
+      if (!database) return
       this.loading = true
-      this.$store.dispatch('problems/select_database', { database: v }).then(() => {
-        this.$emit('requireStart', v)
+      this.$store.dispatch('problems/select_database', { database }).then(() => {
+        this.$emit('requireStart', database)
       }).finally(() => {
         this.loading = false
       })
