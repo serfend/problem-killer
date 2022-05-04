@@ -1,5 +1,5 @@
 <template>
-  <div class="singe-problem" @click="onClick">
+  <div class="singe-problem" @dblclick="onClick">
     <ProblemBase v-if="type" ref="base" v-bind="$props" :completed.sync="completed" @onSubmit="v=>$emit('onSubmit',v)">
       <component :is="type" v-bind="$props" slot="content" @onUserSubmit="onSubmit" />
     </ProblemBase>

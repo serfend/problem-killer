@@ -10,7 +10,7 @@
           :completed.sync="d.completed"
           :focus="current_focus===index"
           @onSubmit="v=>onSubmit(d,v)"
-          @requireFocus="handle_focus(index)"
+          @requireFocus="handle_focus({index,is_manual:true})"
         />
       </li>
       <li v-if="show_completed_tip" key="tip" class="slide-fade-item" style="text-align:center">
@@ -102,25 +102,28 @@ export default {
     onKeyUp (v) {
       const { ctrlKey, shiftKey, key } = v
       if (!ctrlKey || !shiftKey) return
+      const r = { is_manual: true, new_focus: 0 }
       if (key === 'ArrowUp') {
-        this.focus_next(this.current_focus - 1)
+        r.new_focus = this.current_focus - 1
       } else if (key === 'ArrowDown') {
-        this.focus_next(this.current_focus + 1)
+        r.new_focus = this.current_focus + 1
       }
+      this.focus_next(r)
     },
-    handle_focus(index) {
+    handle_focus ({ index, is_manual = false }) {
+      console.log('handle_focus', index)
       if (this.current_focus === index) return
+      if (is_manual) this.$message.success(`已选中第${index + 1}题，可以提交它了。`)
       this.current_focus = index
-      this.$message.success(`已选中第${index + 1}题，可以提交它了。`)
     },
-    focus_next (new_focus) {
+    focus_next ({ new_focus, is_manual = false }) {
       const { filtered_data, current_focus } = this
       if (new_focus < 0) new_focus = 0
       if (new_focus > filtered_data.length) new_focus = filtered_data.length
       const step = current_focus > new_focus ? -1 : 1 // 方向规定
       while (filtered_data[new_focus] && filtered_data[new_focus].completed) new_focus += step // 仅显示未隐藏的
       console.log('focus next', new_focus)
-      this.current_focus = new_focus
+      this.handle_focus({ index: new_focus, is_manual })
     },
     onSubmit (v, is_right) {
       const { status } = this
@@ -129,7 +132,7 @@ export default {
         status.wrong++
         this.wrong_current[v.id] = true
       }
-      this.focus_next(this.current_focus + 1)
+      this.focus_next({ new_focus: this.current_focus + 1 })
     },
     reset (data) {
       // this.filtered_data = null
@@ -158,7 +161,7 @@ export default {
             const c = this.$refs[`p${index}`][0]
             c && c.reset()
           })
-          this.focus_next(0)
+          this.focus_next({ new_focus: 0 })
         }, 2e2)
       }).finally(() => {
         this.loading = false
