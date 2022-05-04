@@ -1,5 +1,5 @@
 <template>
-  <div class="singe-problem">
+  <div class="singe-problem" @click="onClick">
     <ProblemBase v-if="type" ref="base" v-bind="$props" :completed.sync="completed" @onSubmit="v=>$emit('onSubmit',v)">
       <component :is="type" v-bind="$props" slot="content" @onUserSubmit="onSubmit" />
     </ProblemBase>
@@ -49,6 +49,9 @@ export default {
     }
   },
   methods: {
+    onClick() {
+      this.$emit('requireFocus')
+    },
     onSubmit(v) {
       const c = this.$refs.base
       c && c.onSubmit(v)

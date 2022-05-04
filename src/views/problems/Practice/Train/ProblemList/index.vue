@@ -10,6 +10,7 @@
           :completed.sync="d.completed"
           :focus="current_focus===index"
           @onSubmit="v=>onSubmit(d,v)"
+          @requireFocus="handle_focus(index)"
         />
       </li>
       <li v-if="show_completed_tip" key="tip" class="slide-fade-item" style="text-align:center">
@@ -106,6 +107,11 @@ export default {
       } else if (key === 'ArrowDown') {
         this.focus_next(this.current_focus + 1)
       }
+    },
+    handle_focus(index) {
+      if (this.current_focus === index) return
+      this.current_focus = index
+      this.$message.success(`已选中第${index + 1}题，可以提交它了。`)
     },
     focus_next (new_focus) {
       const { filtered_data, current_focus } = this
