@@ -86,10 +86,11 @@ export default {
     },
     onAnswer (is_right) {
       this.userAnswerResult = is_right
-      if (this.lighting_mode) return this.onAnswerResult(is_right)
+      if (is_right && this.lighting_mode) return this.onAnswerResult(is_right)
       if (!is_right) this.update_problem(false)
     },
     onAnswerResult (is_right) {
+      this.$emit('onSubmit', is_right)
       this.userAnswerConfirmResult = true
       if (this.userAnswerResult === false) return
       this.showAnswer = false
@@ -101,7 +102,6 @@ export default {
       api.user_problem_result({ database }).then(v => {
         const problem_id = data.id || data.content
         const val = statistics_problem(v[problem_id], is_right, time_spent)
-        this.$emit('onSubmit', is_right)
         console.log('update problem', problem_id, val)
         api.user_problem_result({ database, problem_id, val })
       })
