@@ -13,7 +13,8 @@
     </component>
     <div class="p-ms">
       <el-checkbox-group v-model="user_input">
-        <el-checkbox v-for="(opt,oindex) in options" :key="oindex" :label="oindex+1">{{ `${String.fromCharCode(65+oindex)}.${opt}` }}</el-checkbox>
+        <el-checkbox v-for="(opt,oindex) in options" :key="oindex" :label="oindex+1" class="opt-single">{{ `${String.fromCharCode(65+oindex)}.${opt}` }}
+        </el-checkbox>
       </el-checkbox-group>
       <el-button type="text" class="pb" @click="onSubmit">提交</el-button>
     </div>
@@ -77,7 +78,7 @@ export default {
       let answer = this.data.answer
       if (!answer) return this.$message.warn('本题无答案')
       answer = answer.sort((a, b) => a - b)
-      const is_right = !answer.find((i, index) => {
+      const is_right = answer.length !== result.length || !answer.find((i, index) => {
         return i !== result[index]
       })
       this.$emit('onUserSubmit', is_right)
@@ -98,6 +99,12 @@ export default {
   }
 }
 </script>
+<style>
+.opt-single {
+  white-space: normal;
+  display: block;
+}
+</style>
 <style lang="scss" scoped>
 .content-container {
   display: flex;

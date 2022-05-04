@@ -13,7 +13,7 @@
     </component>
     <div class="p-ms">
       <el-radio-group v-model="user_input" @keyup.native.enter="onSubmit">
-        <el-radio v-for="(opt,oindex) in options" :key="oindex" :label="oindex+1">{{ `${String.fromCharCode(65+oindex)}.${opt}` }}</el-radio>
+        <el-radio v-for="(opt,oindex) in options" :key="oindex" :label="oindex+1" class="opt-single">{{ `${String.fromCharCode(65+oindex)}.${opt}` }}</el-radio>
       </el-radio-group>
       <el-button type="text" class="pb" @click="onSubmit">提交</el-button>
     </div>
@@ -85,6 +85,12 @@ export default {
   }
 }
 </script>
+<style>
+.opt-single {
+  white-space: normal;
+  display: block;
+}
+</style>
 <style lang="scss" scoped>
 .content-container {
   display: flex;
