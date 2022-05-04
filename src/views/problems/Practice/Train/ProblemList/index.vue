@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading" style="min-height:50rem">
+  <div v-loading="loading" class="problem-list" style="min-height:50rem">
     <transition-group name="slide-fade" mode="out-in" tag="ul" class="slide-container" @enter="enter" @before-enter="beforeEnter" @before-leave="beforeLeave">
       <li v-for="(d,index) in filtered_data" v-show="!d.completed" :key="d.id" :data-index="index" class="slide-fade-item">
         <Problem :ref="`p${index}`" :data="d" :index="index" v-bind="$props" :completed.sync="d.completed" :focus="current_focus===index" @onSubmit="v=>onSubmit(d,v)" />
@@ -12,6 +12,7 @@
         </div>
       </li>
     </transition-group>
+    <el-backtop target=".train" />
   </div>
 </template>
 
@@ -104,7 +105,7 @@ export default {
       if (new_focus < 0) new_focus = 0
       if (new_focus > filtered_data.length)new_focus = filtered_data.length
       const step = current_focus > new_focus ? -1 : 1 // 方向规定
-      while (filtered_data[new_focus] && !filtered_data[new_focus].show)new_focus += step // 仅显示未隐藏的
+      while (filtered_data[new_focus] && filtered_data[new_focus].completed)new_focus += step // 仅显示未隐藏的
       console.log('focus next', new_focus)
       this.current_focus = new_focus
     },
