@@ -4,6 +4,7 @@
     <div style="display:grid;grid-template-columns: min-content min-content;grid-row-gap:4rem;grid-column-gap:4rem;">
       <DataBase v-for="d in database_filtered" :key="d.name" :data="d" @requireStart="requireStart(d)" />
     </div>
+    <Pagination :pagesetting.sync="page" :total-count="totalPage" />
   </div>
 </template>
 
@@ -12,11 +13,17 @@ import { get_all_database_summary } from '../../Problem/loader'
 export default {
   name: 'DataBaseSelector',
   components: {
-    DataBase: () => import('./DataBase')
+    DataBase: () => import('./DataBase'),
+    Pagination: () => import('@/components/Pagination')
   },
   data: () => ({
     loading: false,
-    database: []
+    database: [],
+    page: {
+      pageIndex: 0,
+      pageSize: 5
+    },
+    totalPage: 0
   }),
   computed: {
     database_filtered () {
@@ -27,8 +34,10 @@ export default {
     }
   },
   mounted () {
-    get_all_database_summary().then(data => {
+    const { page } = this
+    get_all_database_summary(page).then(data => {
       this.database = data
+      this.totalPage = data.length
     })
   },
   methods: {

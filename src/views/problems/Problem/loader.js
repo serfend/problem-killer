@@ -1,5 +1,5 @@
 import api from '@/api/problems'
-export function get_all_database_summary (pageIndex = 0, pageSize = 5) {
+export function get_all_database_summary ({ pageIndex = 0, pageSize = 5 }) {
   return new Promise((res, rej) => {
     api.get_database().then(data => {
       let databases = data.database
