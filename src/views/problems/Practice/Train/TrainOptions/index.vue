@@ -11,11 +11,6 @@
           <el-switch v-model="options.kill_problem" />
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="历史错题">
-        <el-tooltip content="查看最近练习中出现的错题">
-          <el-switch v-model="options.show_only_error_history" />
-        </el-tooltip>
-      </el-form-item>
       <el-form-item label="随机题序">
         <el-tooltip content="将题目的顺序打乱">
           <el-switch v-model="options.shuffle_problem" />
@@ -24,6 +19,11 @@
       <el-form-item label="做新题">
         <el-tooltip content="只做没做过的题">
           <el-switch v-model="options.new_problem" />
+        </el-tooltip>
+      </el-form-item>
+      <el-form-item label="急速过题">
+        <el-tooltip content="题做对了就不显示题解，直接下一题">
+          <el-switch v-model="options.lighting_mode" />
         </el-tooltip>
       </el-form-item>
       <el-form-item label="筛选连对">
@@ -68,10 +68,10 @@ export default {
     options: {
       practice_mode: true,
       kill_problem: true,
-      show_only_error_history: false,
       problem_range_start: 0,
       problem_range_end: 0,
       new_problem: false,
+      lighting_mode: false,
       shuffle_problem: false,
       combo_problem: 3
     }

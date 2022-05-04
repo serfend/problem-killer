@@ -1,8 +1,16 @@
 <template>
   <div v-loading="loading" class="problem-list" style="min-height:50rem">
     <transition-group name="slide-fade" mode="out-in" tag="ul" class="slide-container" @enter="enter" @before-enter="beforeEnter" @before-leave="beforeLeave">
-      <li v-for="(d,index) in filtered_data" v-show="!d.completed" :key="d.id" :data-index="index" class="slide-fade-item">
-        <Problem :ref="`p${index}`" :data="d" :index="index" v-bind="$props" :completed.sync="d.completed" :focus="current_focus===index" @onSubmit="v=>onSubmit(d,v)" />
+      <li v-for="(d,index) in filtered_data" v-show="!kill_problem || !d.completed" :key="d.id" :data-index="index" class="slide-fade-item">
+        <Problem
+          :ref="`p${index}`"
+          :data="d"
+          :index="index"
+          v-bind="$props"
+          :completed.sync="d.completed"
+          :focus="current_focus===index"
+          @onSubmit="v=>onSubmit(d,v)"
+        />
       </li>
       <li v-if="show_completed_tip" key="tip" class="slide-fade-item" style="text-align:center">
         <el-button type="text" @click="reset()">已完成本轮练习，再来一轮吧~</el-button>
@@ -47,16 +55,15 @@ export default {
     options () {
       return this.$store.state.problems.current_options
     },
+    kill_problem () {
+      return this.options && this.options.kill_problem
+    },
     requireReset () {
       return debounce(() => { this.reset() }, 2e2)
     },
     show_completed_tip () {
-      const { status, options, filtered_data } = this
+      const { status, filtered_data } = this
       if (!filtered_data || !filtered_data.length) return true
-      if (options.show_only_error_history) {
-        const dict = this.wrong_history
-        return !filtered_data.find(i => !i.completed && dict[i.id])
-      }
       return status.total <= status.solved
     }
   },
@@ -84,14 +91,14 @@ export default {
     },
   },
 
-  mounted() {
+  mounted () {
     document.addEventListener('keyup', this.onKeyUp)
   },
-  destroyed() {
+  destroyed () {
     document.removeEventListener('keyup', this.onKeyUp)
   },
   methods: {
-    onKeyUp(v) {
+    onKeyUp (v) {
       const { ctrlKey, shiftKey, key } = v
       if (!ctrlKey || !shiftKey) return
       if (key === 'ArrowUp') {
@@ -100,12 +107,12 @@ export default {
         this.focus_next(this.current_focus + 1)
       }
     },
-    focus_next(new_focus) {
+    focus_next (new_focus) {
       const { filtered_data, current_focus } = this
       if (new_focus < 0) new_focus = 0
-      if (new_focus > filtered_data.length)new_focus = filtered_data.length
+      if (new_focus > filtered_data.length) new_focus = filtered_data.length
       const step = current_focus > new_focus ? -1 : 1 // 方向规定
-      while (filtered_data[new_focus] && filtered_data[new_focus].completed)new_focus += step // 仅显示未隐藏的
+      while (filtered_data[new_focus] && filtered_data[new_focus].completed) new_focus += step // 仅显示未隐藏的
       console.log('focus next', new_focus)
       this.current_focus = new_focus
     },

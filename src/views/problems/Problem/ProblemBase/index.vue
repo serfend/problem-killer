@@ -39,6 +39,12 @@ export default {
     mouse_active: false
   }),
   computed: {
+    options () {
+      return this.$store.state.problems.current_options
+    },
+    lighting_mode() {
+      return this.options && this.options.lighting_mode
+    },
     current_database () {
       return this.$store.state.problems.current_database
     },
@@ -80,6 +86,7 @@ export default {
     },
     onAnswer (is_right) {
       this.userAnswerResult = is_right
+      if (this.lighting_mode) return this.onAnswerResult(is_right)
       if (!is_right) this.update_problem(false)
     },
     onAnswerResult (is_right) {
