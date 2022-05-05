@@ -3,7 +3,7 @@ name: web deploy by ftp
 # trigger on which this CI should be run
 on:
   push: # push operation is operate
-    branches: [master] # here since my repository branch is named `main` , you should follow your own repository like `master`
+    branches: [main] # here since my repository branch is named `main` , you should follow your own repository like `master`
 # CI enviroment settings
 env:
   NODE_VERSION: "10.x" # custom arg of node.js's version
