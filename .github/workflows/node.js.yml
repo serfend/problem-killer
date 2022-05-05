@@ -31,7 +31,7 @@ jobs:
           npm install
           npm run lint
           npm run build:stage
-      - name: 静态发布到ftp # i use `SamKirkland/FTP-Deploy-Action@4.0.0` for ftp deploy
+      - name: 静态发布到ftp
         uses: SamKirkland/FTP-Deploy-Action@4.3.0 # you can referer to github.com/SamKirkland/FTP-Deploy-Action for more infomation
         with:
           server: ${{ secrets.FTP_HOST }} # `${{arg}}` is a template from which you set in `secrets` menu

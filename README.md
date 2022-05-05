@@ -5,6 +5,8 @@
 
 [![web deploy by ftp](https://github.com/serfend/problem-killer/actions/workflows/node.js.yml/badge.svg)](https://github.com/serfend/problem-killer/actions/workflows/node.js.yml)
 
+**demo**：[test.serfend.top:10280](http://test.serfend.top:10280)
+
 ## 使用方法
 
 - 方法一：node环境
@@ -38,33 +40,37 @@
 
 ## 演示
 
-- 主页（目前只有`答题`菜单可用）
-  - ![image-20220505104416266](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104416266.png)
-- 题库选取
-  - ![image-20220505104446147](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104446147.png)
-- 题库设置
-  - 在 `data\problems\index.json`中设置题库目录。
-  - 在`data\problems\database\XXXXX.json`中设置题目内容，文件名与index.json中对应即可，可参考默认案例。
+### 主页（目前只有`答题`菜单可用）
 
-- 刷题
+- ![image-20220505104416266](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104416266.png)
 
-  - 填空题
+### 题库选取
 
-    - ![image-20220505104643870](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104643870.png)
+- ![image-20220505104446147](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104446147.png)
 
-  - 混合题型
+### 题库设置
 
-    - ![image-20220505104704724](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104704724.png)
+- 在 `data\problems\index.json`中设置题库目录。
+- 在`data\problems\database\XXXXX.json`中设置题目内容，文件名与index.json中对应即可，可参考默认案例。
 
-  - 题目解析和统计
+### 刷题
 
-    > 第一次做题时候不会有统计，以后再次刷到这个题的时候则会显示该题的历史做题记录
+- 填空题
 
-    - ![image-20220505104733608](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104733608.png)
+  - ![image-20220505104643870](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104643870.png)
+- 混合题型
 
-  - 刷题模式
+  - ![image-20220505104704724](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104704724.png)
 
-    > 如果选中该模式，则将会显示`会做`和`不会做`按钮，点击按钮可以直接完成该题的训练。适合填空题这种输入答案比较慢的题快速刷题。
+### 题目解析和统计
+
+> 第一次做题时候不会有统计，以后再次刷到这个题的时候则会显示该题的历史做题记录
+
+- ![image-20220505104733608](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104733608.png)
+
+- 刷题模式
+
+  > 如果选中该模式，则将会显示`会做`和`不会做`按钮，点击按钮可以直接完成该题的训练。适合填空题这种输入答案比较慢的题快速刷题。
 
 
 
