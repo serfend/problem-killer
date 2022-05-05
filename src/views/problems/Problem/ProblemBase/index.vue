@@ -4,7 +4,7 @@
       <ProblemHeader ref="header" :show-answer.sync="showAnswer" v-bind="$props" @onAnswer="onAnswer" />
     </template>
     <div ref="content" class="content-container">
-      <slot name="content" v-bind="$props" />
+      <slot v-if="reset_index" v-bind="$props" name="content" />
     </div>
     <ProblemAnalysis
       :show-answer.sync="showAnswer"
@@ -36,7 +36,8 @@ export default {
     userAnswerConfirmResult: false,
     lastEnter: 0,
     time_spent: 0,
-    mouse_active: false
+    mouse_active: false,
+    reset_index: true
   }),
   computed: {
     options () {
@@ -64,6 +65,8 @@ export default {
       this.showAnswer = false
       this.userAnswerResult = null
       this.userAnswerConfirmResult = false
+      this.reset_index = false
+      this.$nextTick(() => { this.reset_index = true })
       const c = this.$refs.header
       c && c.reset()
     },
