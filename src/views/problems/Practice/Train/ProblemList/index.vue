@@ -128,6 +128,7 @@ export default {
     onSubmit (v, is_right) {
       const { status } = this
       status.solved++
+      debugger
       if (!is_right) {
         status.wrong++
         this.wrong_current[v.id] = true

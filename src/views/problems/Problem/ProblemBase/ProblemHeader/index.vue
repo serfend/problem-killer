@@ -9,6 +9,7 @@
         <el-button size="mini" type="success" @click="practice_submit(true)">会做</el-button>
         <el-button size="mini" type="info" @click="practice_submit(false)">不会做</el-button>
       </span>
+      <el-button v-else-if="beenSolved" type="text" @click="reset">重做</el-button>
       <el-button v-show="!showAnswer" type="text" @click="requireShowAnswer">查看解析</el-button>
       <span v-if="combo_kill_desc" class="problem-info">{{ combo_kill_desc }}</span>
     </span>
@@ -47,9 +48,10 @@ export default {
   methods: {
     reset () {
       this.beenSolved = false
+      this.requireShowAnswer(false)
     },
-    requireShowAnswer () {
-      this.$emit('update:showAnswer', true)
+    requireShowAnswer (show = true) {
+      this.$emit('update:showAnswer', show)
     },
     practice_submit (is_right) {
       if (this.beenSolved) {
@@ -58,7 +60,6 @@ export default {
       }
       if (!is_right) this.$message.error('做错了，仔细看看哦~')
       else this.$message.success('做对啦~')
-
       this.requireShowAnswer()
       this.beenSolved = true
       this.$emit('onAnswer', is_right)

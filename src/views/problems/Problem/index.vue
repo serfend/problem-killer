@@ -1,6 +1,6 @@
 <template>
   <div class="singe-problem" @dblclick="onClick">
-    <ProblemBase v-if="type" ref="base" v-bind="$props" :completed.sync="completed" @onSubmit="v=>$emit('onSubmit',v)">
+    <ProblemBase v-if="type" ref="base" v-bind="$props" :completed.sync="completed" @onSubmit="v=>handle_submit(v)">
       <component :is="type" v-bind="$props" slot="content" @onUserSubmit="onSubmit" />
     </ProblemBase>
     <div v-else>暂不支持的题型{{ d.type }}</div>
@@ -28,7 +28,8 @@ export default {
   },
   data: () => ({
     ProblemType: api.ProblemType,
-    completed: false
+    completed: false,
+    submitted: false
   }),
   computed: {
     d () {
@@ -49,6 +50,11 @@ export default {
     }
   },
   methods: {
+    handle_submit(is_right) {
+      if (this.submitted) return
+      this.submitted = true
+      return this.$emit('onSubmit', is_right)
+    },
     onClick() {
       this.$emit('requireFocus')
     },
@@ -58,6 +64,7 @@ export default {
     },
     reset() {
       this.completed = false
+      this.submitted = false
       const c = this.$refs.base
       c && c.reset()
     }
