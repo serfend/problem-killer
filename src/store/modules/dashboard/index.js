@@ -1,9 +1,6 @@
 export function loadSettingString(name) {
   return localStorage.getItem(`dashboard.setting[${name}]`)
 }
-import {
-  memberCardDefault
-} from './memberCard'
 export function createSetting() {
   return {
     color: {

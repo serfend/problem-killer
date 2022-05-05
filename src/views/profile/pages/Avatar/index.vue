@@ -4,8 +4,8 @@
       <div class="img-clip-wrap">
         <div class="container-bg">
           <div class="img-container">
-            <img id="clip_src_img" />
-            <div class="shadow-box"></div>
+            <img id="clip_src_img">
+            <div class="shadow-box" />
             <div class="crop-wrap">
               <div class="shadow-box" style="width: 0px; height: 0px; left: 0px; top: 0px;">
                 <el-image class="shadow-img" style="width: 0px; height: 0px; top: 0px; left: 0px;" />
@@ -27,23 +27,23 @@
           </div>
         </div>
         <label for="file_input" class="first-change-lb">
-          <i></i>
+          <i />
           <span>选择图片</span>
         </label>
         <div class="reset-img" :style="{display: selected?'block':'none'}">
           <label for="file_input">
-            <i></i>&nbsp;重新选择
+            <i />&nbsp;重新选择
           </label>
         </div>
-        <input type="file" id="file_input" accept="image/png, image/jpg, image/jpeg" />
+        <input id="file_input" type="file" accept="image/png, image/jpg, image/jpeg">
       </div>
-      <div class="border-line"></div>
+      <div class="border-line" />
       <div class="img-preview-wrap">
         <div
           class="pre-container"
           style="background-image: url(&quot;https://i2.hdslb.com/bfs/face/7579a7b80c4e71e11e8b00d0a7a0aec08a75a4c0.jpg@150w_150h.jpg&quot;);"
         >
-          <img id="clip_res_img" style="display: none;" />
+          <img id="clip_res_img" style="display: none;">
         </div>
         <div class="pre-info">当前头像</div>
       </div>
