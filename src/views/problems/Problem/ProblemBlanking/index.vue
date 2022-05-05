@@ -21,6 +21,7 @@ export default {
   data: () => ({
     blanking: null,
     user_input: [],
+    focus_callback_set: null
   }),
   watch: {
     data: {
@@ -30,11 +31,20 @@ export default {
       immediate: true,
       deep: true
     },
+    // TODO 实现通过父级的slot.ref统一管理
     focus: {
-      handler(val) {
-        if (val)document.addEventListener('keyup', this.keyInput)
-        else document.removeEventListener('keyup', this.keyInput)
-      }
+      handler (val) {
+        if (val && !this.focus_callback_set) {
+          console.log('callback is set to', this.index)
+          document.addEventListener('keyup', this.keyInput)
+          this.focus_callback_set = true
+        } else if (!val && this.focus_callback_set) {
+          console.log('callback remove from', this.index)
+          document.removeEventListener('keyup', this.keyInput)
+          this.focus_callback_set = false
+        }
+      },
+      immediate: true
     }
   },
   methods: {
