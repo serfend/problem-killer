@@ -66,7 +66,7 @@ export default {
         this.user_input.splice(index, 1)
         return
       }
-      if (this.options.length - 1 <= value) { this.user_input.push(value) }
+      if (this.options.length > value) { this.user_input.push(value) }
     },
     onSubmit () {
       const v = this.user_input
