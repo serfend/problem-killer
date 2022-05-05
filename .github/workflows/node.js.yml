@@ -1,0 +1,44 @@
+# CI name , it will display on github's action page menu
+name: web deploy by ftp
+# trigger on which this CI should be run
+on:
+  push: # push operation is operate
+    branches: [master] # here since my repository branch is named `main` , you should follow your own repository like `master`
+# CI enviroment settings
+env:
+  NODE_VERSION: "10.x" # custom arg of node.js's version
+jobs:
+  build:
+    name: 构建,发布
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 # here are some step followed , each step must have `uses` or `run` key , for CI to run
+        name: 初始化 checkout # other key like `name`,`with`,`env` is optional
+
+      - name: 测试ci单行 # Runs a single command using the runners shell
+        run: echo Hello, world!
+
+      - name: 测试ci多行 # Runs a set of commands using the runners shell
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+      - name: 使用 Node.js ${{ env.NODE_VERSION }} 构建包
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: 构建执行
+        run: |
+          npm install
+          npm run lint
+          npm run build:stage
+      - name: 静态发布到ftp # i use `SamKirkland/FTP-Deploy-Action@4.0.0` for ftp deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0 # you can referer to github.com/SamKirkland/FTP-Deploy-Action for more infomation
+        with:
+          server: ${{ secrets.FTP_HOST }} # `${{arg}}` is a template from which you set in `secrets` menu
+          username: ${{ secrets.FTP_USERNAME }} # as `yml` file is follow .git upload to github ,`secrets` is to prevent your sensitive infomation from exposed to public
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ./
+
+      - name: 完成
+        run: echo deploy by ftp
