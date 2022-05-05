@@ -12,17 +12,17 @@
 - 方法一：node环境
 
   - ```shell
+    npm install
     npm run dev
     ```
-
+    
   - 运行完成后将自动打开网站
 
 - 方法二：直接运行
 
   - [下载最新发布的部署包](https://github.com/serfend/problem-killer/releases/tag/publish)，选中其中的zip文件下载
   - 解压下载好的zip文件
-  - 使用任意方式开启一个http服务
-    - python在当前目录启用http服务方法 `python -m http.server 80`
+  - 使用任意方式开启一个http服务，**例如**python在当前目录启用http服务方法 `python -m http.server 80`
 
 ## 功能
 
