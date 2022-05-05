@@ -3,7 +3,7 @@
 >
 > 不需要数据库，不需要服务器。
 
-
+[![web deploy by ftp](https://github.com/serfend/problem-killer/actions/workflows/node.js.yml/badge.svg)](https://github.com/serfend/problem-killer/actions/workflows/node.js.yml)
 
 ## 使用方法
 
