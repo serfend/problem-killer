@@ -1,4 +1,4 @@
-const CryptoJS = require('crypto-js')
+import CryptoJS from 'crypto-js'
 const key = CryptoJS.enc.Utf8.parse('001f2e3d4c5b6a79')
 const iv = CryptoJS.enc.Utf8.parse(`001f4c5b6a792e3d`)
 

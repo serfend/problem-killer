@@ -4,7 +4,7 @@ export default [
     component: () => import('@/layout'),
     hidden: true,
     children: [{
-      path: '/redirect/:path*',
+      path: '/redirect/:pathMatch(.*)',
       component: () => import('@/views/redirect/index')
     }]
   }, {

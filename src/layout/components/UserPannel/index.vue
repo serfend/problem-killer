@@ -23,7 +23,7 @@
           <SvgIcon icon-class="namecard" />
           <span>个人信息</span>
         </el-menu-item>
-        <el-submenu index="2">
+        <el-sub-menu index="2">
           <template slot="title">
             <SvgIcon icon-class="principal" />
             <span>账号</span>

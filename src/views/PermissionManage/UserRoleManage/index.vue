@@ -9,7 +9,7 @@
 <script>
 import importAll from '@/utils/common/importAll'
 const modules = importAll(
-  require.context('.', true, /\.vue$/),
+  import.meta.globEager('./*.vue'),
   (keys, item) => {
     if (!keys || (!item || !item.label)) return null
     return keys

@@ -44,7 +44,7 @@ export default {
   },
   computed: {
     showQr() {
-      return process.env.showQRCode
+      return import.meta.env.VITE_SHOW_QRCODE
     }
   },
   watch: {

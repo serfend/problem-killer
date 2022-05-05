@@ -112,6 +112,7 @@
 import { upload } from '@/api/common/file'
 import clipboard from '@/utils/clipboard'
 import { requestFile, getClientKey, deleteFile } from '@/api/common/file'
+import website from '@/utils/website'
 export default {
   name: 'FileEngine',
   components: {
@@ -201,7 +202,7 @@ export default {
       })
     },
     downloadUrl(fileId) {
-      return require('@/utils/website').getWebUrlPath(
+      return website.getWebUrlPath(
         `file/download?fileid=${fileId}`
       )
     },

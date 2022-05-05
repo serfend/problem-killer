@@ -1,4 +1,4 @@
-import { Notification } from 'element-ui'
+import { ElNotification } from 'element-plus'
 export function FormRecorder(key, defaultItem) {
   this.key = `formRecorder.${key}`
   this.setRecord = (query) => {
@@ -9,7 +9,7 @@ export function FormRecorder(key, defaultItem) {
     const s = JSON.parse(localStorage.getItem(this.key) || '{}')
     if (defaultItem._version) {
       if (!s._version || s._version < defaultItem._version) {
-        Notification({
+        ElNotification({
           title: '存储器更新',
           message: `${key}因版本更新已清空其存储的数据。版本由[${s._version || '无版本'}]更新为[${defaultItem._version}]。`,
           duration: 10e3

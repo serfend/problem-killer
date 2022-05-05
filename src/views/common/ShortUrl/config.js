@@ -1,4 +1,5 @@
 
+import website from '@/utils/website'
 export function shortUrlContent(key) {
-  return require('@/utils/website').getWebUrlPath(`/s/${key}`)
+  return website.getWebUrlPath(`/s/${key}`)
 }

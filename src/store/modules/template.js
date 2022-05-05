@@ -1,5 +1,5 @@
 import { downloadByPath } from '@/api/common/file'
-import { Message } from 'element-ui'
+import { ElMessage } from 'element-plus'
 import { downloadBlob, exportXlsByTemplate } from '@/utils/file'
 const state = {
   templates: {},
@@ -14,7 +14,7 @@ const actions = {
       t.then(template_data => {
         const xlsx_data = exportXlsByTemplate(template_data, data)
         downloadBlob(xlsx_data, filename)
-        Message.success('已下载')
+        ElMessage.success('已下载')
         res()
       }).catch(e => rej(e))
     })

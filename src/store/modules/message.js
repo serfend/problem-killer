@@ -1,5 +1,5 @@
 import * as signalR from '@microsoft/signalr'
-import { Message } from 'element-ui'
+import { ElMessage } from 'element-plus'
 const state = {
   connections: {},
   signalR
@@ -15,7 +15,7 @@ const actions = {
       if (!result || (result.status === undefined && result.message === undefined)) return handler && handler(...arguments)
       if (result.status === 0) return handler && handler(result.data)
 
-      Message({
+      ElMessage({
         message: `${event}出现异常的数据:${result.message}`,
         type: 'error',
         duration: 10000

@@ -1,8 +1,8 @@
 import Clipboard from 'clipboard'
 import i18n from '@/lang'
 import {
-  Message
-} from 'element-ui'
+  ElMessage
+} from 'element-plus'
 export default function handleClipboard(text, event, showMessage) {
   return new Promise((res, rej) => {
     const clipboard = new Clipboard(event.target, {
@@ -10,7 +10,7 @@ export default function handleClipboard(text, event, showMessage) {
     })
     clipboard.on('success', (e) => {
       if (showMessage) {
-        Message({
+        ElMessage({
           type: 'success',
           message: i18n.t('default.system.clipboard.success')
         })
@@ -21,7 +21,7 @@ export default function handleClipboard(text, event, showMessage) {
       clipboard.destroy()
     })
     clipboard.on('error', (e) => {
-      Message({
+      ElMessage({
         type: 'error',
         message: i18n.t('default.system.clipboard.fail')
       })

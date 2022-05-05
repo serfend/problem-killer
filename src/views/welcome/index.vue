@@ -127,7 +127,7 @@ export default {
   left: 0px;
   width: 100%;
   height: 100%;
-  background: url(~@/assets/jpg/app/reg_bg_min_blur.jpg) no-repeat;
+  background: url(~/src/assets/jpg/app/reg_bg_min_blur.jpg) no-repeat;
   background-size: cover;
 }
 </style>

@@ -123,10 +123,10 @@ export function exportMultiApplies(templete, applies) {
     }).catch(e => rej(e))
   })
 }
-
+import website from '@/utils/website'
 export function downloadUrl(url) {
   var a = document.createElement('a')
-  a.href = require('@/utils/website').getWebUrlPath(url)
+  a.href = website.getWebUrlPath(url)
   a.click()
 }
 /**

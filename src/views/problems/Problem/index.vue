@@ -9,7 +9,7 @@
 
 <script>
 import { importAllByDefault } from '@/utils/common/importAll'
-const modules = importAllByDefault(require.context('.', true, /\.vue$/))
+const modules = importAllByDefault(import.meta.globEager('./*.vue'))
 console.log(modules)
 import api from '@/api/problems'
 import { getTypeName } from './type_dispatch'

@@ -1,12 +1,14 @@
-
+export function getBaseAPI () {
+  return import.meta.env.VITE_BASE_API
+}
 /**
  * 获取全局webapi地址
  *
  * @export
  * @return {*}
  */
-export function getWebLocation() {
-  const url = process.env.VUE_APP_BASE_API
+export function getWebLocation () {
+  const url = getBaseAPI()
   // 当当前url包含http表示为完整路径，可直接引用，否则为相对路径
   return (url && url.indexOf('http') > -1) ? url : location.origin
 }
@@ -17,6 +19,12 @@ export function getWebLocation() {
  * @export
  * @param {*} path 路径
  */
-export function getWebUrlPath(path) {
+export function getWebUrlPath (path) {
   return `${getWebLocation()}/${path}`
+}
+
+export default {
+  getBaseAPI,
+  getWebLocation,
+  getWebUrlPath
 }

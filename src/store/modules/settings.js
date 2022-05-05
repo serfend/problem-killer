@@ -2,7 +2,7 @@ import variables from '@/styles/element-variables.scss'
 import defaultSettings from '@/settings'
 
 import { timeZone } from '@/api/common/static'
-import { Message } from 'element-ui'
+import { ElMessage } from 'element-plus'
 
 const {
   showSettings,
@@ -54,7 +54,7 @@ export function re_syn_time() {
     state.currentTimeDelta_right = state.currentTime_right - now
     if (Math.abs(state.currentTimeDelta_left) > 5000 * 60) {
       if (state.show_time_tip % 60 === 0) {
-        Message({
+        ElMessage({
           message: `系统时间相差过大(${state.currentTimeDelta_left}毫秒)，请调准`,
           type: 'error',
           duration: 10000

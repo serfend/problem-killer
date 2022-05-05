@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import { sha256 } from '@/utils/crypto/sha256'
-const CryptoJS = require('crypto-js')
+import CryptoJS from 'crypto-js'
 export function upload ({ data, file }) {
   const { filePath, fileName, isHidden, anonymous } = data
   var fd = new FormData()

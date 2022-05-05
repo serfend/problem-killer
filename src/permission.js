@@ -1,6 +1,5 @@
 import router from './router'
 import store from './store'
-// import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 // import { getToken } from '@/utils/auth' // get token from cookie
@@ -27,7 +26,10 @@ router.beforeEach(async (to, from, next) => {
     const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
 
     // dynamically add accessible routes
-    accessRoutes.map(i => router.addRoute(i))
+    accessRoutes.map(i => {
+      console.log('adding ' ,i)
+      router.addRoute(i)
+    })
 
     // hack method to ensure that addRoutes is complete
     // set the replace: true, so the navigation will not leave a history record
