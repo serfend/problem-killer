@@ -81,7 +81,6 @@ export default {
       const is_right = answer.length === result.length && !answer.find((i, index) => {
         return i !== result[index]
       })
-      debugger
       this.$emit('onUserSubmit', is_right)
     },
     refresh () {

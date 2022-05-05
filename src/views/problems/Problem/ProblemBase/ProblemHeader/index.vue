@@ -10,7 +10,7 @@
         <el-button size="mini" type="info" @click="practice_submit(false)">不会做</el-button>
       </span>
       <el-button v-else-if="beenSolved" type="text" @click="reset">重做</el-button>
-      <el-button v-show="!showAnswer" type="text" @click="requireShowAnswer">查看解析</el-button>
+      <el-button v-show="!showAnswer" type="text" @click="requireShowAnswer()">查看解析</el-button>
       <span v-if="combo_kill_desc" class="problem-info">{{ combo_kill_desc }}</span>
     </span>
   </span>
