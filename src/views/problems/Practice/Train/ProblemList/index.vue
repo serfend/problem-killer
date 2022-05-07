@@ -1,23 +1,39 @@
 <template>
   <div v-loading="loading" class="problem-list" style="min-height:50rem">
-    <transition-group name="slide-fade" mode="out-in" tag="ul" class="slide-container" @enter="enter" @before-enter="beforeEnter" @before-leave="beforeLeave">
-      <li v-for="(d,index) in filtered_data" v-show="!kill_problem || !d.completed" :key="d.id" :data-index="index" class="slide-fade-item">
+    <transition-group
+      name="slide-fade"
+      mode="out-in"
+      tag="ul"
+      class="slide-container"
+      @enter="enter"
+      @before-enter="beforeEnter"
+      @before-leave="beforeLeave"
+    >
+      <li
+        v-for="(d, index) in focus_data"
+        v-show="problem_show(d)"
+        :key="d.id"
+        :data-index="index"
+        class="slide-fade-item"
+      >
         <Problem
-          :ref="`p${index}`"
+          :ref="`p${d.page_index}`"
           :data="d"
-          :index="index"
+          :index="d.page_index"
           v-bind="$props"
           :completed.sync="d.completed"
-          :focus="current_focus===index"
-          @onSubmit="v=>onSubmit(d,v)"
-          @requireFocus="handle_focus({index,is_manual:true})"
+          :focus="current_focus === d.page_index"
+          @onSubmit="v => onSubmit(d, v)"
+          @requireFocus="handle_focus({ index: d.page_index, is_manual: true })"
         />
       </li>
       <li v-if="show_completed_tip" key="tip" class="slide-fade-item" style="text-align:center">
         <el-button type="text" @click="reset()">已完成本轮练习，再来一轮吧~</el-button>
         <div>
-          <el-button type="text" :disabled="!Object.keys(wrong_current).length" @click="reset_current()">复习本轮错题</el-button>
-          <el-button type="text" :disabled="!Object.keys(wrong_history).length" @click="reset_history()">再刷历史错题</el-button>
+          <el-button type="text" :disabled="!Object.keys(wrong_current).length" @click="reset_current()">复习本轮错题
+          </el-button>
+          <el-button type="text" :disabled="!Object.keys(wrong_history).length" @click="reset_history()">再刷历史错题
+          </el-button>
         </div>
       </li>
     </transition-group>
@@ -66,6 +82,33 @@ export default {
       const { status, filtered_data } = this
       if (!filtered_data || !filtered_data.length) return true
       return status.total <= status.solved
+    },
+    focus_data () {
+      const data_list = this.filtered_data
+      if (!data_list) return data_list
+      const { current_focus } = this
+      const { show_max_problem_range } = this.options
+      const valid_range = [0, data_list.length]
+      let result = []
+      // 获取有效的X个题
+      const get_problems = (step) => {
+        let pointer = current_focus
+        let counter = 0
+        const r = []
+        while (counter < show_max_problem_range) {
+          pointer += step
+          if (pointer < valid_range[0] || pointer >= valid_range[1]) break
+          const item = data_list[pointer]
+          if (!this.problem_show(item)) continue
+          r.push(item)
+          counter++
+        }
+        return r
+      }
+      result = result.concat(get_problems(-1).reverse())
+      data_list[current_focus] && result.push(data_list[current_focus])
+      result = result.concat(get_problems(1))
+      return result
     }
   },
   watch: {
@@ -91,7 +134,6 @@ export default {
       immediate: true
     },
   },
-
   mounted () {
     document.addEventListener('keyup', this.onKeyUp)
   },
@@ -99,6 +141,13 @@ export default {
     document.removeEventListener('keyup', this.onKeyUp)
   },
   methods: {
+    problem_show (d) {
+      if (!d) {
+        debugger
+        return
+      }
+      return !this.kill_problem || !d.completed
+    },
     onKeyUp (v) {
       const { ctrlKey, shiftKey, key } = v
       if (!ctrlKey || !shiftKey) return
@@ -157,10 +206,6 @@ export default {
         this.init_status(d)
         this.init_wrong_set(d)
         setTimeout(() => {
-          this.filtered_data.map((i, index) => {
-            const c = this.$refs[`p${index}`][0]
-            c && c.reset()
-          })
           this.focus_next({ new_focus: 0 })
         }, 2e2)
       }).finally(() => {
@@ -198,8 +243,8 @@ export default {
     init_problems (data) {
       let d = data || this.data || []
       return new Promise((res, rej) => {
-        d = d.map(i => {
-          const r = Object.assign({ id: i.content }, i)
+        d = d.map((i, page_index) => {
+          const r = Object.assign({ id: i.content, page_index }, i)
           r.completed = false
           return r
         })

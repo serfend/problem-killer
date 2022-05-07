@@ -35,16 +35,33 @@
     <div style="display:flex;align-items: center;">
       <el-card style="width:100%">
         <template #header>
-          <h3>题库范围选取(共{{ (problems && problems.length)||0 }}题)</h3>
+          <h3>题库范围选取(共{{ (problems && problems.length) || 0 }}题)</h3>
         </template>
         <el-tooltip content="本次训练的题目范围">
           <div>
             <span>从</span>
-            <el-input-number v-model="options.problem_range_start" size="mini" :max="options.problem_range_end" style="width:40%" />
+            <el-input-number
+              v-model="options.problem_range_start"
+              size="mini"
+              :max="options.problem_range_end"
+              style="width:40%"
+            />
             <span>到</span>
-            <el-input-number v-model="options.problem_range_end" size="mini" :min="options.problem_range_start" style="width:40%" />
+            <el-input-number
+              v-model="options.problem_range_end"
+              size="mini"
+              :min="options.problem_range_start"
+              style="width:40%"
+            />
           </div>
         </el-tooltip>
+        <el-tooltip content="页面上只显示有限题（当前题目向前和向后X个题）以降低性能消耗">
+          <div>
+            <span>显示题数量</span>
+            <el-input-number v-model="options.show_max_problem_range" size="mini" />
+          </div>
+        </el-tooltip>
+
       </el-card>
     </div>
   </el-card>
@@ -73,7 +90,8 @@ export default {
       new_problem: false,
       lighting_mode: false,
       shuffle_problem: false,
-      combo_problem: 3
+      combo_problem: 3,
+      show_max_problem_range: 3
     }
   }),
   watch: {
@@ -112,5 +130,3 @@ export default {
 }
 </script>
 
-<style>
-</style>
