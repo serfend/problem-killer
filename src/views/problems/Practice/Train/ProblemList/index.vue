@@ -24,7 +24,7 @@
           :completed.sync="d.completed"
           :focus="current_focus === d.page_index"
           @onSubmit="v => onSubmit(d, v)"
-          @requireFocus="handle_focus({ index: d.page_index, is_manual: true })"
+          @requireFocus="handle_focus({ index, is_manual: true })"
         />
       </li>
       <li v-if="show_completed_tip" key="tip" class="slide-fade-item" style="text-align:center">
@@ -143,7 +143,6 @@ export default {
   methods: {
     problem_show (d) {
       if (!d) {
-        debugger
         return
       }
       return !this.kill_problem || !d.completed
@@ -185,6 +184,7 @@ export default {
     },
     reset (data) {
       // this.filtered_data = null
+      console.log('problem list reseting')
       this.init(data)
     },
     reset_current () {
