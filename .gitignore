@@ -20,3 +20,9 @@ selenium-debug.log
 
 package-lock.json
 yarn.lock
+*.pyc
+python-simple-http-server/__pycache__
+python-simple-http-server/build
+python-simple-http-server/dist
+
+python-simple-http-server/main.spec
