@@ -9,7 +9,20 @@
 
 ## 使用方法
 
-- 方法一：node环境
+- 方法一：直接运行
+
+  - [下载最新发布的部署包](https://github.com/serfend/problem-killer/releases)，选中其中的`server.zip`文件下载
+  - 解压下载好的zip文件
+  - 双击运行`http_server.exe`，点击开始，然后使用谷歌浏览器访问 [http:\\电脑的ip地址](http://127.0.0.1)即可
+    - ![image-20220508154407390](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220508154407390.png)
+  
+- 方法二：下载静态资源包使用http服务运行
+
+  - [下载最新发布的部署包](https://github.com/serfend/problem-killer/releases)，选中其中的`static.zip`文件下载
+  - 解压下载好的zip文件
+  - 使用任意方式开启一个http服务，**例如**python在当前目录启用http服务方法 `python -m http.server 80`
+  
+- 方法三：使用[node环境](http://nodejs.cn/)部署和运行
 
   - ```shell
     npm install
@@ -18,11 +31,7 @@
     
   - 运行完成后将自动打开网站
 
-- 方法二：直接运行
-
-  - [下载最新发布的部署包](https://github.com/serfend/problem-killer/releases/tag/publish)，选中其中的zip文件下载
-  - 解压下载好的zip文件
-  - 使用任意方式开启一个http服务，**例如**python在当前目录启用http服务方法 `python -m http.server 80`
+  
 
 ## 功能
 
