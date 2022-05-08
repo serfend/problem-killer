@@ -1,11 +1,19 @@
 # problem-killer （**简单易用的刷题工具**）
+
 > 基于vue+element实现，所有数据存在浏览器端。
 >
 > 不需要数据库，不需要服务器。
 
-[![web deploy by ftp](https://github.com/serfend/problem-killer/actions/workflows/node.js.yml/badge.svg)](https://github.com/serfend/problem-killer/actions/workflows/node.js.yml)
+<p align="center">
+<a href="https://github.com/serfend/problem-killer/releases"><img alt="GitHub release" src="https://img.shields.io/github/release/serfend/problem-killer.svg?style=flat-square" /></a>
+<a href="https://github.com/serfend/problem-killer/releases"><img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/serfend/problem-killer/total.svg?style=flat-square&color=%2364ff82" /></a>
+<a href="https://github.com/serfend/problem-killer/commits"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/serfend/problem-killer.svg?style=flat-square" /></a>
+<a href="https://github.com/serfend/problem-killer/actions/workflows/node.js.yml"><img alt="GitHub Workflow Status" src="https://github.com/serfend/problem-killer/actions/workflows/node.js.yml/badge.svg" /></a>
+</p>
 
-**demo**：[test.serfend.top:10280](http://test.serfend.top:10280)
+## **在线体验**
+
+体验地址：[test.serfend.top:10280](http://test.serfend.top:10280)
 
 ## 使用方法
 
@@ -85,4 +93,14 @@
 
 ## 关于
 
-> 如果存在bug或意见，您可以在 [issue](https://github.com/serfend/problem-killer/issues) 中提出，或在 [pull request](https://github.com/serfend/problem-killer/pulls) 中提交您的代码，成为贡献者！
+如果存在bug或意见
+
+​	您可以在 [issue](https://github.com/serfend/problem-killer/issues) 中提出
+
+​	或在 [pull request](https://github.com/serfend/problem-killer/pulls) 中提交您的代码
+
+**成为贡献者！**
+
+## 状态
+
+![Alt](https://repobeats.axiom.co/api/embed/63b53df1ed2f24fae0e0a5ba87f10a785cbd5e27.svg "Repobeats analytics image")
