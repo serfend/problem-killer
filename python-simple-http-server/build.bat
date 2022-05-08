@@ -1,2 +1,1 @@
-pyinstaller.exe -F .\main.py -p ".\simple_http_server" -i logo.ico -w                        
-pause      
+pyinstaller.exe -F .\main.py -p ".\simple_http_server" -r ".\static-www" -i logo.ico -w --distpath ./dist -n http_server

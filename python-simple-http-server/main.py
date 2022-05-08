@@ -23,7 +23,7 @@ class FrmMain(QWidget):
         current_y = 10
         self.input_directory_label = QLabel('监听路径', self)
         self.input_directory_label.move(current_x, current_y)
-        self.input_directory = QLineEdit('./', self)
+        self.input_directory = QLineEdit('./static-www', self)
         self.input_directory.setGeometry(current_x_ext, current_y, 100, 25)
         current_y += 30
 
