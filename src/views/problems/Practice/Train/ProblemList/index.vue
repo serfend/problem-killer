@@ -24,7 +24,7 @@
           :completed.sync="d.completed"
           :focus="current_focus === d.page_index"
           @onSubmit="v => onSubmit(d, v)"
-          @requireFocus="handle_focus({ index, is_manual: true })"
+          @requireFocus="handle_focus({ index: d.page_index, is_manual: true })"
         />
       </li>
       <li v-if="show_completed_tip" key="tip" class="slide-fade-item" style="text-align:center">
@@ -243,12 +243,12 @@ export default {
     init_problems (data) {
       let d = data || this.data || []
       return new Promise((res, rej) => {
+        d = this.do_filter_problems(d)
         d = d.map((i, page_index) => {
           const r = Object.assign({ id: i.content, page_index }, i)
           r.completed = false
           return r
         })
-        d = this.do_filter_problems(d)
         this.filtered_data = d
         return res(d)
       })
