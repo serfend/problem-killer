@@ -51,21 +51,31 @@ export default {
     focus: {
       handler (val) {
         if (val && !this.focus_callback_set) {
-          console.log('callback is set to', this.index)
-          document.addEventListener('keyup', this.keyInput)
-          this.focus_callback_set = true
+          this.setKeyHandler(true)
           return
         } else if (!val && this.focus_callback_set) {
-          console.log('callback remove from', this.index)
-          document.removeEventListener('keyup', this.keyInput)
-          this.focus_callback_set = false
+          this.setKeyHandler(false)
           return
         }
       },
       immediate: true
     }
   },
+  destroyed() {
+    this.setKeyHandler(false)
+  },
   methods: {
+    setKeyHandler(is_set) {
+      if (is_set) {
+        console.log('callback is set to', this.index)
+        document.addEventListener('keyup', this.keyInput)
+        this.focus_callback_set = true
+        return
+      }
+      console.log('callback remove from', this.index)
+      document.removeEventListener('keyup', this.keyInput)
+      this.focus_callback_set = false
+    },
     keyInput (v) {
       const { ctrlKey, altKey, key } = v
       console.log('key input', ctrlKey, altKey, key, this.data.id)

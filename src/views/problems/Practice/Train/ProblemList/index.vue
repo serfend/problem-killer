@@ -22,9 +22,9 @@
           :index="d.page_index"
           v-bind="$props"
           :completed.sync="d.completed"
-          :focus="focus_data[current_focus] && focus_data[current_focus].id === d.id"
+          :focus="current_focus === d.id"
           @onSubmit="v => onSubmit(d, v)"
-          @requireFocus="handle_focus({ index: d.page_index, is_manual: true })"
+          @requireFocus="handle_focus({ id:d.id, is_manual: true })"
         />
       </li>
       <li v-if="show_completed_tip" key="tip" class="slide-fade-item" style="text-align:center">
@@ -55,7 +55,7 @@ export default {
   },
   data: () => ({
     loading: false,
-    current_focus: -1,
+    current_focus: null,
     filtered_data: null,
     status: {
       total: 0,
@@ -66,6 +66,12 @@ export default {
     wrong_history: {}
   }),
   computed: {
+    current_index() {
+      const { current_focus, filtered_data } = this
+      if (!current_focus || !filtered_data) return -1
+      const last_index = filtered_data.findIndex(i => i.id === current_focus)
+      return last_index
+    },
     current_problems () {
       return this.$store.state.problems.current_problems
     },
@@ -86,13 +92,13 @@ export default {
     focus_data () {
       const data_list = this.filtered_data
       if (!data_list) return data_list
-      const { current_focus } = this
+      const { current_index } = this
       const { show_max_problem_range } = this.options
       const valid_range = [0, data_list.length]
       let result = []
       // 获取有效的X个题
       const get_problems = (step) => {
-        let pointer = current_focus
+        let pointer = current_index
         let counter = 0
         const r = []
         while (counter < show_max_problem_range) {
@@ -106,7 +112,7 @@ export default {
         return r
       }
       result = result.concat(get_problems(-1).reverse())
-      data_list[current_focus] && result.push(data_list[current_focus])
+      data_list[current_index] && result.push(data_list[current_index])
       result = result.concat(get_problems(1))
       return result
     }
@@ -150,26 +156,38 @@ export default {
       if (!ctrlKey || !shiftKey) return
       const r = { is_manual: true, new_focus: 0 }
       if (key === 'ArrowUp') {
-        r.new_focus = this.current_focus - 1
+        r.focus_move_step = -1
       } else if (key === 'ArrowDown') {
-        r.new_focus = this.current_focus + 1
+        r.focus_move_step = 1
       }
       this.focus_next(r)
     },
-    handle_focus ({ index, is_manual = false }) {
-      console.log('handle_focus', index)
-      if (this.current_focus === index) return
-      if (is_manual) this.$message.success(`已选中第${index + 1}题，可以提交它了。`)
-      this.current_focus = index
+    handle_focus ({ id, is_manual = false }) {
+      console.log('handle_focus', id)
+      const { current_focus, filtered_data } = this
+      if (current_focus === id) return
+      const item = filtered_data.find(i => i.id === id)
+      if (!item) return console.warn('题目不存在')
+      if (is_manual) this.$message.success(`已选中第${item.page_index + 1}题，可以提交它了。`)
+      this.current_focus = id
     },
-    focus_next ({ new_focus, is_manual = false }) {
-      const { filtered_data, current_focus } = this
-      if (new_focus < 0) new_focus = 0
-      if (new_focus > filtered_data.length) new_focus = filtered_data.length
-      const step = current_focus > new_focus ? -1 : 1 // 方向规定
-      while (filtered_data[new_focus] && filtered_data[new_focus].completed) new_focus += step // 仅显示未隐藏的
-      console.log('focus next', new_focus)
-      this.handle_focus({ index: new_focus, is_manual })
+    focus_next ({ focus_move_step, is_manual = false }) {
+      const { filtered_data, current_index } = this
+      if (focus_move_step < 0) focus_move_step = 0
+      if (focus_move_step > filtered_data.length) focus_move_step = filtered_data.length
+      const step = Math.sign(focus_move_step) // 方向规定
+      let new_index = current_index
+      debugger
+      while (focus_move_step !== 0) {
+        new_index += step
+        if (!filtered_data[new_index]) {
+          debugger
+          return console.warn('已无题可被选中啦')
+        }
+        if (!filtered_data[new_index].completed)focus_move_step -= step
+      }
+      console.log('focus to', new_index)
+      this.handle_focus({ id: filtered_data[new_index].id, is_manual })
     },
     onSubmit (v, is_right) {
       const { status } = this
@@ -178,7 +196,7 @@ export default {
         status.wrong++
         this.wrong_current[v.id] = true
       }
-      this.focus_next({ new_focus: this.current_focus + 1 })
+      this.focus_next({ focus_move_step: 1 })
     },
     reset (data) {
       // this.filtered_data = null
@@ -204,7 +222,9 @@ export default {
         this.init_status(d)
         this.init_wrong_set(d)
         setTimeout(() => {
-          this.focus_next({ new_focus: 0 })
+          const item = this.focus_data[0]
+          if (!item) return
+          this.handle_focus({ id: item.id })
         }, 2e2)
       }).finally(() => {
         this.loading = false
