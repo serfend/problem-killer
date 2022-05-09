@@ -261,13 +261,19 @@ export default {
     init_problems (data) {
       let d = data || this.data || []
       return new Promise((res, rej) => {
+        const id_dict = {}
         d = d.map((i) => {
-          const r = Object.assign({ id: i.content }, i)
+          const r = Object.assign({ }, i) // 创建新的题目对象
+          if (!r.id)r.id = `${i.content}${JSON.stringify(i.answer)}` // 若题目没有定义id，则通过题目内容创建id
+          if (id_dict[r.id]) {
+            return null // 如果id重复，则标记题目为待删除
+          }
+          id_dict[r.id] = r // 将题目加入重复判断字典中
           r.completed = false
           return r
-        })
+        }).filter(i => i)
         d = this.do_filter_problems(d)
-        d = d.map((i, page_index) => Object.assign({ page_index }, i))
+        d = d.map((i, page_index) => Object.assign({ page_index }, i)) // 初始化题目的页面位置
         this.filtered_data = d
         return res(d)
       })
