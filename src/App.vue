@@ -4,6 +4,7 @@
       <router-view />
     </transition>
     <ClipboardMonitor />
+    <div style="margin-top:5rem">_</div>
     <Footer v-if="!$route.meta.hide_footer" />
   </div>
 </template>
