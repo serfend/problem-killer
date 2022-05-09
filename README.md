@@ -63,7 +63,7 @@
 
 ### 题库选取
 
-- ![image-20220505104446147](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104446147.png)
+- ![image-20220509130912157](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509130912157.png)
 
 ### 题库设置
 
@@ -72,24 +72,26 @@
 
 ### 刷题
 
-- 填空题
-
-  - ![image-20220505104643870](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104643870.png)
-- 混合题型
-
-  - ![image-20220505104704724](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104704724.png)
+- ![image-20220509130817277](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509130817277.png)
 
 ### 题目解析和统计
 
 > 第一次做题时候不会有统计，以后再次刷到这个题的时候则会显示该题的历史做题记录
 
-- ![image-20220505104733608](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104733608.png)
+- ![image-20220509131007779](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509131007779.png)
 
 - 刷题模式
 
   > 如果选中该模式，则将会显示`会做`和`不会做`按钮，点击按钮可以直接完成该题的训练。适合填空题这种输入答案比较慢的题快速刷题。
 
+### 移动端
 
+- 题库选取
+  - ![image-20220509131043667](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509131043667.png)
+- 刷题设置
+  - ![image-20220509131103681](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509131103681.png)
+- 刷题
+  - ![image-20220509131127594](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509131127594.png)
 
 ## 关于
 
