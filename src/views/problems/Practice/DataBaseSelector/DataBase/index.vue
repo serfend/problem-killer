@@ -2,9 +2,9 @@
   <el-card v-loading="loading" class="problem">
     <template #header>
       <div class="header">
-        <h3>{{ d.alias || '未命名的题库' }}</h3>
+        <h3>{{ d.alias || '未命名的题库' }}(代号{{ d.name||'未知' }})</h3>
         <span v-if="user_info && user_info.score" class="header-score">{{ user_info.score.average }}分</span>
-        <el-rate :value="d.star||5.0" disabled show-score text-color="#cc8200" score-template="{value}分" />
+        <el-rate :value="d.star || 5.0" disabled show-score text-color="#cc8200" score-template="{value}分" />
       </div>
     </template>
     <el-row :gutter="20">
@@ -16,11 +16,16 @@
         <div v-if="user_info">
           <div>
             <el-button type="text" @click="onHistory">历史</el-button>
-            <el-button type="text" class="btn-start" @click="onStart">开始答题</el-button>
+            <el-button type="text" class="btn-start" @click="onStart({ is_manual: true })">开始答题</el-button>
           </div>
           <el-form v-if="user_info.score">
             <el-form-item label="均分">
-              <el-progress :percentage="user_info.score.average || 0" :text-inside="true" :stroke-width="20" class="normal-progress" />
+              <el-progress
+                :percentage="user_info.score.average || 0"
+                :text-inside="true"
+                :stroke-width="20"
+                class="normal-progress"
+              />
             </el-form-item>
             <el-form-item>
               <span>满分:{{ user_info.score.total || '无' }}</span>
@@ -34,7 +39,7 @@
       </el-col>
     </el-row>
     <el-dialog :visible.sync="showHistory" append-to-body>
-      <History :data="user_info &&user_info.history" />
+      <History :data="user_info && user_info.history" />
     </el-dialog>
   </el-card>
 </template>
@@ -60,7 +65,7 @@ export default {
     }
   }),
   computed: {
-    d() {
+    d () {
       const d = this.data
       if (!d || !d.problems) { return { problems: [] } }
       return d
@@ -68,14 +73,14 @@ export default {
   },
   watch: {
     'data.name': {
-      handler(val) {
+      handler (val) {
         this.onDataChanged(val)
       },
       immediate: true
     }
   },
   methods: {
-    onDataChanged(val) {
+    onDataChanged (val) {
       this.loading = true
       const name = this.d.name
       // TODO 支持多页
@@ -87,10 +92,11 @@ export default {
           this.loading = false
         })
     },
-    onStart() {
-      this.$emit('requireStart')
+    onStart (is_manual) {
+      const database = this.d
+      this.$emit('requireStart', { database, is_manual })
     },
-    onHistory() {
+    onHistory () {
       this.showHistory = true
     }
   }
@@ -108,13 +114,16 @@ export default {
   .problem-description {
     color: #ccc;
   }
+
   .header {
-    .header-score{
-      color:#0be244;
+    .header-score {
+      color: #0be244;
     }
+
     display: flex;
     justify-content: space-between;
   }
+
   .btn-start {
     margin-left: 1rem;
   }

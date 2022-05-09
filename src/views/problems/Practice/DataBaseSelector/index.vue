@@ -3,7 +3,7 @@
     <h2>题库选取</h2>
     <el-row :gutter="20">
       <el-col v-for="d in database_filtered" :key="d.name" :lg="12" :md="24" class="database-item">
-        <DataBase :data="d" @requireStart="requireStart(d)" />
+        <DataBase :data="d" @requireStart="requireStart" />
       </el-col>
     </el-row>
     <Pagination :pagesetting.sync="page" :total-count="totalPage" />
@@ -57,11 +57,11 @@ export default {
         this.loading = false
       })
     },
-    requireStart (database) {
+    requireStart ({ database, is_manual }) {
       if (!database) return
       this.loading = true
       this.$store.dispatch('problems/select_database', { database }).then(() => {
-        this.$emit('requireStart', database)
+        this.$emit('requireStart', { database_name: database.name, is_manual })
       }).finally(() => {
         this.loading = false
       })

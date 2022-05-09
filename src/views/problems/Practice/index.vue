@@ -4,7 +4,8 @@
       <DataBaseSelector v-if="showSelector" key="2" v-model="database" @requireStart="requireStart" />
       <div v-if="!showSelector" key="1">
         <el-card class="operation-bar">
-          <el-button type="danger" style="margin-bottom:0.5rem" @click="requireStart()">返回</el-button>
+          <el-button type="danger" style="margin-bottom:0.5rem" @click="requireStart({ is_manual: true })">返回
+          </el-button>
           <el-button type="text" @click="show_tip = !show_tip">{{ show_tip ? '隐藏帮助' : '查看帮助' }}</el-button>
           <span v-if="show_tip" style="font-size:0.8rem;font-weight:600">
             <p>【Ctrl+Shift+↑】键返回上一题，【Ctrl+Shift+↓】键进入下一题</p>
@@ -34,9 +35,15 @@ export default {
     show_tip: false
   }),
   methods: {
-    requireStart (v) {
-      if (v) this.database = v.name
-      this.showSelector = !v
+    async requireStart ({ database_name, is_manual }) {
+      if (is_manual) {
+        const f = this.$confirm
+        const f_action = database_name ? f(`是否要切换题库到:${database_name}`, '切换题库') : f('是否要退出', '退出')
+        const user_select = await f_action.catch(e => {})
+        if (user_select !== 'confirm') return
+      }
+      if (database_name) this.database = database_name
+      this.showSelector = !database_name
     }
   }
 }
