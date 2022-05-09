@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <div style="margin:0.2rem">
     <transition-group name="slide-fade">
       <DataBaseSelector v-if="showSelector" key="2" v-model="database" @requireStart="requireStart" />
       <div v-if="!showSelector" key="1">
@@ -17,8 +17,7 @@
         </span>
         <Train :name="database" />
       </div>
-    </transition-group>
-  </el-card>
+    </transition-group></div>
 </template>
 
 <script>

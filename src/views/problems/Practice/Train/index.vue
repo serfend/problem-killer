@@ -2,19 +2,19 @@
   <div v-if="name" v-loading="loading">
     <div v-if="database">
       <el-row>
-        <el-col :span="16" class="train-container">
-          <div class="train">
-            <h1>题库：{{ database.alias || database.description }}</h1>
-            <ProblemList :data="database.problems" :status.sync="problem_status" />
-          </div>
-        </el-col>
-        <div style="position:fixed;right:2rem;width:30%">
+        <el-col :lg="8" :md="10" :sm="12" :xm="24">
           <ProblemOverview :data="database.problems" :focus.sync="problem_focus" />
           <el-divider />
           <TrainOptions :database="name" :problems="database.problems" />
           <el-divider />
           <TrainStatus :data="problem_status" />
-        </div>
+        </el-col>
+        <el-col :lg="16" :md="14" :sm="12" :xm="24" class="train-container">
+          <div class="train">
+            <h1>题库：{{ database.alias || database.description }}</h1>
+            <ProblemList :data="database.problems" :status.sync="problem_status" />
+          </div>
+        </el-col>
       </el-row>
     </div>
   </div>
@@ -68,7 +68,7 @@ export default {
 }
 .train {
   width: 64rem;
-  padding: 0 2rem 0 2rem;
+  padding: 0 0.2rem 0 0.2rem;
   border: 1px solid #ddd;
 }
 </style>

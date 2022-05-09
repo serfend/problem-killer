@@ -105,7 +105,6 @@ export default {
 </style>
 <style lang="scss" scoped>
 .problem {
-  width: 45rem;
   .problem-description {
     color: #ccc;
   }

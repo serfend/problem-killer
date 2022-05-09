@@ -16,8 +16,8 @@
         <el-checkbox v-for="(opt,oindex) in options" :key="oindex" :label="oindex+1" class="opt-single">{{ `${String.fromCharCode(65+oindex)}.${opt}` }}
         </el-checkbox>
       </el-checkbox-group>
-      <el-button type="text" class="pb" @click="onSubmit">提交</el-button>
     </div>
+    <el-button type="text" class="pb" @click="onSubmit">提交</el-button>
   </span>
 </template>
 
@@ -124,8 +124,5 @@ export default {
 .p-ms {
   display: flex;
   align-items: center;
-}
-.pb {
-  margin-left: 1rem;
 }
 </style>

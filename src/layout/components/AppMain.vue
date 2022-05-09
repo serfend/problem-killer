@@ -2,7 +2,7 @@
   <section v-if="isAlive" class="app-main">
     <transition name="fade-transform">
       <keep-alive :include="cachedViews">
-        <router-view :key="key" style="margin:1rem" />
+        <router-view :key="key" />
       </keep-alive>
     </transition>
   </section>
