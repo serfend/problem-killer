@@ -1,9 +1,11 @@
 <template>
   <div v-loading="loading">
     <h2>题库选取</h2>
-    <div style="display:grid;grid-template-columns: min-content min-content;grid-row-gap:4rem;grid-column-gap:4rem;">
-      <DataBase v-for="d in database_filtered" :key="d.name" :data="d" @requireStart="requireStart(d)" />
-    </div>
+    <el-row :gutter="20">
+      <el-col v-for="d in database_filtered" :key="d.name" :lg="12" :md="24" class="database-item">
+        <DataBase :data="d" @requireStart="requireStart(d)" />
+      </el-col>
+    </el-row>
     <Pagination :pagesetting.sync="page" :total-count="totalPage" />
   </div>
 </template>
@@ -33,17 +35,28 @@ export default {
       return r
     }
   },
+  watch: {
+    page: {
+      handler (v) {
+        this.refresh()
+      },
+      deep: true
+    }
+  },
   mounted () {
-    const { page } = this
-    this.loading = true
-    get_all_database_summary(page).then(data => {
-      this.database = data
-      this.totalPage = data.length
-    }).finally(() => {
-      this.loading = false
-    })
+    this.refresh()
   },
   methods: {
+    refresh() {
+      const { page } = this
+      this.loading = true
+      get_all_database_summary(page).then(data => {
+        this.database = data.items
+        this.totalPage = data.total
+      }).finally(() => {
+        this.loading = false
+      })
+    },
     requireStart (database) {
       if (!database) return
       this.loading = true
@@ -57,4 +70,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.database-item {
+  margin-top: 1rem;
+}
 </style>

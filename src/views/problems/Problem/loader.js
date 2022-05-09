@@ -3,7 +3,12 @@ export function get_all_database_summary ({ pageIndex = 0, pageSize = 5 }) {
   return new Promise((res, rej) => {
     api.get_database().then(data => {
       let databases = data.database
-      if (!databases) return res([])
+      const total = databases && databases.length
+      if (!databases) {
+        return res({
+          items: [], total: 0
+        })
+      }
       databases = databases.splice(pageIndex * pageSize, pageSize)
       const db = databases.map(i => new Promise((res, rej) => {
         const name = i.name
@@ -14,7 +19,9 @@ export function get_all_database_summary ({ pageIndex = 0, pageSize = 5 }) {
           return res(null)
         })
       }))
-      return res(Promise.all(db))
+      Promise.all(db).then((items) => {
+        return res({ total, items })
+      }).catch(e => rej(e))
     })
   })
 }
