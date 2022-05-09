@@ -142,9 +142,7 @@ export default {
   },
   methods: {
     problem_show (d) {
-      if (!d) {
-        return
-      }
+      if (!d) return
       return !this.kill_problem || !d.completed
     },
     onKeyUp (v) {
