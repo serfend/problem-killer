@@ -7,6 +7,30 @@
     {
       "name": "multi",
       "index": 0
+    },
+    {
+      "name": "blanking copy",
+      "index": 0
+    },
+    {
+      "name": "multi copy",
+      "index": 0
+    },
+    {
+      "name": "blanking copy 2",
+      "index": 0
+    },
+    {
+      "name": "multi copy 2",
+      "index": 0
+    },
+    {
+      "name": "blanking copy 3",
+      "index": 0
+    },
+    {
+      "name": "multi copy 3",
+      "index": 0
     }
   ]
 }
