@@ -86,6 +86,8 @@
 
 ### 移动端
 
+- 总览
+  - ![image-20220509131549430](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509131549430.png)
 - 题库选取
   - ![image-20220509131043667](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509131043667.png)
 - 刷题设置
