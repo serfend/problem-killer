@@ -70,6 +70,7 @@ export default {
       if (key === 'Enter') return this.onSubmit()
       const value = parseInt(v.key)
       if (!value) return
+      if (this.options.length < value) return
       this.user_input = value
     },
     onSubmit () {
