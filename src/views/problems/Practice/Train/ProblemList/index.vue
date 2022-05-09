@@ -250,12 +250,13 @@ export default {
     },
     do_filter_problems (problems) {
       const options = this.options
-      const { problem_range_start, problem_range_end, shuffle_problem, new_problem, combo_problem } = options
+      const { problem_range_start, problem_range_end, shuffle_problem, new_problem, combo_problem, problem_max_num } = options
       const dic = this.current_problems
       let r = problems.slice(problem_range_start, problem_range_end || problems.length)
       if (shuffle_problem) r = shuffle(r)
       if (combo_problem) r = r.filter(i => ((dic[i.id] && dic[i.id].combo_kill) || 0) < combo_problem)
       if (new_problem) r = r.filter(i => !(dic[i.id] && dic[i.id].total))
+      if (problem_max_num > 0)r = r.slice(0, problem_max_num)
       return r
     },
     init_problems (data) {

@@ -39,21 +39,34 @@
         </template>
         <el-tooltip content="本次训练的题目范围">
           <div>
-            <span>从</span>
-            <el-input-number
-              v-model="options.problem_range_start"
-              size="mini"
-              :max="options.problem_range_end"
-              style="width:40%"
-            />
-            <span>到</span>
-            <el-input-number
-              v-model="options.problem_range_end"
-              size="mini"
-              :min="options.problem_range_start"
-              style="width:40%"
-            />
+            <div>
+              <span>从</span>
+              <el-input-number
+                v-model="options.problem_range_start"
+                size="mini"
+                :min="1"
+                :max="options.problem_range_end"
+                style="width:40%"
+              />
+              <span>到</span>
+              <el-input-number
+                v-model="options.problem_range_end"
+                size="mini"
+                :min="options.problem_range_start"
+                style="width:40%"
+              />
+            </div>
+            <div>
+              <span>共选中题数(0表示全选)</span>
+              <el-input-number
+                v-model="options.problem_max_num"
+                size="mini"
+                :max="options.problem_range_end - options.problem_range_start"
+                style="width:40%"
+              />
+            </div>
           </div>
+
         </el-tooltip>
         <el-tooltip content="页面上只显示有限题（当前题目向前和向后X个题）以降低性能消耗">
           <div>
@@ -87,6 +100,7 @@ export default {
       kill_problem: true,
       problem_range_start: 0,
       problem_range_end: 0,
+      problem_max_num: 0,
       new_problem: false,
       lighting_mode: false,
       shuffle_problem: false,
