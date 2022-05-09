@@ -22,7 +22,7 @@
           :index="d.page_index"
           v-bind="$props"
           :completed.sync="d.completed"
-          :focus="current_focus === d.page_index"
+          :focus="focus_data[current_focus] && focus_data[current_focus].id === d.id"
           @onSubmit="v => onSubmit(d, v)"
           @requireFocus="handle_focus({ index: d.page_index, is_manual: true })"
         />
