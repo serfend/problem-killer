@@ -244,7 +244,7 @@ export default {
       const { current_problems } = this
       d.map(i => {
         const item = current_problems[i.id]
-        if (item && item.combo_kill < 3 && item.wrong) dict[i.id] = item.combo_kill
+        if (item && item.wrong) dict[i.id] = item.combo_kill
       })
       this.wrong_history = dict
     },
@@ -261,12 +261,13 @@ export default {
     init_problems (data) {
       let d = data || this.data || []
       return new Promise((res, rej) => {
-        d = this.do_filter_problems(d)
-        d = d.map((i, page_index) => {
-          const r = Object.assign({ id: i.content, page_index }, i)
+        d = d.map((i) => {
+          const r = Object.assign({ id: i.content }, i)
           r.completed = false
           return r
         })
+        d = this.do_filter_problems(d)
+        d = d.map((i, page_index) => Object.assign({ page_index }, i))
         this.filtered_data = d
         return res(d)
       })
