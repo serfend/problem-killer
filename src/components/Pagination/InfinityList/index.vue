@@ -12,6 +12,7 @@ export default {
     FlatLine: () => import('./FlatLine')
   },
   props: {
+    immediateLoad: { type: Boolean, default: true },
     pageSize: { type: Number, default: 5 },
     loadMethod: { type: Function, default: () => { } },
     loadPayload: { type: Object, default: () => ({}) },
@@ -41,6 +42,10 @@ export default {
         this.$emit('update:items', v)
       }
     }
+  },
+  mounted() {
+    if (!this.immediateLoad) return
+    this.refresh()
   },
   methods: {
     refresh () {
