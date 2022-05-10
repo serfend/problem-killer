@@ -7,6 +7,7 @@
         <navbar />
       </div>
       <app-main />
+      <div style="margin-top:5rem">_</div>
     </div>
   </div>
 </template>

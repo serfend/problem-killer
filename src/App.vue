@@ -4,17 +4,22 @@
       <router-view />
     </transition>
     <ClipboardMonitor />
-    <div style="margin-top:5rem">_</div>
-    <Footer v-if="!$route.meta.hide_footer" />
+    <Footer v-if="!$route.meta.hide_footer&&device!=='mobile'" />
   </div>
 </template>
 
 <script>
 import ClipboardMonitor from '@/views/common/ClipboardMonitor'
 import Footer from '@/views/welcome/Footer'
+import { mapState } from 'vuex'
 export default {
   name: 'App',
   components: { ClipboardMonitor, Footer },
+  computed: {
+    ...mapState({
+      device: (state) => state.app.device,
+    }),
+  },
   mounted() {
     console.log(this.$route)
     this.show_tip()
