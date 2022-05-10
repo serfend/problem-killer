@@ -12,7 +12,7 @@
         <el-col :lg="16" :md="14" :sm="12" :xm="24" class="train-container">
           <div class="train">
             <h1>题库：{{ database.alias || database.description }}</h1>
-            <ProblemList :data="database.problems" :status.sync="problem_status" />
+            <ProblemList :data="database.problems" @onStatus="v=>problem_status=v" />
           </div>
         </el-col>
       </el-row>

@@ -24,31 +24,24 @@
           :completed.sync="d.completed"
           :focus="current_focus === d.id"
           @onSubmit="v => onSubmit(d, v)"
-          @requireFocus="handle_focus({ id:d.id, is_manual: true })"
+          @requireFocus="handle_focus({ id: d.id, is_manual: true })"
         />
       </li>
-      <li v-if="show_completed_tip" key="tip" class="slide-fade-item" style="text-align:center">
-        <el-button type="text" @click="reset()">已完成本轮练习，再来一轮吧~</el-button>
-        <div>
-          <el-button type="text" :disabled="!Object.keys(wrong_current).length" @click="reset_current()">复习本轮错题
-          </el-button>
-          <el-button type="text" :disabled="!Object.keys(wrong_history).length" @click="reset_history()">再刷历史错题
-          </el-button>
-        </div>
-      </li>
     </transition-group>
+    <CompletionTip ref="completion_tip" @onStatus="v => $emit('onStatus', v)" @requireRestProblem="v => reset_by_dict(v)" />
     <el-backtop target=".train" />
   </div>
 </template>
 
 <script>
-import Velocity from 'velocity-animate'
+import { beforeLeave, enter, beforeEnter } from './animations'
 import { debounce } from '@/utils'
 import { shuffle } from '@/utils/data-handle'
 export default {
   name: 'ProblemList',
   components: {
-    Problem: () => import('@/views/problems/Problem')
+    Problem: () => import('@/views/problems/Problem'),
+    CompletionTip: () => import('./CompletionTip')
   },
   props: {
     data: { type: Array, default: () => [] }
@@ -56,17 +49,10 @@ export default {
   data: () => ({
     loading: false,
     current_focus: null,
-    filtered_data: null,
-    status: {
-      total: 0,
-      solved: 0,
-      wrong: 0
-    },
-    wrong_current: {},
-    wrong_history: {}
+    filtered_data: null
   }),
   computed: {
-    current_index() {
+    current_index () {
       const { current_focus, filtered_data } = this
       if (!current_focus || !filtered_data) return -1
       const last_index = filtered_data.findIndex(i => i.id === current_focus)
@@ -82,12 +68,7 @@ export default {
       return this.options && this.options.kill_problem
     },
     requireReset () {
-      return debounce(() => { this.reset() }, 2e2)
-    },
-    show_completed_tip () {
-      const { status, filtered_data } = this
-      if (!filtered_data || !filtered_data.length) return true
-      return status.total <= status.solved
+      return debounce(() => { this.reset({}) }, 2e2)
     },
     focus_data () {
       const data_list = this.filtered_data
@@ -131,14 +112,6 @@ export default {
       immediate: true,
       deep: true
     },
-    status: {
-      handler (val) {
-        if (!val) return
-        this.$emit('update:status', val)
-      },
-      deep: true,
-      immediate: true
-    },
   },
   mounted () {
     document.addEventListener('keyup', this.onKeyUp)
@@ -147,6 +120,9 @@ export default {
     document.removeEventListener('keyup', this.onKeyUp)
   },
   methods: {
+    beforeEnter,
+    enter,
+    beforeLeave,
     problem_show (d) {
       if (!d) return
       return !this.kill_problem || !d.completed
@@ -177,76 +153,47 @@ export default {
       if (focus_move_step > filtered_data.length) focus_move_step = filtered_data.length
       const step = Math.sign(focus_move_step) // 方向规定
       let new_index = current_index
-      debugger
       while (focus_move_step !== 0) {
         new_index += step
         if (!filtered_data[new_index]) {
-          debugger
           return console.warn('已无题可被选中啦')
         }
-        if (!filtered_data[new_index].completed)focus_move_step -= step
+        if (!filtered_data[new_index].completed) focus_move_step -= step
       }
       console.log('focus to', new_index)
       this.handle_focus({ id: filtered_data[new_index].id, is_manual })
     },
     onSubmit (v, is_right) {
-      const { status } = this
-      status.solved++
-      if (!is_right) {
-        status.wrong++
-        this.wrong_current[v.id] = true
-      }
+      this.$refs.completion_tip.update_status({ problem: v, is_right })
       this.focus_next({ focus_move_step: 1 })
     },
-    reset (data) {
+    async reset ({ data, is_manual }) {
+      if (is_manual) {
+        const result = await this.$confirm('是否要刷新题目').catch(e => { })
+        if (result !== 'confirm') return
+      }
       // this.filtered_data = null
       console.log('problem list reseting')
       this.init(data)
     },
-    reset_current () {
-      const dict = this.wrong_current
-      return this.reset_by_dict(dict)
-    },
-    reset_history () {
-      const dict = this.wrong_history
-      return this.reset_by_dict(dict)
-    },
-    reset_by_dict (dict) {
-      const data = this.filtered_data
+    reset_by_dict ({ dict, is_manual }) {
+      const data = !dict ? null : this.filtered_data
         .filter(i => dict[i.id])
-      return this.reset(data)
+      return this.reset({ data, is_manual })
     },
     init (data) {
       this.loading = true
       this.init_problems(data).then(d => {
-        this.init_status(d)
-        this.init_wrong_set(d)
+        this.$refs.completion_tip.init_status(d)
+        this.$refs.completion_tip.init_wrong_set(d)
         setTimeout(() => {
-          const item = this.focus_data[0]
+          const item = this.filtered_data[0]
           if (!item) return
           this.handle_focus({ id: item.id })
         }, 2e2)
       }).finally(() => {
         this.loading = false
       })
-    },
-    init_status (d) {
-      const status = {
-        total: d.length,
-        solved: 0,
-        wrong: 0
-      }
-      this.status = status
-    },
-    init_wrong_set (d) {
-      this.wrong_current = {}
-      const dict = {}
-      const { current_problems } = this
-      d.map(i => {
-        const item = current_problems[i.id]
-        if (item && item.wrong) dict[i.id] = item.combo_kill
-      })
-      this.wrong_history = dict
     },
     do_filter_problems (problems) {
       const options = this.options
@@ -256,7 +203,7 @@ export default {
       if (shuffle_problem) r = shuffle(r)
       if (combo_problem) r = r.filter(i => ((dic[i.id] && dic[i.id].combo_kill) || 0) < combo_problem)
       if (new_problem) r = r.filter(i => !(dic[i.id] && dic[i.id].total))
-      if (problem_max_num > 0)r = r.slice(0, problem_max_num)
+      if (problem_max_num > 0) r = r.slice(0, problem_max_num)
       return r
     },
     init_problems (data) {
@@ -264,8 +211,8 @@ export default {
       return new Promise((res, rej) => {
         const id_dict = {}
         d = d.map((i) => {
-          const r = Object.assign({ }, i) // 创建新的题目对象
-          if (!r.id)r.id = `${i.content}${JSON.stringify(i.answer)}` // 若题目没有定义id，则通过题目内容创建id
+          const r = Object.assign({}, i) // 创建新的题目对象
+          if (!r.id) r.id = `${i.content}${JSON.stringify(i.answer)}` // 若题目没有定义id，则通过题目内容创建id
           if (id_dict[r.id]) {
             return null // 如果id重复，则标记题目为待删除
           }
@@ -279,23 +226,6 @@ export default {
         return res(d)
       })
     },
-    beforeEnter (el) {
-      el.style.opacity = 0
-      el.style['margin-left'] = '5rem'
-    },
-    enter (el, done) {
-      const delay = (el.dataset.index || 0) * 150
-      setTimeout(() => {
-        Velocity(
-          el,
-          { 'margin-left': '', opacity: 1 },
-          { complete: done }
-        )
-      }, delay)
-    },
-    beforeLeave (el, done) {
-      return this.beforeEnter(el)
-    }
   }
 }
 </script>
