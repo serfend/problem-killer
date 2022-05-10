@@ -22,6 +22,7 @@
 export default {
   name: 'CompletionTip',
   data: () => ({
+    inited: false,
     status: {
       total: 0,
       solved: 0,
@@ -32,7 +33,8 @@ export default {
   }),
   computed: {
     show () {
-      return true
+      const { inited, status } = this
+      return inited && status.total <= status.solved
     },
     current_problems () {
       return this.$store.state.problems.current_problems
@@ -63,6 +65,7 @@ export default {
       this.status = status
     },
     init_wrong_set (d) {
+      this.inited = true
       this.wrong_current = {}
       const dict = {}
       const { current_problems } = this
