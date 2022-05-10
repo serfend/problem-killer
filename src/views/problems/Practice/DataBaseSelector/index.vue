@@ -1,12 +1,15 @@
 <template>
   <div v-loading="loading">
     <h2>题库选取</h2>
-    <el-row :gutter="20">
-      <el-col v-for="d in database_filtered" :key="d.name" :lg="12" :md="24" class="database-item">
-        <DataBase :data="d" @requireStart="requireStart" />
-      </el-col>
-    </el-row>
-    <Pagination :pagesetting.sync="page" :total-count="totalPage" />
+    <InfinityList :load-method="refresh" :load-payload="{}" :load-page-merge-method="merge_page_payload" :items.sync="database">
+      <template slot="items">
+        <el-row :gutter="20">
+          <el-col v-for="d in database_filtered" :key="d.name" :lg="12" :md="24" class="database-item">
+            <DataBase :data="d" @requireStart="requireStart" />
+          </el-col>
+        </el-row>
+      </template>
+    </InfinityList>
   </div>
 </template>
 
@@ -16,15 +19,11 @@ export default {
   name: 'DataBaseSelector',
   components: {
     DataBase: () => import('./DataBase'),
-    Pagination: () => import('@/components/Pagination')
+    InfinityList: () => import('@/components/Pagination/InfinityList')
   },
   data: () => ({
     loading: false,
     database: [],
-    page: {
-      pageIndex: 0,
-      pageSize: 5
-    },
     totalPage: 0
   }),
   computed: {
@@ -35,26 +34,16 @@ export default {
       return r
     }
   },
-  watch: {
-    page: {
-      handler (v) {
-        this.refresh()
-      },
-      deep: true
-    }
-  },
-  mounted () {
-    this.refresh()
-  },
   methods: {
-    refresh() {
-      const { page } = this
-      this.loading = true
-      get_all_database_summary(page).then(data => {
-        this.database = data.items
-        this.totalPage = data.total
-      }).finally(() => {
-        this.loading = false
+    merge_page_payload(payload, page) {
+      return Object.assign({ data: payload }, { pageIndex: page.index, pageSize: page.size })
+    },
+    refresh(data) {
+      return new Promise((res, rej) => {
+        get_all_database_summary(data).then(data => {
+          this.totalPage = data.total
+          res(data.items)
+        }).catch(e => rej(e))
       })
     },
     requireStart ({ database, is_manual }) {
