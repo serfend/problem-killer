@@ -15,8 +15,8 @@
       <el-radio-group v-model="user_input" @keyup.native.enter="onSubmit">
         <el-radio v-for="(opt,oindex) in options" :key="oindex" :label="oindex+1" class="opt-single">{{ `${String.fromCharCode(65+oindex)}.${opt}` }}</el-radio>
       </el-radio-group>
-      <el-button type="text" class="pb" @click="onSubmit">提交</el-button>
     </div>
+    <el-button type="text" class="pb" @click="onSubmit">提交</el-button>
   </span>
 </template>
 
