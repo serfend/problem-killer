@@ -98,7 +98,7 @@ export default {
     },
     judgeSubmit (result) {
       let answer = this.data.answer
-      if (!answer) return this.$message.warn('本题无答案')
+      if (!answer) return this.$message.warning('本题无答案')
       answer = answer.sort((a, b) => a - b)
       const is_right = answer.length === result.length && !answer.find((i, index) => {
         return i !== result[index]

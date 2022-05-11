@@ -91,7 +91,7 @@ export default {
     },
     judgeSubmit (result) {
       const answer = this.data.answer
-      if (!answer) return this.$message.warn('本题无答案')
+      if (!answer) return this.$message.warning('本题无答案')
       const is_right = Number(answer) === Number(result)
       this.$emit('onUserSubmit', is_right)
     },
