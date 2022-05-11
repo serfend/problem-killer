@@ -12,7 +12,7 @@
     >{{ b.value }}
     </component>
     <div class="p-ms">
-      <el-radio-group v-model="user_input" @keyup.native.enter="onSubmit">
+      <el-radio-group v-model="user_input" size="mini" @keyup.native.enter="onSubmit">
         <el-radio v-for="(opt,oindex) in options" :key="oindex" :label="oindex+1" class="opt-single">{{ `${String.fromCharCode(65+oindex)}.${opt}` }}</el-radio>
       </el-radio-group>
     </div>

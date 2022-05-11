@@ -12,7 +12,7 @@
     >{{ b.value }}
     </component>
     <div class="p-ms">
-      <el-checkbox-group v-model="user_input">
+      <el-checkbox-group v-model="user_input" size="mini">
         <el-checkbox v-for="(opt,oindex) in options" :key="oindex" :label="oindex+1" class="opt-single">{{ `${String.fromCharCode(65+oindex)}.${opt}` }}
         </el-checkbox>
       </el-checkbox-group>
