@@ -1,6 +1,10 @@
 {
   "database": [
     {
+      "name":"judge",
+      "index":-1
+    },
+    {
       "name": "blanking",
       "index": 0
     },
