@@ -1,15 +1,8 @@
 import api from '@/api/problems'
-export function get_all_database_summary ({ pageIndex = 0, pageSize = 5 }) {
+export function get_all_database_summary ({ pageIndex = 0, pageSize = 2 }) {
   return new Promise((res, rej) => {
-    api.get_database().then(data => {
-      let databases = data.database
-      const total = databases && databases.length
-      if (!databases) {
-        return res({
-          items: [], total: 0
-        })
-      }
-      databases = databases.splice(pageIndex * pageSize, pageSize)
+    api.get_database({ pageIndex, pageSize }).then(data => {
+      const { databases, total } = data
       const db = databases.map(i => new Promise((res, rej) => {
         const name = i.name
         api.get_database_detail(name).then(data => {

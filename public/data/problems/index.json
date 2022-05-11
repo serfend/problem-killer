@@ -1,8 +1,12 @@
 {
   "database": [
     {
-      "name":"judge",
-      "index":-1
+      "name": "judge",
+      "index": -10
+    },
+    {
+      "name": "long_ans",
+      "index": -5
     },
     {
       "name": "blanking",

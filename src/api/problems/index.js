@@ -1,7 +1,16 @@
 import request from '@/utils/request'
 const api = '/data/problems/'
-export function get_database () {
-  return request.get(`${api}index.json`, {})
+export function get_database ({ pageIndex, pageSize }) {
+  return new Promise((res, rej) => {
+    request.get(`${api}index.json`, {}).then(data => {
+      const databases = data.database
+      const total = databases && databases.length
+      return res({
+        databases: (databases && databases.splice(pageIndex * pageSize, pageSize)) || [],
+        total
+      })
+    }).catch(e => rej(e))
+  })
 }
 const r = {
   get_database,
