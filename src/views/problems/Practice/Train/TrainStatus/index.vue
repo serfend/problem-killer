@@ -21,7 +21,7 @@
         <span>{{ time_spent || '未开始' }}</span>
       </el-form-item>
     </el-form>
-    <el-dialog v-if="showDuplicated" :visible="showDuplicated">
+    <el-dialog v-if="showDuplicated" :visible.sync="showDuplicated">
       <el-table :data="duplicated">
         <el-table-column label="重复次数">
           <template slot-scope="{row}">
