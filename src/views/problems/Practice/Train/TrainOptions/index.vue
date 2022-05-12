@@ -16,6 +16,11 @@
           <el-switch v-model="options.shuffle_problem" />
         </el-tooltip>
       </el-form-item>
+      <el-form-item label="随机选项">
+        <el-tooltip content="将题目的每个待选项打乱">
+          <el-switch v-model="options.shuffle_problem_options" />
+        </el-tooltip>
+      </el-form-item>
       <el-form-item label="做新题">
         <el-tooltip content="只做没做过的题">
           <el-switch v-model="options.new_problem" />
@@ -104,6 +109,7 @@ export default {
       new_problem: false,
       lighting_mode: false,
       shuffle_problem: false,
+      shuffle_problem_options: false,
       combo_problem: 3,
       show_max_problem_range: 3
     }
