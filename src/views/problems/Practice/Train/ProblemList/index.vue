@@ -201,14 +201,31 @@ export default {
       const dic = this.current_problems
       let r = problems.slice(problem_range_start - 1, problem_range_end || problems.length)
       if (shuffle_problem) r = shuffle(r)
-      if (shuffle_problem_options) this.do_shuffle_options(r)
+
+      this.do_shuffle_options(r, shuffle_problem_options)
+      this.do_attach_analysis(r)
       if (combo_problem) r = r.filter(i => ((dic[i.id] && dic[i.id].combo_kill) || 0) < combo_problem)
       if (new_problem) r = r.filter(i => !(dic[i.id] && dic[i.id].total))
       if (problem_max_num > 0) r = r.slice(0, problem_max_num)
       return r
     },
-    do_shuffle_options(r) {
-      const convert = (map_to, options, answers, analysis) => {
+    do_attach_analysis(r) {
+      r.map(i => {
+        let { analysis } = i
+        if (!analysis) {
+          i.analysis = '暂无题解'
+          return
+        }
+        if (i.option_map) {
+          i.option_map.map((i, index) => {
+            analysis = analysis.replace(`{{OPT:${i + 1}}}`, `[${index + 1}]`)
+          })
+          i.analysis = analysis
+        }
+      })
+    },
+    do_shuffle_options(r, is_to_shuffle) {
+      const convert = (map_to, options, answers) => {
         const new_options = options.map((i, index) => {
           const new_index = map_to[index]
           return options[new_index]
@@ -224,10 +241,16 @@ export default {
       r.map(i => {
         if (!i.options) return
         const { options, answer, analysis } = i
-        const option_map = shuffle(new Array(options.length).fill(0).map((i, index) => index))
-        const r = convert(option_map, options, answer, analysis)
-        i.options = r[0]
-        i.answer = r[1]
+
+        let option_map = new Array(options.length).fill(0).map((i, index) => index)
+        // 如果需要打乱选项
+        if (is_to_shuffle) {
+          option_map = shuffle(option_map)
+          const r = convert(option_map, options, answer, analysis)
+          i.options = r[0]
+          i.answer = r[1]
+        }
+        i.option_map = option_map
       })
     },
     init_problems (data) {
