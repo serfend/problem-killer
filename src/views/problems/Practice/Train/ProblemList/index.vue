@@ -197,14 +197,38 @@ export default {
     },
     do_filter_problems (problems) {
       const options = this.options
-      const { problem_range_start, problem_range_end, shuffle_problem, new_problem, combo_problem, problem_max_num } = options
+      const { problem_range_start, problem_range_end, shuffle_problem, shuffle_problem_options, new_problem, combo_problem, problem_max_num } = options
       const dic = this.current_problems
       let r = problems.slice(problem_range_start - 1, problem_range_end || problems.length)
       if (shuffle_problem) r = shuffle(r)
+      if (shuffle_problem_options) this.do_shuffle_options(r)
       if (combo_problem) r = r.filter(i => ((dic[i.id] && dic[i.id].combo_kill) || 0) < combo_problem)
       if (new_problem) r = r.filter(i => !(dic[i.id] && dic[i.id].total))
       if (problem_max_num > 0) r = r.slice(0, problem_max_num)
       return r
+    },
+    do_shuffle_options(r) {
+      const convert = (map_to, options, answers, analysis) => {
+        const new_options = options.map((i, index) => {
+          const new_index = map_to[index]
+          return options[new_index]
+        })
+        const map_to_dict = {}
+        map_to.map((i, index) => {
+          map_to_dict[i] = index
+        })
+        const single_map = i => map_to_dict[i - 1] + 1
+        const new_answers = answers.length ? answers.map(single_map).sort((a, b) => a - b) : single_map(answers)
+        return [new_options, new_answers]
+      }
+      r.map(i => {
+        if (!i.options) return
+        const { options, answer, analysis } = i
+        const option_map = shuffle(new Array(options.length).fill(0).map((i, index) => index))
+        const r = convert(option_map, options, answer, analysis)
+        i.options = r[0]
+        i.answer = r[1]
+      })
     },
     init_problems (data) {
       let d = data || this.data || []
