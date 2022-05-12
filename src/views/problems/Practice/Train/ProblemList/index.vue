@@ -28,7 +28,11 @@
         />
       </li>
     </transition-group>
-    <CompletionTip ref="completion_tip" @onStatus="v => $emit('onStatus', v)" @requireRestProblem="v => reset_by_dict(v)" />
+    <CompletionTip
+      ref="completion_tip"
+      @onStatus="v => $emit('onStatus', v)"
+      @requireRestProblem="v => reset_by_dict(v)"
+    />
     <el-backtop target=".train" />
   </div>
 </template>
@@ -185,9 +189,9 @@ export default {
     },
     init (data) {
       this.loading = true
-      this.init_problems(data).then(d => {
-        this.$refs.completion_tip.init_status(d)
-        this.$refs.completion_tip.init_wrong_set(d)
+      this.init_problems(data).then(({ prblems, duplicated }) => {
+        this.$refs.completion_tip.init_status({ prblems, duplicated })
+        this.$refs.completion_tip.init_wrong_set(prblems)
         setTimeout(() => {
           const item = this.filtered_data[0]
           if (!item) return
@@ -211,7 +215,7 @@ export default {
       if (problem_max_num > 0) r = r.slice(0, problem_max_num)
       return r
     },
-    do_attach_analysis(r) {
+    do_attach_analysis (r) {
       r.map(i => {
         let { analysis } = i
         if (!analysis) {
@@ -226,7 +230,7 @@ export default {
         }
       })
     },
-    do_shuffle_options(r, is_to_shuffle) {
+    do_shuffle_options (r, is_to_shuffle) {
       const convert = (map_to, options, answers) => {
         const new_options = options.map((i, index) => {
           const new_index = map_to[index]
@@ -257,23 +261,24 @@ export default {
       })
     },
     init_problems (data) {
-      let d = data || this.data || []
+      let prblems = data || this.data || []
       return new Promise((res, rej) => {
         const id_dict = {}
-        d = d.map((i) => {
+        prblems = prblems.map((i) => {
           const r = Object.assign({}, i) // 创建新的题目对象
           if (!r.id) r.id = `${i.content}${JSON.stringify(i.answer)}` // 若题目没有定义id，则通过题目内容创建id
           if (id_dict[r.id]) {
+            id_dict[r.id]++
             return null // 如果id重复，则标记题目为待删除
           }
-          id_dict[r.id] = r // 将题目加入重复判断字典中
+          id_dict[r.id] = 1 // 将题目加入重复判断字典中
           r.completed = false
           return r
         }).filter(i => i)
-        d = this.do_filter_problems(d)
-        d = d.map((i, page_index) => Object.assign({ page_index }, i)) // 初始化题目的页面位置
-        this.filtered_data = d
-        return res(d)
+        prblems = this.do_filter_problems(prblems)
+        prblems = prblems.map((i, page_index) => Object.assign({ page_index }, i)) // 初始化题目的页面位置
+        this.filtered_data = prblems
+        return res({ prblems, duplicated: id_dict })
       })
     },
   }

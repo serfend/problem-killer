@@ -2,7 +2,11 @@
   <el-card>
     <el-form v-if="data" label-width="5rem">
       <el-form-item label="总题数">
-        <span>{{ data.total }}</span>
+        <span>
+          <span>{{ data.total }}</span>
+          <el-button v-if="duplicated.length" type="text" @click="showDuplicated = !showDuplicated">({{ duplicated.length
+          }}题重复)</el-button>
+        </span>
       </el-form-item>
       <el-form-item label="已完成">
         <span>{{ data.solved }}</span>
@@ -14,9 +18,23 @@
         <span>{{ parseTime(time_start) }}</span>
       </el-form-item>
       <el-form-item label="已耗时">
-        <span>{{ time_spent||'未开始' }}</span>
+        <span>{{ time_spent || '未开始' }}</span>
       </el-form-item>
     </el-form>
+    <el-dialog v-if="showDuplicated" :visible="showDuplicated">
+      <el-table :data="duplicated">
+        <el-table-column label="重复次数">
+          <template slot-scope="{row}">
+            <span>{{ data.duplicated[row] - 1 }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="题目内容">
+          <template slot-scope="{row}">
+            <span>{{ row }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -30,8 +48,18 @@ export default {
   data: () => ({
     time_start: new Date(),
     time_spent: null,
-    timer: null
+    timer: null,
+    showDuplicated: false
   }),
+  computed: {
+    duplicated () {
+      if (!this.data) return []
+      const { data } = this
+      const { duplicated } = data
+      if (!duplicated) return []
+      return Object.keys(duplicated).filter(i => data.duplicated[i] > 1)
+    }
+  },
   mounted () {
     this.timer = setInterval(() => {
       const t = new Date()

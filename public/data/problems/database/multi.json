@@ -44,6 +44,16 @@
       "analysis": "除了{{OPT:4}}是2+2=4，其他的都是2"
     },
     {
+      "content": "这是一道判断题（重复测试）",
+      "answer": true,
+      "analysis": "明显是对的"
+    },
+    {
+      "content": "这是一道判断题（重复测试）",
+      "answer": true,
+      "analysis": "明显是对的"
+    },
+    {
       "content": "M单选题，2+2=",
       "options": ["2", "4-2", "4/2", "1+3", "sqrt(4)"],
       "answer": 4,

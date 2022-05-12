@@ -56,11 +56,12 @@ export default {
     updatedb ({ db, is_manual = true }) {
       this.$emit('requireRestProblem', { is_manual, db })
     },
-    init_status (d) {
+    init_status ({ prblems, duplicated }) {
       const status = {
-        total: d.length,
+        total: prblems.length,
         solved: 0,
-        wrong: 0
+        wrong: 0,
+        duplicated
       }
       this.status = status
     },
