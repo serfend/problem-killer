@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { build_input, build_span } from '../loader'
+import { build_content } from '../loader'
 export default {
   label: '填空',
   name: 'ProblemBlanking',
@@ -84,25 +84,14 @@ export default {
       this.$emit('onUserSubmit', is_right)
     },
     refresh (v) {
-      if (!v) {
+      const content = this.data && this.data.content
+      if (!content) {
         this.blanking = null
         return
       }
-      const { content } = v
-      const c = (content && `${content}。`) || null
-      const b = c && c.split('{{ANS}}') || []
-      if (!b.length) {
-        this.blanking = null
-        return
-      }
-      const r = []
-      this.user_input = new Array(b.length - 1)
-      b.map((v, index) => {
-        r.push(build_span(index, v))
-        r.push(build_input(index, v))
-      })
-      r.pop()
-      this.blanking = r
+      const r = build_content(content)
+      this.user_input = new Array(r.count)
+      this.blanking = r.items
     }
   }
 }

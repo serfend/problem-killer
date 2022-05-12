@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { build_span } from '../loader'
+import { build_content } from '../loader'
 export default {
   label: '单项选择',
   name: 'ProblemSingleSelect',
@@ -42,7 +42,7 @@ export default {
   watch: {
     'data.id': {
       handler (val) {
-        this.refresh()
+        this.refresh(val)
       },
       immediate: true
     },
@@ -95,15 +95,15 @@ export default {
       const is_right = Number(answer) === Number(result)
       this.$emit('onUserSubmit', is_right)
     },
-    refresh () {
+    refresh (v) {
       const { data } = this
-      const { content, options } = data
-      this.user_input = 0
+      if (!data) return
+      const { options, content } = data
+      if (!content) return
       this.options = options
-      const c = (content && `${content}。`) || null
-      const r = []
-      r.push(build_span(0, c))
-      this.blanking = r
+      this.user_input = []
+      const r = build_content(content)
+      this.blanking = r.items
     }
   }
 }

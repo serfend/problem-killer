@@ -23,6 +23,22 @@ export function build_span(i, value) {
   r.style = { 'font-size': '1.2rem' }
   return r
 }
+export function append_endchar(content, end_char = '。') {
+  const end = content[content.length - 1]
+  if (end !== end_char)content += end_char
+  return content
+}
+export function build_content(content) {
+  if (!content) return { items: [], count: 0 }
+  const r = []
+  content = append_endchar(content)
+  const items = content.split('{{ANS}}') || []
+  items.map((v, index) => {
+    r.push(build_span(index, v))
+    if (index < items.length - 1) r.push(build_input(index, v))
+  })
+  return { items: r, count: items.length - 1 }
+}
 const default_attrs = {
   size: 'mini',
 }

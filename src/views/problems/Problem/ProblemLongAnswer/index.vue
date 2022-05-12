@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { build_span } from '../loader'
+import { build_content } from '../loader'
 export default {
   label: '判断',
   name: 'ProblemJudge',
@@ -33,14 +33,14 @@ export default {
   },
   data: () => ({
     blanking: null,
-    user_input: 0,
+    user_input: '',
     options: [],
     focus_callback_set: null
   }),
   watch: {
     'data.id': {
       handler (val) {
-        this.refresh()
+        this.refresh(val)
       },
       immediate: true
     },
@@ -92,15 +92,15 @@ export default {
       const is_right = answer === result
       this.$emit('onUserSubmit', is_right)
     },
-    refresh () {
-      const { data } = this
-      const { content, options } = data
-      this.user_input = 0
-      this.options = options
-      const c = (content && `${content}。`) || null
-      const r = []
-      r.push(build_span(0, c))
-      this.blanking = r
+    refresh (v) {
+      const content = this.data && this.data.content
+      if (!content) {
+        this.blanking = null
+        return
+      }
+      const r = build_content(content)
+      this.user_input = ''
+      this.blanking = r.items
     }
   }
 }
