@@ -172,9 +172,11 @@ export default {
         const result = await this.$confirm('是否要刷新题目').catch(e => { })
         if (result !== 'confirm') return
       }
-      // this.filtered_data = null
+      this.filtered_data = null
       console.log('problem list reseting')
-      this.init(data)
+      this.$nextTick(() => {
+        this.init(data)
+      })
     },
     reset_by_dict ({ dict, is_manual }) {
       const data = !dict ? null : this.filtered_data
@@ -245,6 +247,7 @@ export default {
         let option_map = new Array(options.length).fill(0).map((i, index) => index)
         // 如果需要打乱选项
         if (is_to_shuffle) {
+          console.log('start shuffle options')
           option_map = shuffle(option_map)
           const r = convert(option_map, options, answer, analysis)
           i.options = r[0]

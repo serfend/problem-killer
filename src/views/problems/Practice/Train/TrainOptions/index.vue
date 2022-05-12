@@ -1,5 +1,11 @@
 <template>
   <el-card v-loading="loading">
+    <template #header>
+      <span>
+        <span>刷题设置</span>
+        <span style="font-size:0.5rem">（更改设置将重新加载题目）</span>
+      </span>
+    </template>
     <el-form v-if="options" label-width="5rem" inline>
       <el-form-item label="刷题模式">
         <el-tooltip content="刷题模式将无需填入答案，直接选会或不会即可，更高效">
