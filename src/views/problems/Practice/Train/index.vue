@@ -1,19 +1,19 @@
 <template>
   <div v-if="name" v-loading="loading">
     <div v-if="database">
+      <el-card class="right-hover-panel flashing-layout-right">
+        <span>
+          <slot name="sidebar" />
+          <el-button type="text" @click="show_options = !show_options">查看详情</el-button>
+        </span>
+      </el-card>
       <div class="train-container">
         <div class="train">
           <h1>题库：{{ database.alias || database.description }}</h1>
           <ProblemList :data="database.problems" @onStatus="v => problem_status = v" />
         </div>
       </div>
-      <el-card class="operation-bar">
-        <span>
-          <slot name="sidebar" />
-          <el-button type="text" @click="show_options=!show_options">查看详情</el-button>
-        </span>
-      </el-card>
-      <el-dialog :visible.sync="show_options" :width="device==='mobile'?'100%':'50%'" append-to-body>
+      <el-dialog :visible.sync="show_options" :width="device === 'mobile' ? '100%' : '50%'" append-to-body>
         <template #title>
           <h3>设置选项</h3>
         </template>
