@@ -247,8 +247,21 @@ export default {
       }
       r.map(i => {
         if (!i.options) return
-        const { options, answer, analysis } = i
-
+        const { options } = i
+        let { answer, analysis } = i
+        const check_answer = a => a > 0 && a <= options.length
+        if (answer.length) {
+          // 多选题判断选项合法性
+          answer = answer.filter(check_answer)
+          if (!answer.length) {
+            answer = [1] // 否则设置答案为A
+            analysis = `(该题答案存在问题)${analysis}`
+          }
+        } else if (!check_answer(answer)) {
+          // 单选题判断选项合法性
+          answer = 1 // 否则将答案设置为A
+          analysis = `(该题答案存在问题)${analysis}`
+        }
         let option_map = new Array(options.length).fill(0).map((i, index) => index)
         // 如果需要打乱选项
         if (is_to_shuffle) {
