@@ -30,6 +30,9 @@ export default {
     showSelector: true,
     show_tip: false
   }),
+  mounted() {
+    this.$store.dispatch('problems/update_preferences')
+  },
   methods: {
     async requireStart ({ database_name, is_manual }) {
       if (is_manual) {

@@ -14,7 +14,13 @@
     <div class="p-ms">
       <el-input v-model="user_input" type="textarea" autosize />
     </div>
-    <el-button type="text" @click="onSubmit">提交</el-button>
+    <el-button
+      :type="btn_submit.btn_types || 'text'"
+      :size="btn_submit.btn_sizes || 'mini'"
+      class="pb"
+      @click="onSubmit"
+    >提交
+    </el-button>
   </span>
 </template>
 
@@ -29,7 +35,8 @@ export default {
   props: {
     data: { type: Object, default: null },
     focus: { type: Boolean, default: false },
-    index: { type: Number, default: null }
+    index: { type: Number, default: null },
+    preferences: { type: Object, default: null }
   },
   data: () => ({
     blanking: null,
@@ -37,6 +44,11 @@ export default {
     options: [],
     focus_callback_set: null
   }),
+  computed: {
+    btn_submit () {
+      return (this.preferences && this.preferences.btn_submit) || {}
+    },
+  },
   watch: {
     'data.id': {
       handler (val) {
@@ -78,7 +90,7 @@ export default {
       const v = this.user_input
       return this.judgeSubmit(v)
     },
-    handleClick() {
+    handleClick () {
       console.log(1)
     },
     judgeSubmit (result) {

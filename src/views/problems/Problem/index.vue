@@ -24,7 +24,8 @@ export default {
     data: { type: Object, default: null },
     focus: { type: Boolean, default: false },
     index: { type: Number, default: null },
-    options: { type: Object, default: null }
+    options: { type: Object, default: null },
+    preferences: { type: Object, default: null }
   },
   data: () => ({
     ProblemType: api.ProblemType,

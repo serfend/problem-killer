@@ -61,7 +61,9 @@ export default {
     options: {
       handler(val) {
         if (!val) return
-        user_preferences({ val })
+        user_preferences({ val }).then(() => {
+          this.$store.dispatch('problems/update_preferences')
+        })
       },
       deep: true
     }
@@ -73,7 +75,6 @@ export default {
     refresh() {
       this.loading = true
       user_preferences({}).then(data => {
-        debugger
         this.options = Object.assign(this.options, data)
       }).finally(() => {
         this.loading = false

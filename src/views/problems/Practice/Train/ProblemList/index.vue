@@ -23,6 +23,7 @@
           v-bind="$props"
           :completed.sync="d.completed"
           :focus="current_focus === d.id"
+          :preferences="preferences"
           @onSubmit="v => onSubmit(d, v)"
           @requireFocus="handle_focus({ id: d.id, is_manual: true })"
         />
@@ -57,6 +58,11 @@ export default {
     total_data_count: 0
   }),
   computed: {
+    preferences() {
+      const p = this.$store.state.problems.preferences
+      const practice = p && p.practice
+      return practice
+    },
     current_index () {
       const { current_focus, filtered_data } = this
       if (!current_focus || !filtered_data) return -1

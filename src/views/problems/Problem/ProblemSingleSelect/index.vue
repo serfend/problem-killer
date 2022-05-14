@@ -2,7 +2,7 @@
   <span>
     <component
       :is="b.type"
-      v-for="(b,bindex) in blanking"
+      v-for="(b, bindex) in blanking"
       :ref="`${b.type}${b.i}`"
       :key="bindex"
       v-model="user_input[b.i]"
@@ -13,10 +13,13 @@
     </component>
     <div class="p-ms">
       <el-radio-group v-model="user_input" size="mini" @keyup.native.enter="onSubmit">
-        <el-radio v-for="(opt,oindex) in options" :key="oindex" :label="oindex+1" class="opt-single">{{ `${String.fromCharCode(65+oindex)}.${opt}` }}</el-radio>
+        <el-radio v-for="(opt, oindex) in options" :key="oindex" :label="oindex + 1" class="opt-single">{{
+          `${String.fromCharCode(65 + oindex)}.${opt}`
+        }}</el-radio>
       </el-radio-group>
     </div>
-    <el-button type="text" class="pb" @click="onSubmit">提交</el-button>
+    <el-button :type="btn_submit.btn_types || 'text'" :size="btn_submit.btn_sizes || 'mini'" class="pb" @click="onSubmit">提交
+    </el-button>
   </span>
 </template>
 
@@ -31,7 +34,8 @@ export default {
   props: {
     data: { type: Object, default: null },
     focus: { type: Boolean, default: false },
-    index: { type: Number, default: null }
+    index: { type: Number, default: null },
+    preferences: { type: Object, default: null }
   },
   data: () => ({
     blanking: null,
@@ -39,6 +43,12 @@ export default {
     options: [],
     focus_callback_set: null
   }),
+  computed: {
+
+    btn_submit () {
+      return (this.preferences && this.preferences.btn_submit) || {}
+    },
+  },
   watch: {
     'data.id': {
       handler (val) {
@@ -54,11 +64,11 @@ export default {
       immediate: true
     }
   },
-  destroyed() {
+  destroyed () {
     this.setKeyHandler(false)
   },
   methods: {
-    setKeyHandler(is_set) {
+    setKeyHandler (is_set) {
       if (is_set && !this.focus_callback_set) {
         console.log('callback is set to', this.index)
         document.addEventListener('keyup', this.keyInput)
@@ -113,10 +123,12 @@ export default {
 .content-container {
   display: flex;
 }
+
 .p-ms {
   display: flex;
   align-items: center;
 }
+
 .pb {
   margin-left: 1rem;
 }

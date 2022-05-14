@@ -2,13 +2,15 @@
 const state = {
   current_database: null,
   current_problems: null,
-  current_options: null
+  current_options: null,
+  preferences: null
 }
 
 const mutations = {
 
 }
 import api from '@/api/problems'
+import api_preferences from '@/api/problems/preferences'
 const actions = {
   select_database({ commit, state }, { database }) {
     return new Promise((res, rej) => {
@@ -22,9 +24,14 @@ const actions = {
         }).catch(e => rej(e))
     })
   },
-  update_database({ commit, statue, dispatch }) {
+  update_database({ commit, state, dispatch }) {
     if (!state.current_database) return
     return dispatch('select_database', { database: state.current_database })
+  },
+  update_preferences({ state }) {
+    return api_preferences.user_preferences({}).then(data => {
+      state.preferences = data
+    })
   }
 }
 

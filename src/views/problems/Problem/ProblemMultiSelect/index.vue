@@ -17,7 +17,7 @@
         </el-checkbox>
       </el-checkbox-group>
     </div>
-    <el-button type="text" class="pb" @click="onSubmit">提交</el-button>
+    <el-button :type="btn_submit.btn_types||'text'" :size="btn_submit.btn_sizes||'mini'" class="pb" @click="onSubmit">提交</el-button>
   </span>
 </template>
 
@@ -32,7 +32,8 @@ export default {
   props: {
     data: { type: Object, default: null },
     focus: { type: Boolean, default: false },
-    index: { type: Number, default: null }
+    index: { type: Number, default: null },
+    preferences: { type: Object, default: null }
   },
   data: () => ({
     blanking: null,
@@ -41,6 +42,9 @@ export default {
     focus_callback_set: null
   }),
   computed: {
+    btn_submit() {
+      return (this.preferences && this.preferences.btn_submit) || {}
+    },
     user_options () {
       return this.$store.state.problems.current_options
     },
