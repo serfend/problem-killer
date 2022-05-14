@@ -3,12 +3,15 @@
     <transition-group name="slide-fade">
       <DataBaseSelector v-if="showSelector" key="2" v-model="database" @requireStart="requireStart" />
       <div v-if="!showSelector" key="1">
-        <el-card class="operation-bar">
-          <el-button type="danger" style="margin-bottom:0.5rem" @click="requireStart({ is_manual: true })">返回
-          </el-button>
-          <PracticeTip :show-tip.sync="show_tip" />
-        </el-card>
-        <Train :name="database" />
+        <Train :name="database">
+          <template #sidebar>
+            <span>
+              <el-button type="danger" style="margin-bottom:0.5rem" @click="requireStart({ is_manual: true })">返回
+              </el-button>
+              <PracticeTip :show-tip.sync="show_tip" />
+            </span>
+          </template>
+        </Train>
       </div>
     </transition-group>
   </div>
@@ -42,16 +45,4 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.operation-bar {
-  position: fixed;
-  z-index: 2;
-  transition: all ease 0.5s;
-  opacity: 0.5;
-  right: -8rem;
-
-  &:hover {
-    opacity: 1;
-    right: 0;
-  }
-}
 </style>

@@ -1,26 +1,40 @@
 <template>
   <div v-if="name" v-loading="loading">
     <div v-if="database">
-      <el-row>
-        <el-col :lg="8" :md="10" :sm="12" :xm="24">
-          <ProblemOverview :data="database.problems" :focus.sync="problem_focus" />
-          <el-divider />
-          <TrainOptions :database="name" :problems="database.problems" />
-          <el-divider />
-          <TrainStatus :data="problem_status" />
-        </el-col>
-        <el-col :lg="16" :md="14" :sm="12" :xm="24" class="train-container">
-          <div class="train">
-            <h1>题库：{{ database.alias || database.description }}</h1>
-            <ProblemList :data="database.problems" @onStatus="v=>problem_status=v" />
-          </div>
-        </el-col>
-      </el-row>
+      <div class="train-container">
+        <div class="train">
+          <h1>题库：{{ database.alias || database.description }}</h1>
+          <ProblemList :data="database.problems" @onStatus="v => problem_status = v" />
+        </div>
+      </div>
+      <el-card class="operation-bar">
+        <span>
+          <slot name="sidebar" />
+          <el-button type="text" @click="show_options=!show_options">查看详情</el-button>
+        </span>
+      </el-card>
+      <el-dialog :visible.sync="show_options" :width="device==='mobile'?'100%':'50%'" append-to-body>
+        <template #title>
+          <h3>设置选项</h3>
+        </template>
+        <el-collapse v-model="current_option_focus" accordion>
+          <el-collapse-item title="题目选取" name="1">
+            <ProblemOverview :data="database.problems" :focus.sync="problem_focus" />
+          </el-collapse-item>
+          <el-collapse-item title="刷题设置" name="2">
+            <TrainOptions :database="name" :problems="database.problems" @change="onOptionsChanged" />
+          </el-collapse-item>
+          <el-collapse-item title="刷题统计" name="3">
+            <TrainStatus :data="problem_status" />
+          </el-collapse-item>
+        </el-collapse>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import api from '@/api/problems'
 export default {
   name: 'Train',
@@ -37,8 +51,15 @@ export default {
     database: null,
     loading: false,
     problem_focus: null,
-    problem_status: null
+    problem_status: null,
+    show_options: false,
+    current_option_focus: '1'
   }),
+  computed: {
+    ...mapState({
+      device: (state) => state.app.device,
+    })
+  },
   watch: {
     name: {
       handler (val) {
@@ -48,6 +69,11 @@ export default {
     }
   },
   methods: {
+    onOptionsChanged () {
+    },
+    showOption ({ is_show }) {
+      this.show_options = !!is_show
+    },
     refresh () {
       const { name } = this
       if (!name) return
@@ -66,9 +92,26 @@ export default {
   display: flex;
   justify-content: center;
 }
+
 .train {
   width: 64rem;
   padding: 0 0.2rem 0 0.2rem;
   border: 1px solid #ddd;
+}
+
+.operation-bar {
+  position: fixed;
+  z-index: 2;
+  transition: all ease 0.5s;
+  transition-delay: 5s;
+  opacity: 0.5;
+  top: 10vh;
+  right: -8rem;
+
+  &:hover {
+    transition-delay: 0s;
+    opacity: 1;
+    right: 0;
+  }
 }
 </style>
