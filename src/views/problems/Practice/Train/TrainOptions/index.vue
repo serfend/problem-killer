@@ -17,6 +17,11 @@
           <el-switch v-model="options.kill_problem" />
         </el-tooltip>
       </el-form-item>
+      <el-form-item label="开启全选">
+        <el-tooltip content="选择题提供一键全选按钮">
+          <el-switch v-model="options.enable_select_all" />
+        </el-tooltip>
+      </el-form-item>
       <el-form-item label="随机题序">
         <el-tooltip content="将题目的顺序打乱">
           <el-switch v-model="options.shuffle_problem" />
@@ -109,6 +114,7 @@ export default {
     options: {
       practice_mode: true,
       kill_problem: true,
+      enable_select_all: false,
       problem_range_start: 0,
       problem_range_end: 0,
       problem_max_num: 0,

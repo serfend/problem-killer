@@ -13,7 +13,7 @@
     </component>
     <div class="p-ms">
       <el-checkbox-group v-model="user_input" size="mini">
-        <el-checkbox v-for="(opt,oindex) in options" :key="oindex" :label="oindex+1" class="opt-single">{{ `${String.fromCharCode(65+oindex)}.${opt}` }}
+        <el-checkbox v-for="(opt,oindex) in filtered_options" :key="oindex" :disabled="oindex<options.length && is_select_all" :label="oindex+1" class="opt-single">{{ `${String.fromCharCode(65+oindex)}.${opt}` }}
         </el-checkbox>
       </el-checkbox-group>
     </div>
@@ -40,6 +40,23 @@ export default {
     options: [],
     focus_callback_set: null
   }),
+  computed: {
+    user_options () {
+      return this.$store.state.problems.current_options
+    },
+    enable_select_all() {
+      return this.user_options && this.user_options.enable_select_all
+    },
+    filtered_options() {
+      const { options, enable_select_all } = this
+      if (!options) return []
+      return enable_select_all ? options.concat(['全选']) : options
+    },
+    is_select_all() {
+      const { enable_select_all, user_input, options } = this
+      return (enable_select_all && user_input[user_input.length - 1] > options.length)
+    }
+  },
   watch: {
     'data.id': {
       handler (val) {
@@ -88,10 +105,12 @@ export default {
         this.user_input.splice(index, 1)
         return
       }
-      if (this.options.length >= value) { this.user_input.push(value) }
+      if (this.filtered_options.length >= value) { this.user_input.push(value) }
     },
     onSubmit () {
-      const v = this.user_input
+      const { user_input, options } = this
+      const result = this.is_select_all ? options : user_input
+      const v = result
         .filter(i => i > 0)
         .sort((a, b) => a - b)
       return this.judgeSubmit(v)
