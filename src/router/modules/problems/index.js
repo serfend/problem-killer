@@ -15,7 +15,7 @@ const router = {
       name: 'Practice',
       meta: {
         title: 'default.app.problems.Practice',
-        icon: 'user',
+        icon: 'phy-grade',
         noCache: true
       }
     },
@@ -25,7 +25,17 @@ const router = {
       name: 'NeedingEnhance',
       meta: {
         title: 'default.app.problems.NeedingEnhance',
-        icon: 'user',
+        icon: 'HTTPcuowushuai',
+        noCache: true
+      }
+    },
+    {
+      path: 'preferences',
+      component: () => import('@/views/problems/Preferences'),
+      name: 'Preferences',
+      meta: {
+        title: 'default.app.problems.Preferences',
+        icon: 'like_filled',
         noCache: true
       }
     }
