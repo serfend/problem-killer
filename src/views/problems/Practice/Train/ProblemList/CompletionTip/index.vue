@@ -5,13 +5,13 @@
       <el-button
         type="text"
         :disabled="!Object.keys(wrong_current).length"
-        @click="$emit('requireRestProblem', { db: wrong_current })"
+        @click="$emit('requireResetProblem', { db: wrong_current })"
       >复习本轮错题
       </el-button>
       <el-button
         type="text"
         :disabled="!Object.keys(wrong_history).length"
-        @click="$emit('requireRestProblem', { db: wrong_history })"
+        @click="$emit('requireResetProblem', { db: wrong_history })"
       >再刷历史错题
       </el-button>
     </div>
@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     updatedb ({ db, is_manual = true }) {
-      this.$emit('requireRestProblem', { is_manual, db })
+      this.$emit('requireResetProblem', { is_manual, db })
     },
     init_status ({ prblems, duplicated }) {
       const status = {

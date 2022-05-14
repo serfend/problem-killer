@@ -31,7 +31,7 @@
     <CompletionTip
       ref="completion_tip"
       @onStatus="v => $emit('onStatus', v)"
-      @requireRestProblem="v => reset_by_dict(v)"
+      @requireResetProblem="v => reset_by_dict(v)"
     />
     <el-backtop target=".train" />
   </div>
