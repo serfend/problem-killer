@@ -37,9 +37,11 @@ const operations = [
   { name: 'btn_sizes', alias: '大小' },
   { name: 'btn_types', alias: '样式' },
 ]
+import { user_preferences } from '@/api/problems/preferences'
 export default {
   name: 'Preferences',
   data: () => ({
+    loading: false,
     options: {
       practice: {
         btn_submit: {
@@ -55,7 +57,28 @@ export default {
     },
     operations
   }),
+  watch: {
+    options: {
+      handler(val) {
+        if (!val) return
+        user_preferences({ val })
+      },
+      deep: true
+    }
+  },
+  mounted() {
+    this.refresh()
+  },
   methods: {
+    refresh() {
+      this.loading = true
+      user_preferences({}).then(data => {
+        debugger
+        this.options = Object.assign(this.options, data)
+      }).finally(() => {
+        this.loading = false
+      })
+    }
   }
 }
 </script>

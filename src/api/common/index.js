@@ -14,7 +14,7 @@ export function common_data_without_key({ path, val }) {
   const key = val ? key_data : null
   return new Promise((res, rej) => {
     common_data({ path, key, val }).then(data => {
-      res(data)
+      res(data && data[key_data])
     }).catch(e => rej(e))
   })
 }
