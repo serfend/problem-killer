@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { common_data } from '@/api/common'
 const api = '/data/problems/'
 export function get_database ({ pageIndex, pageSize }) {
   return new Promise((res, rej) => {
@@ -123,17 +124,7 @@ export function user_problem_result({ database, problem_id, val }) {
     })
   })
 }
-export function common_data({ path, key, val }) {
-  return new Promise((res, rej) => {
-    const d = localStorage.getItem(path)
-    const data = (d && JSON.parse(d)) || {}
-    if (key) {
-      data[key] = val
-      localStorage.setItem(path, JSON.stringify(data))
-    }
-    res(data)
-  })
-}
+
 /**
  * 用户统计信息
  *
