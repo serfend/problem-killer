@@ -53,7 +53,8 @@ export default {
   data: () => ({
     loading: false,
     current_focus: null,
-    filtered_data: null
+    filtered_data: null,
+    total_data_count: 0
   }),
   computed: {
     current_index () {
@@ -194,6 +195,13 @@ export default {
         this.$refs.completion_tip.init_status({ prblems, duplicated })
         this.$refs.completion_tip.init_wrong_set(prblems)
         setTimeout(() => {
+          const hide_count = this.total_data_count - this.filtered_data.length
+          if (hide_count > 0) {
+            this.$notify.warning({
+              title: '有题目被隐藏啦~',
+              message: `注意，有${hide_count}道题目因用户设置而被隐藏了起来。`
+            })
+          }
           const item = this.filtered_data[0]
           if (!item) return
           this.handle_focus({ id: item.id })
@@ -278,6 +286,7 @@ export default {
       let prblems = data || this.data || []
       return new Promise((res, rej) => {
         const id_dict = {}
+        this.total_data_count = prblems.length
         prblems = prblems.map((i) => {
           const r = Object.assign({}, i) // 创建新的题目对象
           // 若题目没有定义id，则通过题目内容创建id
