@@ -3,7 +3,7 @@
     <template #header>
       <span>
         <span>刷题设置</span>
-        <span style="font-size:0.5rem">（更改设置将重新加载题目）</span>
+        <el-button v-if="is_modified" type="text" style="font-size:0.5rem" @click="apply_options">更新设置（更改设置将重新加载题目）</el-button>
       </span>
     </template>
     <el-form v-if="options" label-width="5rem" inline>
@@ -82,7 +82,6 @@
               />
             </div>
           </div>
-
         </el-tooltip>
         <el-tooltip content="页面上只显示有限题（当前题目向前和向后X个题）以降低性能消耗">
           <div>
@@ -90,7 +89,6 @@
             <el-input-number v-model="options.show_max_problem_range" size="mini" />
           </div>
         </el-tooltip>
-
       </el-card>
     </div>
   </el-card>
@@ -111,6 +109,7 @@ export default {
   },
   data: () => ({
     loading: false,
+    is_modified: null,
     options: {
       practice_mode: true,
       kill_problem: true,
@@ -135,17 +134,25 @@ export default {
     },
     options: {
       handler (val) {
-        const name = this.database
-        api.user_database_detail({ name, key: train_options, val }).then(data => {
-          if (val) { this.$store.dispatch('problems/update_database') }
-          this.$emit('change', val)
-        })
+        if (this.is_modified === null) return
+        this.is_modified = true
       },
-      immediate: true,
       deep: true
     }
   },
   methods: {
+    apply_options() {
+      this.loading = true
+      const val = this.options
+      const name = this.database
+      api.user_database_detail({ name, key: train_options, val }).then(data => {
+        if (val) { this.$store.dispatch('problems/update_database') }
+        this.$emit('change', val)
+        this.is_modified = false
+      }).finally(() => {
+        this.loading = false
+      })
+    },
     refresh () {
       const name = this.database
       if (!name) return
@@ -154,6 +161,9 @@ export default {
         const r = (data && data[train_options]) || {}
         console.log('user_database_detail', r)
         this.options = Object.assign(this.options, r)
+        setTimeout(() => {
+          this.is_modified = false
+        }, 5e2) // 首次加载应该延迟响应[变更设置的事件]
       }).finally(() => {
         this.loading = false
       })
