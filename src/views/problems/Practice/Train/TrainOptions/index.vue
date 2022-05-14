@@ -3,7 +3,7 @@
     <template #header>
       <span>
         <span>刷题设置</span>
-        <el-button v-if="is_modified" type="text" style="font-size:0.5rem" @click="apply_options">更新设置（更改设置将重新加载题目）</el-button>
+        <BtnActivatable placeholder="更新设置（更改设置将重新加载题目）" style="font-size:0.5rem" :can-refresh="is_modified" @click="apply_options" />
       </span>
     </template>
     <el-form v-if="options" label-width="5rem" inline>
@@ -99,6 +99,9 @@ const train_options = 'train_options'
 import api from '@/api/problems'
 export default {
   name: 'TrainOptions',
+  components: {
+    BtnActivatable: () => import('@/components/BtnActivatable')
+  },
   model: {
     event: 'change',
     prop: 'data'
