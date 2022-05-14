@@ -1,7 +1,7 @@
 # problem-killer （**简单易用的刷题工具**）
 
 > 基于vue+element实现，所有数据存在浏览器端。
->
+> 
 > 不需要数据库，不需要服务器。
 
 <p align="center">
@@ -18,28 +18,26 @@
 ## 使用方法
 
 - 方法一：直接运行
-
+  
   - [下载最新发布的部署包](https://github.com/serfend/problem-killer/releases)，选中其中的`server.zip`文件下载
   - 解压下载好的zip文件
   - 双击运行`http_server.exe`，点击开始，然后使用谷歌浏览器访问 [http:\\电脑的ip地址](http://127.0.0.1)即可
     - ![image-20220508154407390](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220508154407390.png)
-  
-- 方法二：下载静态资源包使用http服务运行
 
+- 方法二：下载静态资源包使用http服务运行
+  
   - [下载最新发布的部署包](https://github.com/serfend/problem-killer/releases)，选中其中的`static.zip`文件下载
   - 解压下载好的zip文件
   - 使用任意方式开启一个http服务，**例如**python在当前目录启用http服务方法 `python -m http.server 80`
-  
-- 方法三：使用[node环境](http://nodejs.cn/)部署和运行
 
+- 方法三：使用[node环境](http://nodejs.cn/)部署和运行
+  
   - ```shell
     npm install
     npm run dev
     ```
-    
-  - 运行完成后将自动打开网站
-
   
+  - 运行完成后将自动打开网站
 
 ## 功能
 
@@ -52,8 +50,6 @@
 - 筛选连对（错题本模式）（只显示连对次数少于某次的题）
 - 题目解析和历史统计
 - 无限模式（完成一轮后点击立即开始下一轮）
-
-
 
 ## 演示
 
@@ -69,6 +65,50 @@
 
 - 在 `data\problems\index.json`中设置题库目录。
 - 在`data\problems\database\XXXXX.json`中设置题目内容，文件名与index.json中对应即可，可参考默认案例。
+  
+  ```json5
+  {
+      "problems":[
+          {
+              "content":"单选题干",
+              "options":["选项A","选项B","选项C"],
+              "analysis":"这题选C",
+              "answer":3
+          },
+          {
+              "content":"单选题干",
+              "options":["选项A","选项B","选项C"],
+              "analysis":"这题选C，同时支持选项引用，这里{{OPT:3}}选项是正确答案",
+              "answer":3
+          },
+          {
+              "content":"多选题干",
+              "options":["选项A","选项B","选项C"],
+              "analysis":"这题选AC",
+              "answer":[1,3]
+          },
+          {
+              "content":"多选题干",
+              "options":["选项A","选项B","选项C"],
+              "analysis":"这题选A",
+              "answer":[1] // 数组表示是多选题
+          },
+          {
+              "content":"判断题题干",
+              "analysis":"解析也可以不写，直接去掉这个字段即可",
+              "answer":true // 布尔类型表示是判断题
+          },
+          {
+              "content":"填空题题干，早上好，{{ANS}}，晚上好。\n一二{{ANS}}四五",
+              "answer":["中午好","三"] // 字符串数组表示是填空题
+          },
+          {
+              "content":"简答题题干",
+              "answer":"这里填入答案" // 字符串表示是简答题
+          },
+      ]
+  }
+  ```
 
 ### 刷题
 
@@ -81,7 +121,7 @@
 - ![image-20220509131007779](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509131007779.png)
 
 - 刷题模式
-
+  
   > 如果选中该模式，则将会显示`会做`和`不会做`按钮，点击按钮可以直接完成该题的训练。适合填空题这种输入答案比较慢的题快速刷题。
 
 ### 移动端
@@ -99,9 +139,9 @@
 
 如果存在bug或意见
 
-​	您可以在 [issue](https://github.com/serfend/problem-killer/issues) 中提出
+​    您可以在 [issue](https://github.com/serfend/problem-killer/issues) 中提出
 
-​	或在 [pull request](https://github.com/serfend/problem-killer/pulls) 中提交您的代码
+​    或在 [pull request](https://github.com/serfend/problem-killer/pulls) 中提交您的代码
 
 **成为贡献者！**
 

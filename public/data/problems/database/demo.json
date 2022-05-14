@@ -1,0 +1,44 @@
+{
+  "alias": "多种题型录入演示",
+  "description": "这里是题库录入的演示。",
+  "star": 5,
+  "problems": [
+    {
+      "content": "单选题干",
+      "options": ["选项A", "选项B", "选项C"],
+      "analysis": "这题选C",
+      "answer": 3
+    },
+    {
+      "content": "单选题干",
+      "options": ["选项A", "选项B", "选项C"],
+      "analysis": "这题选C，同时支持选项引用，这里{{OPT:3}}选项是正确答案",
+      "answer": 3
+    },
+    {
+      "content": "多选题干",
+      "options": ["选项A", "选项B", "选项C"],
+      "analysis": "这题选AC",
+      "answer": [1, 3]
+    },
+    {
+      "content": "多选题干",
+      "options": ["选项A", "选项B", "选项C"],
+      "analysis": "这题选A",
+      "answer": [1]
+    },
+    {
+      "content": "判断题题干",
+      "analysis": "解析也可以不写，直接去掉这个字段即可",
+      "answer": true
+    },
+    {
+      "content": "填空题题干，早上好，{{ANS}}，晚上好。\n一二{{ANS}}四五",
+      "answer": ["中午好", "三"]
+    },
+    {
+      "content": "简答题题干",
+      "answer": "这里填入答案"
+    }
+  ]
+}

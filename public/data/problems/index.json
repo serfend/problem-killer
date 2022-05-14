@@ -1,6 +1,10 @@
 {
   "database": [
     {
+      "name": "demo",
+      "index": -20
+    },
+    {
       "name": "judge",
       "index": -10
     },
