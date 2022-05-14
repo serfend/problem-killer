@@ -10,7 +10,7 @@
       <div class="train-container">
         <div class="train">
           <h1>题库：{{ database.alias || database.description }}</h1>
-          <ProblemList :data="database.problems" @onStatus="v => problem_status = v" />
+          <ProblemList :data="database.problems" @onStatus="v => problem_status = v" @requireInit="show_options=true" />
         </div>
       </div>
       <el-dialog :visible.sync="show_options" :width="device === 'mobile' ? '100%' : '50%'" append-to-body>

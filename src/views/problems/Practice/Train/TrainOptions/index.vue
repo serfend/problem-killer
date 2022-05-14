@@ -158,12 +158,17 @@ export default {
       if (!name) return
       this.loading = true
       api.user_database_detail({ name }).then(data => {
-        const r = (data && data[train_options]) || {}
-        console.log('user_database_detail', r)
-        this.options = Object.assign(this.options, r)
+        const r = data && data[train_options]
         setTimeout(() => {
           this.is_modified = false
         }, 5e2) // 首次加载应该延迟响应[变更设置的事件]
+        if (!r) {
+          this.$message.success('这似乎是您首次刷这个题库诶~看看设置一下')
+          this.apply_options()
+          return
+        }
+        console.log('user_database_detail', r)
+        this.options = Object.assign(this.options, r)
       }).finally(() => {
         this.loading = false
       })

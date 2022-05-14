@@ -188,6 +188,7 @@ export default {
       return this.reset({ data, is_manual })
     },
     init (data) {
+      if (!this.options) return this.$emit('requireInit')
       this.loading = true
       this.init_problems(data).then(({ prblems, duplicated }) => {
         this.$refs.completion_tip.init_status({ prblems, duplicated })
