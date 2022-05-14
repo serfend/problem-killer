@@ -41,29 +41,46 @@
 
 ## 功能
 
-- 题库静态加载和统计
-- 范围选取（可以灵活选择一个题库中的某个范围内的题）
-- 随机题序（将选中的题目顺序打乱）
-- 刷题模式（类似于背单词软件的直接选中功能）
-- 急速模式（正确的题目将直接提交）
-- 斩杀模式（题目完成后将会隐藏起来方便思维聚焦）
-- 筛选连对（错题本模式）（只显示连对次数少于某次的题）
-- 题目解析和历史统计
-- 无限模式（完成一轮后点击立即开始下一轮）
+- ## Features
+  - 部署
+    - 支持直接双击运行（双击运行http-server一键完成部署网站）
+    - 支持电脑和手机多种分辨率使用
+    - 
+  - 刷题
+    - 设置
+      - 范围选取（可以灵活选择一个题库中的某个范围内的题）
+      - 随机题序（将选中的题目顺序打乱）
+      - 随机选项序（将选择题的选项打乱）
+      - 刷题模式（类似于背单词软件的直接选中功能）
+      - 急速模式（正确的题目将直接提交）
+      - 斩杀模式（题目完成后将会隐藏起来方便思维聚焦）
+      - 筛选连对（错题本模式）（只显示连对次数少于某次的题）
+      - 无限模式（完成一轮后点击立即开始下一轮）
+    - 题型
+      - 动态题解（题解可以引用题目选项）
+      - 支持题目去重判断以及统计（可以显示哪些题存在重复）
+  - 统计
+    - 题库静态加载和统计
+    - 题目解析和历史统计
+  - 性能
+    - 支持题目懒加载（降低大量题目条件下的负荷）
+  - 偏好
+    - 支持题目样式自定义（如自定义提交按钮）
 
 ## 演示
 
-### 主页（目前只有`答题`菜单可用）
+### 主页（目前`错题本`菜单集成到了`答题`菜单中）
 
-- ![image-20220505104416266](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220505104416266.png)
+- ![image-20220514223406317](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223406317.png)
 
 ### 题库选取
 
-- ![image-20220509130912157](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509130912157.png)
+- ![image-20220514223419796](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223419796.png)
 
 ### 题库设置
 
 - 在 `data\problems\index.json`中设置题库目录。
+
 - 在`data\problems\database\XXXXX.json`中设置题目内容，文件名与index.json中对应即可，可参考默认案例。
   
   ```json5
@@ -112,13 +129,16 @@
 
 ### 刷题
 
-- ![image-20220509130817277](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509130817277.png)
+- ![image-20220514223332446](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223332446.png)
+- ![image-20220514223356892](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223356892.png)
+- ![image-20220514223341967](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223341967.png)
+- ![image-20220514223320414](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223320414.png)
 
 ### 题目解析和统计
 
 > 第一次做题时候不会有统计，以后再次刷到这个题的时候则会显示该题的历史做题记录
 
-- ![image-20220509131007779](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509131007779.png)
+- ![image-20220514223450674](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223450674.png)
 
 - 刷题模式
   
@@ -126,14 +146,7 @@
 
 ### 移动端
 
-- 总览
-  - ![image-20220509131549430](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509131549430.png)
-- 题库选取
-  - ![image-20220509131043667](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509131043667.png)
-- 刷题设置
-  - ![image-20220509131103681](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509131103681.png)
-- 刷题
-  - ![image-20220509131127594](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220509131127594.png)
+- [视频演示链接](https://www.bilibili.com/video/BV16T4y1B7Fa/)
 
 ## 关于
 
