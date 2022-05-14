@@ -208,7 +208,6 @@ export default {
       const dic = this.current_problems
       let r = problems.slice(problem_range_start - 1, problem_range_end || problems.length)
       if (shuffle_problem) r = shuffle(r)
-
       this.do_shuffle_options(r, shuffle_problem_options)
       this.do_attach_analysis(r)
       if (combo_problem) r = r.filter(i => ((dic[i.id] && dic[i.id].combo_kill) || 0) < combo_problem)
@@ -218,6 +217,7 @@ export default {
     },
     do_attach_analysis (r) {
       r.map(i => {
+        if (!i.options) return
         let { analysis } = i
         if (!analysis) {
           i.analysis = '暂无题解'
@@ -267,7 +267,9 @@ export default {
         const id_dict = {}
         prblems = prblems.map((i) => {
           const r = Object.assign({}, i) // 创建新的题目对象
-          if (!r.id) r.id = `${i.content}${JSON.stringify(i.answer)}` // 若题目没有定义id，则通过题目内容创建id
+          // 若题目没有定义id，则通过题目内容创建id
+          // TODO 此处应该再按题目内容加入去重筛选
+          if (!r.id) r.id = `${i.content}${JSON.stringify(i.answer)}`
           if (id_dict[r.id]) {
             id_dict[r.id]++
             return null // 如果id重复，则标记题目为待删除
