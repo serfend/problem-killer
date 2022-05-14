@@ -5,13 +5,13 @@
       <el-button
         type="text"
         :disabled="!Object.keys(wrong_current).length"
-        @click="$emit('requireResetProblem', { db: wrong_current })"
+        @click="$emit('requireResetProblem', { dict: wrong_current })"
       >复习本轮错题
       </el-button>
       <el-button
         type="text"
         :disabled="!Object.keys(wrong_history).length"
-        @click="$emit('requireResetProblem', { db: wrong_history })"
+        @click="$emit('requireResetProblem', { dict: wrong_history })"
       >再刷历史错题
       </el-button>
     </div>
