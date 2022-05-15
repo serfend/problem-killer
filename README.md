@@ -75,7 +75,7 @@
 
 ### 题库选取
 
-- ![](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220514223406317.png)
+- ![image-20220515175042851](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220515175042851.png)
 
 ### 题库设置
 
