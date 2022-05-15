@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import { common_data } from '@/api/common'
-const api = '/data/problems/'
+const api = 'data/problems/'
 export function get_database ({ pageIndex, pageSize }) {
   return new Promise((res, rej) => {
     request.get(`${api}index.json`, {}).then(data => {

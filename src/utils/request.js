@@ -43,8 +43,10 @@ var warningInfoLog = {
 // }
 
 // create an axios instance
+const baseURL = require('@/utils/website').getWebLocation()
+console.log('axios init', baseURL)
 const service = axios.create({
-  baseURL: require('@/utils/website').getWebLocation(), // api 的 base_url
+  baseURL, // api 的 base_url
   withCredentials: true, // 跨域请求时发送 cookies
   timeout: 120e3 // request timeout
 })

@@ -9,7 +9,7 @@
     "local": "vue-cli-service serve --mode localdev",
     "lan": "vue-cli-service serve --mode LAN",
     "stage": "vue-cli-service serve --mode staging",
-    "build:prod": "vue-cli-service build",
+    "build:prod": "vue-cli-service build --mode production",
     "build:stage": "vue-cli-service build --mode staging",
     "build:dev": "vue-cli-service build --mode development",
     "preview": "node build/index.js --preview",
