@@ -7,7 +7,7 @@
  */
 export function getWebLocation() {
   const url = process.env.VUE_APP_BASE_API
-  const c = location.origin
+  // const c = location.origin
   return url
   // console.log('raw url', url)
   // // 当当前url包含http表示为完整路径，可直接引用，否则为相对路径
