@@ -71,11 +71,11 @@
 
 ### 主页（目前`错题本`菜单集成到了`答题`菜单中）
 
-- ![image-20220514223406317](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223406317.png)
+- ![image-20220514223406317](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220514223406317.png)
 
 ### 题库选取
 
-- ![image-20220514223419796](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223419796.png)
+- ![](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220514223406317.png)
 
 ### 题库设置
 
@@ -129,16 +129,16 @@
 
 ### 刷题
 
-- ![image-20220514223332446](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223332446.png)
-- ![image-20220514223356892](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223356892.png)
-- ![image-20220514223341967](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223341967.png)
-- ![image-20220514223320414](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223320414.png)
+- ![image-20220514223332446](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220514223332446.png)
+- ![image-20220515174925138](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220515174925138.png)
+- ![image-20220514223341967](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220514223341967.png)
+- ![image-20220515174849716](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220515174849716.png)
 
 ### 题目解析和统计
 
 > 第一次做题时候不会有统计，以后再次刷到这个题的时候则会显示该题的历史做题记录
 
-- ![image-20220514223450674](C:/Users/sf/AppData/Roaming/Typora/typora-user-images/image-20220514223450674.png)
+- ![image-20220514223450674](https://raw.githubusercontent.com/serfend/res.image.reference/main/image-20220514223450674.png)
 
 - 刷题模式
   
