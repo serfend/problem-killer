@@ -203,11 +203,12 @@ export default {
         this.$refs.completion_tip.init_status({ prblems, duplicated })
         this.$refs.completion_tip.init_wrong_set(prblems)
         setTimeout(() => {
-          const hide_count = this.total_data_count - this.filtered_data.length
+          const visual_count = this.filtered_data.length
+          const hide_count = this.total_data_count - visual_count
           const { filter_record } = this
           if (hide_count > 0) {
             this.$notify.warning({
-              title: `${hide_count}道题被隐藏啦~`,
+              title: `本轮共筛选出${visual_count}题，其他的${hide_count}道题被隐藏啦~`,
               message: Object.keys(filter_record).map(i => `${i}:${filter_record[i]}道`).join(';')
             })
           }
