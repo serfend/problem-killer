@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import { common_data } from '@/api/common'
+import { tNum, tBool, tStr, tArray, tCheck } from '@/utils/type'
 const api = 'data/problems/'
 export function get_database ({ pageIndex, pageSize }) {
   return new Promise((res, rej) => {
@@ -51,12 +52,8 @@ const initProblem = () => {
   })
 }
 initProblem()
-const tCheck = t => Object.prototype.toString.call(t)
+
 const GetProblemType = (() => {
-  const tArray = tCheck([])
-  const tStr = tCheck('')
-  const tBool = tCheck(true)
-  const tNum = tCheck(0)
   const dict = {}
   dict[tArray] = (a) => {
     const first = a[0]

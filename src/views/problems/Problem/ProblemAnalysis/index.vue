@@ -7,7 +7,7 @@
         <el-col :span="16">
           <el-form label-width="5rem">
             <el-form-item label="答案">
-              <div>{{ data.answer }}</div>
+              <div>{{ answer }}</div>
             </el-form-item>
             <el-form-item label="解析">
               <div>{{ data.analysis||'无' }}</div>
@@ -42,6 +42,7 @@
 
 <script>
 import { parseTime } from '@/utils'
+import { tNum, tBool, tStr, tCheck } from '@/utils/type'
 export default {
   name: 'ProblemAnalysis',
   props: {
@@ -60,6 +61,13 @@ export default {
     current_problems () {
       return this.$store.state.problems.current_problems
     },
+    answer() {
+      if (!this.data) return null
+      const r = this.data.answer
+      if (!r) return '无答案'
+      if (r.length) return r.map(this.convert_answer)
+      return this.convert_answer(r)
+    }
   },
   watch: {
     userAnswerResult: {
@@ -72,7 +80,14 @@ export default {
     }
   },
   methods: {
-    parseTime
+    parseTime,
+    convert_answer(v) {
+      const t = tCheck(v)
+      if (t === tNum) return String.fromCharCode('A'.charCodeAt(0) + v - 1)
+      if (t === tBool) return v ? '√' : '×'
+      if (t === tStr) return v
+      return v
+    },
   }
 }
 </script>
