@@ -160,9 +160,8 @@ export default {
       this.current_focus = id
     },
     focus_next ({ focus_move_step, is_manual = false }) {
+      debugger
       const { filtered_data, current_index } = this
-      if (focus_move_step < 0) focus_move_step = 0
-      if (focus_move_step > filtered_data.length) focus_move_step = filtered_data.length
       const step = Math.sign(focus_move_step) // 方向规定
       let new_index = current_index
       while (focus_move_step !== 0) {
