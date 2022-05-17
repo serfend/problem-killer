@@ -1,17 +1,17 @@
 <template>
   <div v-if="show" key="tip" class="slide-fade-item" style="text-align:center">
-    <el-button type="text" @click="updatedb({})">已完成本轮练习，再来一轮吧~</el-button>
+    <el-button type="text" @click="updatedb({ is_manual: true })">已完成本轮练习，再来一轮吧~</el-button>
     <div>
       <el-button
         type="text"
         :disabled="!Object.keys(wrong_current).length"
-        @click="$emit('requireResetProblem', { dict: wrong_current })"
+        @click="updatedb({ dict: wrong_current, is_manual: true })"
       >复习本轮错题
       </el-button>
       <el-button
         type="text"
         :disabled="!Object.keys(wrong_history).length"
-        @click="$emit('requireResetProblem', { dict: wrong_history })"
+        @click="updatedb({ dict: wrong_history, is_manual: true })"
       >再刷历史错题
       </el-button>
     </div>
