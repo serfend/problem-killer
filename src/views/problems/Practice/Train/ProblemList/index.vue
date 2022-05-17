@@ -24,7 +24,7 @@
           :completed.sync="d.completed"
           :focus="current_focus === d.id"
           :preferences="preferences"
-          @onSubmit="v => onSubmit(d, v)"
+          @onSubmit="v => onSubmit(Object.assign(v, { problem: d }))"
           @requireFocus="handle_focus({ id: d.id, is_manual: true })"
         />
       </li>
@@ -59,7 +59,7 @@ export default {
     filter_record: {}
   }),
   computed: {
-    preferences() {
+    preferences () {
       const p = this.$store.state.problems.preferences
       const practice = p && p.practice
       return practice
@@ -173,8 +173,8 @@ export default {
       console.log('focus to', new_index)
       this.handle_focus({ id: filtered_data[new_index].id, is_manual })
     },
-    onSubmit (v, is_right) {
-      this.$refs.completion_tip.update_status({ problem: v, is_right })
+    onSubmit ({ problem, is_right }) {
+      this.$refs.completion_tip.update_status({ problem, is_right })
       this.focus_next({ focus_move_step: 1 })
     },
     async reset ({ data, is_manual }) {
@@ -219,7 +219,7 @@ export default {
         this.loading = false
       })
     },
-    filter_with_record({ items, predict, reason, is_init }) {
+    filter_with_record ({ items, predict, reason, is_init }) {
       if (is_init) {
         this.filter_record = {}
         return

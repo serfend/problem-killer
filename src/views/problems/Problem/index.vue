@@ -1,6 +1,6 @@
 <template>
   <div class="singe-problem" @dblclick="onClick">
-    <ProblemBase v-if="type" ref="base" v-bind="$props" :completed.sync="completed" @onSubmit="v=>handle_submit(v)">
+    <ProblemBase v-if="type" ref="base" v-bind="$props" :completed.sync="completed" @onSubmit="v => handle_submit(v)">
       <component :is="type" v-bind="$props" slot="content" @onUserSubmit="onSubmit" />
     </ProblemBase>
     <div v-else>暂不支持的题型{{ d.type }}</div>
@@ -44,26 +44,26 @@ export default {
   },
   watch: {
     completed: {
-      handler(val) {
+      handler (val) {
         this.$emit('update:completed', val)
       },
       immediate: true
     }
   },
   methods: {
-    handle_submit(is_right) {
+    handle_submit ({ is_right, is_manual }) {
       if (this.submitted) return
       this.submitted = true
-      return this.$emit('onSubmit', is_right)
+      return this.$emit('onSubmit', { is_right, is_manual })
     },
-    onClick() {
+    onClick () {
       this.$emit('requireFocus')
     },
-    onSubmit(v) {
+    onSubmit ({ is_right, is_manual }) {
       const c = this.$refs.base
-      c && c.onSubmit(v)
+      c && c.onSubmit({ is_right, is_manual })
     },
-    reset() {
+    reset () {
       this.completed = false
       this.submitted = false
       const c = this.$refs.base
@@ -74,7 +74,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.singe-problem{
-  margin-top:1rem;
+.singe-problem {
+  margin-top: 1rem;
 }
 </style>

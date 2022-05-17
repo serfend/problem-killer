@@ -70,9 +70,9 @@ export default {
       const c = this.$refs.header
       c && c.reset()
     },
-    onSubmit (is_right) {
+    onSubmit ({ is_right, is_manual }) {
       const c = this.$refs.header
-      c && c.practice_submit({ is_right })
+      c && c.practice_submit({ is_right, is_manual })
     },
     onMouseEnter () {
       this.lastEnter = new Date()
@@ -87,24 +87,24 @@ export default {
       const d = new Date() - lastEnter
       this.time_spent += d
     },
-    onAnswer (is_right) {
+    onAnswer ({ is_right, is_manual }) {
       this.userAnswerResult = is_right
-      if (is_right && this.lighting_mode) return this.onAnswerResult(is_right)
-      if (!is_right) this.update_problem(false)
+      if (is_right && this.lighting_mode) return this.onAnswerResult({ is_right, is_manual })
+      if (!is_right) this.update_problem({ is_right: false, is_manual })
     },
-    onAnswerResult (is_right) {
+    onAnswerResult ({ is_right, is_manual }) {
       this.userAnswerConfirmResult = true
       if (this.userAnswerResult === false) return
       this.showAnswer = false
-      this.update_problem(is_right)
+      this.update_problem({ is_right, is_manual })
     },
-    update_problem (is_right) {
+    update_problem ({ is_right, is_manual }) {
       const database = this.current_database.name
       const { data, time_spent } = this
       api.user_problem_result({ database }).then(v => {
         const problem_id = data.id || data.content
         const val = statistics_problem(v[problem_id], is_right, time_spent)
-        this.$emit('onSubmit', is_right)
+        this.$emit('onSubmit', { is_right, is_manual })
         console.log('update problem', problem_id, val)
         api.user_problem_result({ database, problem_id, val })
       })

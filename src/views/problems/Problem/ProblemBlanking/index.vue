@@ -59,7 +59,11 @@ export default {
       const { ctrlKey, altKey, key } = v
       console.log('key input', ctrlKey, altKey, key, this.data.id)
       if (!ctrlKey || !altKey) return
-      if (key === 'Enter') this.onSubmit({ type: 'el-input', i: -1 })
+      if (key === 'ArrowRight') {
+        return this.directSubmit({ is_right: false, is_manual: true })
+      } else if (key === 'ArrowLeft') {
+        return this.directSubmit({ is_right: true, is_manual: true })
+      } else if (key === 'Enter') this.onSubmit({ type: 'el-input', i: -1 })
     },
     onSubmit(v) {
       const iCount = v.i + 1
@@ -76,7 +80,10 @@ export default {
       const is_right = !answer.find((i, index) => {
         return i !== result[index]
       })
-      this.$emit('onUserSubmit', is_right)
+      return this.directSubmit({ is_right })
+    },
+    directSubmit({ is_right, is_manual }) {
+      return this.$emit('onUserSubmit', { is_right, is_manual })
     },
     refresh (v) {
       const content = this.data && this.data.content

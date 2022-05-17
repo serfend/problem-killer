@@ -62,7 +62,7 @@ export default {
       else this.$message.success(is_manual ? '我会做！' : '做对啦~')
       this.requireShowAnswer()
       this.beenSolved = true
-      this.$emit('onAnswer', is_right)
+      this.$emit('onAnswer', { is_right, is_manual })
     }
   }
 }

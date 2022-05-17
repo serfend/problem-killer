@@ -96,7 +96,11 @@ export default {
       const { ctrlKey, altKey, key } = v
       console.log('key input', ctrlKey, altKey, key, this.data.id)
       if (!ctrlKey || !altKey) return
-      if (key === 'Enter') return this.onSubmit()
+      if (key === 'ArrowRight') {
+        return this.directSubmit({ is_right: false, is_manual: true })
+      } else if (key === 'ArrowLeft') {
+        return this.directSubmit({ is_right: true, is_manual: true })
+      } else if (key === 'Enter') return this.onSubmit()
       const value = parseInt(key)
       if (!value) return
       const index = this.user_input.findIndex(i => i === value)
@@ -121,7 +125,10 @@ export default {
       const is_right = answer.length === result.length && !answer.find((i, index) => {
         return i !== result[index]
       })
-      this.$emit('onUserSubmit', is_right)
+      return this.directSubmit({ is_right })
+    },
+    directSubmit({ is_right, is_manual }) {
+      return this.$emit('onUserSubmit', { is_right, is_manual })
     },
     refresh (v) {
       const { data } = this

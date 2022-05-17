@@ -84,7 +84,11 @@ export default {
       const { ctrlKey, altKey, key } = v
       console.log('key input', ctrlKey, altKey, key, this.data.id)
       if (!ctrlKey || !altKey) return
-      if (key === 'Enter') return this.onSubmit()
+      if (key === 'ArrowRight') {
+        return this.directSubmit({ is_right: false, is_manual: true })
+      } else if (key === 'ArrowLeft') {
+        return this.directSubmit({ is_right: true, is_manual: true })
+      } else if (key === 'Enter') return this.onSubmit()
       const value = parseInt(v.key)
       if (!value) return
       if (this.options.length < value) return
@@ -98,7 +102,10 @@ export default {
       const answer = this.data.answer
       if (!answer) return this.$message.warning('本题无答案')
       const is_right = Number(answer) === Number(result)
-      this.$emit('onUserSubmit', is_right)
+      return this.directSubmit({ is_right })
+    },
+    directSubmit({ is_right, is_manual }) {
+      return this.$emit('onUserSubmit', { is_right, is_manual })
     },
     refresh (v) {
       const { data } = this
