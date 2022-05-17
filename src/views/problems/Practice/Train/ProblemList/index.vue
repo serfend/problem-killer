@@ -192,7 +192,10 @@ export default {
     },
     reset_by_dict ({ dict, is_manual }) {
       const data = !dict ? null : this.filtered_data
-        .filter(i => dict[i.id])
+        .filter(i => dict[i.id]).map(i => {
+          delete i.page_index
+          return i
+        })
       return this.reset({ data, is_manual })
     },
     init (data) {
