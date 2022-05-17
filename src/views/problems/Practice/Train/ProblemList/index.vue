@@ -55,7 +55,8 @@ export default {
     loading: false,
     current_focus: null,
     filtered_data: null,
-    total_data_count: 0
+    total_data_count: 0,
+    filter_record: {}
   }),
   computed: {
     preferences() {
@@ -202,10 +203,11 @@ export default {
         this.$refs.completion_tip.init_wrong_set(prblems)
         setTimeout(() => {
           const hide_count = this.total_data_count - this.filtered_data.length
+          const { filter_record } = this
           if (hide_count > 0) {
             this.$notify.warning({
-              title: '有题目被隐藏啦~',
-              message: `注意，有${hide_count}道题目因用户设置而被隐藏了起来。`
+              title: `${hide_count}道题被隐藏啦~`,
+              message: Object.keys(filter_record).map(i => `${i}:${filter_record[i]}道`).join(';')
             })
           }
           const item = this.filtered_data[0]
@@ -216,18 +218,34 @@ export default {
         this.loading = false
       })
     },
+    filter_with_record({ items, predict, reason, is_init }) {
+      if (is_init) {
+        this.filter_record = {}
+        return
+      }
+      const previous_count = items.length
+      items = predict(items)
+      const current_count = items.length
+      const result = previous_count - current_count
+      if (result === 0) return items
+      this.filter_record[reason] = result
+      return items
+    },
     do_filter_problems (problems) {
       const options = this.options
       const { problem_range_start, problem_range_end, shuffle_problem, shuffle_problem_options, new_problem, combo_problem, problem_max_num } = options
       const dic = this.current_problems
-      let r = problems.slice(problem_range_start - 1, problem_range_end || problems.length)
-      if (shuffle_problem) r = shuffle(r)
-      this.do_shuffle_options(r, shuffle_problem_options)
-      this.do_attach_analysis(r)
-      if (combo_problem) r = r.filter(i => ((dic[i.id] && dic[i.id].combo_kill) || 0) < combo_problem)
-      if (new_problem) r = r.filter(i => !(dic[i.id] && dic[i.id].total))
-      if (problem_max_num > 0) r = r.slice(0, problem_max_num)
-      return r
+      this.filter_with_record({ is_init: true })
+      let items = problems
+      items = this.filter_with_record({ items, predict: v => v.filter(i => i), reason: '重复的题目' })
+      items = this.filter_with_record({ items, predict: v => v.slice(problem_range_start - 1, problem_range_end || v.length), reason: '筛选题目范围' })
+      if (shuffle_problem) items = shuffle(items)
+      this.do_shuffle_options(items, shuffle_problem_options)
+      this.do_attach_analysis(items)
+      if (combo_problem) items = this.filter_with_record({ items, predict: v => v.filter(i => ((dic[i.id] && dic[i.id].combo_kill) || 0) < combo_problem), reason: '筛选连对' })
+      if (new_problem) items = this.filter_with_record({ items, predict: v => v.filter(v.filter(i => !(dic[i.id] && dic[i.id].total))), reason: '筛选新题' })
+      if (problem_max_num > 0) this.filter_with_record({ items, predict: v => v.slice(0, problem_max_num), reason: '筛选最大刷题数' })
+      return items
     },
     do_attach_analysis (r) {
       r.map(i => {
@@ -305,7 +323,7 @@ export default {
           id_dict[r.id] = 1 // 将题目加入重复判断字典中
           r.completed = false
           return r
-        }).filter(i => i)
+        })
         prblems = this.do_filter_problems(prblems)
         prblems = prblems.map((i, page_index) => Object.assign({ page_index }, i)) // 初始化题目的页面位置
         this.filtered_data = prblems
