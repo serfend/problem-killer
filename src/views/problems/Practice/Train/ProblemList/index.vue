@@ -160,7 +160,6 @@ export default {
       this.current_focus = id
     },
     focus_next ({ focus_move_step, is_manual = false }) {
-      debugger
       const { filtered_data, current_index } = this
       const step = Math.sign(focus_move_step) // 方向规定
       let new_index = current_index
@@ -191,7 +190,7 @@ export default {
     },
     reset_by_dict ({ dict, is_manual }) {
       const data = !dict ? null : this.filtered_data
-        .filter(i => dict[i.id]).map(i => {
+        .filter(i => dict[i.id] !== undefined).map(i => {
           delete i.page_index
           return i
         })
