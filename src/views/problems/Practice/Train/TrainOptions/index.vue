@@ -77,7 +77,7 @@
               <el-input-number
                 v-model="options.problem_max_num"
                 size="mini"
-                :max="options.problem_range_end - options.problem_range_start"
+                :max="options.problem_range_end - options.problem_range_start + 1"
                 style="width:40%"
               />
             </div>
