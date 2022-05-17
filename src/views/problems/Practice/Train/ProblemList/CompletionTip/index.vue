@@ -55,8 +55,8 @@ export default {
     }
   },
   methods: {
-    updatedb ({ db, is_manual = true }) {
-      this.$emit('requireResetProblem', { is_manual, db })
+    updatedb ({ dict, is_manual = true }) {
+      this.$emit('requireResetProblem', { is_manual, dict })
     },
     init_status ({ prblems, duplicated }) {
       const status = {
