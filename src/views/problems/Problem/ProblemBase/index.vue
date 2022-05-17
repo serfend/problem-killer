@@ -72,7 +72,7 @@ export default {
     },
     onSubmit (is_right) {
       const c = this.$refs.header
-      c && c.practice_submit(is_right)
+      c && c.practice_submit({ is_right })
     },
     onMouseEnter () {
       this.lastEnter = new Date()
