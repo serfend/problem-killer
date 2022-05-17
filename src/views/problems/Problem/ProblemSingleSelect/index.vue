@@ -117,6 +117,7 @@ export default {
 .opt-single {
   white-space: normal;
   display: block;
+  user-select: auto;
 }
 </style>
 <style lang="scss" scoped>
