@@ -67,8 +67,8 @@ export default {
     },
     onSubmit(v) {
       const iCount = v.i + 1
-      if (iCount < this.user_input.length) {
-        const d = this.$refs[`${v.type}${iCount}`]
+      if (iCount + 1 < this.user_input.length) {
+        const d = this.$refs[`${v.type}${v.i}`]
         const c = d[0]
         c && c.focus()
         return
