@@ -283,8 +283,8 @@ export default {
         if (!i.options) return
         const { options } = i
         let { answer, analysis } = i
-        const check_answer = a => a > 0 && a <= options.length
-        if (answer.length) {
+        const check_answer = a => a && (a > 0 && a <= options.length)
+        if (answer && answer.length) {
           // 多选题判断选项合法性
           answer = answer.filter(check_answer)
           if (!answer.length) {

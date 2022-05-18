@@ -4,6 +4,12 @@
   "star": 5,
   "problems": [
     {
+      "content": "无效{{ 1+1 }}题干",
+      "options": ["选项A", "选项B", "选项C"],
+      "analysis": "",
+      "answer": null
+    },
+    {
       "content": "单选题干",
       "options": ["选项A", "选项B", "选项C"],
       "analysis": "这题选C",

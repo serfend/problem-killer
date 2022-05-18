@@ -4,7 +4,8 @@
       <el-form-item label="总题数">
         <span>
           <span>{{ data.total }}</span>
-          <el-button v-if="duplicated.length" type="text" @click="showDuplicated = !showDuplicated">({{ duplicated.length
+          <el-button v-if="duplicated.length" type="text" @click="showDuplicated = !showDuplicated">({{
+            duplicated.length
           }}题重复)</el-button>
         </span>
       </el-form-item>
@@ -21,7 +22,10 @@
         <span>{{ time_spent || '未开始' }}</span>
       </el-form-item>
     </el-form>
-    <el-dialog v-if="showDuplicated" :visible.sync="showDuplicated">
+    <el-dialog v-if="showDuplicated" :visible.sync="showDuplicated" append-to-body>
+      <template #title>
+        <h3>重复题目</h3>
+      </template>
       <el-table :data="duplicated">
         <el-table-column label="重复次数">
           <template slot-scope="{row}">

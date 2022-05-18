@@ -3,7 +3,12 @@
     <ProblemBase v-if="type" ref="base" v-bind="$props" :completed.sync="completed" @onSubmit="v => handle_submit(v)">
       <component :is="type" v-bind="$props" slot="content" @onUserSubmit="onSubmit" />
     </ProblemBase>
-    <div v-else>暂不支持的题型{{ d.type }}</div>
+    <el-popover v-else trigger="hover">
+      <span class="single-invalid">{{ d }}</span>
+      <template #reference>
+        <el-button type="text">{{ index }}.暂不支持的题型</el-button>
+      </template>
+    </el-popover>
   </div>
 </template>
 
@@ -76,5 +81,10 @@ export default {
 <style lang="scss" scoped>
 .singe-problem {
   margin-top: 1rem;
+}
+
+.single-invalid {
+  font-size: 0.5rem;
+  color: #ccc;
 }
 </style>
