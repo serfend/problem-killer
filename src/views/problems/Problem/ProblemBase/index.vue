@@ -97,7 +97,8 @@ export default {
     onAnswer ({ is_right, is_manual, answer }) {
       this.userAnswerResult = is_right
       this.user_answer = answer
-      if (is_right && this.lighting_mode) return this.onAnswerResult({ is_right, is_manual })
+      // 当做对了 且 开启了急速过题 且是正常提交答案，则直接跳过该题显示答案
+      if (is_right && this.lighting_mode && !is_manual) return this.onAnswerResult({ is_right, is_manual })
       if (!is_right) this.update_problem({ is_right: false, is_manual })
     },
     onAnswerResult ({ is_right, is_manual, answer }) {
