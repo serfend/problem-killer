@@ -58,7 +58,7 @@ export default {
         this.$message.warning('已提交过答案啦')
         return
       }
-      if (!is_right) this.$message.error((is_manual ? '做错了' : '不会做') + '，仔细看看哦~')
+      if (!is_right) this.$message.error((is_manual ? '不会做' : '做错了') + '，仔细看看哦~')
       else this.$message.success(is_manual ? '我会做！' : '做对啦~')
       this.requireShowAnswer()
       this.beenSolved = true
