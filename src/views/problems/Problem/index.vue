@@ -56,17 +56,17 @@ export default {
     }
   },
   methods: {
-    handle_submit ({ is_right, is_manual }) {
+    handle_submit ({ is_right, is_manual, answer }) {
       if (this.submitted) return
       this.submitted = true
-      return this.$emit('onSubmit', { is_right, is_manual })
+      return this.$emit('onSubmit', { is_right, is_manual, answer })
     },
     onClick () {
       this.$emit('requireFocus')
     },
-    onSubmit ({ is_right, is_manual }) {
+    onSubmit ({ is_right, is_manual, answer }) {
       const c = this.$refs.base
-      c && c.onSubmit({ is_right, is_manual })
+      c && c.onSubmit({ is_right, is_manual, answer })
     },
     reset () {
       this.completed = false

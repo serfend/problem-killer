@@ -62,7 +62,7 @@ export default {
     data: { type: Object, default: null },
     showAnswer: { type: Boolean, default: false },
     options: { type: Object, default: null },
-    userAnswer: { type: [Object, Array, Boolean, String], default: null },
+    userAnswer: { type: [Object, Array, Boolean, String, Number], default: null },
     userAnswerResult: { type: Boolean, default: null },
     userAnswerConfirmResult: { type: Boolean, default: false }
   },

@@ -108,10 +108,10 @@ export default {
       const answer = this.data.answer ? 1 : 2
       if (!answer) return this.$message.warning('本题无答案')
       const is_right = Number(answer) === Number(result)
-      return this.directSubmit({ is_right })
+      return this.directSubmit({ is_right, answer: result })
     },
-    directSubmit ({ is_right, is_manual }) {
-      return this.$emit('onUserSubmit', { is_right, is_manual })
+    directSubmit ({ is_right, is_manual, answer }) {
+      return this.$emit('onUserSubmit', { is_right, is_manual, answer })
     },
     refresh (v) {
       const content = this.data && this.data.content

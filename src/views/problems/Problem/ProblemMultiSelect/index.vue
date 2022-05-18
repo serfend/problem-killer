@@ -2,28 +2,37 @@
   <span>
     <component
       :is="b.type"
-      v-for="(b,bindex) in blanking"
+      v-for="(b, bindex) in blanking"
       :ref="`${b.type}${b.i}`"
       :key="bindex"
       v-model="user_input[b.i]"
       v-bind="b.attrs"
       :style="b.style"
-      @keyup.enter.native="onSubmit(b)"
+      @keyup.enter.native="onSubmit({})"
     >{{ b.value }}
     </component>
     <div class="p-ms">
       <el-checkbox-group v-model="user_input" size="mini">
-        <el-checkbox v-for="(opt,oindex) in filtered_options" :key="oindex" :disabled="oindex<options.length && is_select_all" :label="oindex+1" class="opt-single">{{ `${String.fromCharCode(65+oindex)}.${opt}` }}
+        <el-checkbox
+          v-for="(opt, oindex) in filtered_options"
+          :key="oindex"
+          :disabled="oindex < options.length && is_select_all"
+          :label="oindex + 1"
+          class="opt-single"
+        >{{
+          `${String.fromCharCode(65 + oindex)}.${opt}`
+        }}
         </el-checkbox>
       </el-checkbox-group>
     </div>
-    <el-button :type="btn_submit.btn_types||'text'" :size="btn_submit.btn_sizes||'mini'" class="pb" @click="onSubmit">提交</el-button>
+    <el-button :type="btn_submit.btn_types || 'text'" :size="btn_submit.btn_sizes || 'mini'" class="pb" @click="onSubmit()">
+      提交</el-button>
     <el-button
       v-if="btn_select_all.btn_show || false"
       :type="btn_select_all.btn_types || 'text'"
       :size="btn_select_all.btn_sizes || 'mini'"
       class="pb"
-      @click="onSubmitAll"
+      @click="onSubmit({ is_select_all: true })"
     >全选并提交</el-button>
   </span>
 </template>
@@ -49,7 +58,7 @@ export default {
     focus_callback_set: null
   }),
   computed: {
-    btn_submit() {
+    btn_submit () {
       return (this.preferences && this.preferences.btn_submit) || {}
     },
     btn_select_all () {
@@ -58,15 +67,15 @@ export default {
     user_options () {
       return this.$store.state.problems.current_options
     },
-    enable_select_all() {
+    enable_select_all () {
       return this.user_options && this.user_options.enable_select_all
     },
-    filtered_options() {
+    filtered_options () {
       const { options, enable_select_all } = this
       if (!options) return []
       return enable_select_all ? options.concat(['全选']) : options
     },
-    is_select_all() {
+    is_select_all () {
       const { enable_select_all, user_input, options } = this
       return (enable_select_all && user_input[user_input.length - 1] > options.length)
     }
@@ -86,11 +95,11 @@ export default {
       immediate: true
     }
   },
-  destroyed() {
+  destroyed () {
     this.setKeyHandler(false)
   },
   methods: {
-    setKeyHandler(is_set) {
+    setKeyHandler (is_set) {
       if (is_set && !this.focus_callback_set) {
         console.log('callback is set to', this.index)
         document.addEventListener('keyup', this.keyInput)
@@ -120,17 +129,14 @@ export default {
       }
       if (this.filtered_options.length >= value) { this.user_input.push(value) }
     },
-    onSubmit () {
+    onSubmit ({ is_select_all }) {
+      is_select_all |= this.is_select_all
       const { user_input, options } = this
-      const result = this.is_select_all ? options.map((i, index) => index) : user_input
+      const result = is_select_all ? options.map((i, index) => index + 1) : user_input
       const v = result
         .filter(i => i > 0)
         .sort((a, b) => a - b)
       return this.judgeSubmit(v)
-    },
-    onSubmitAll() {
-      this.is_select_all = true
-      return this.onSubmit()
     },
     judgeSubmit (result) {
       let answer = this.data.answer
@@ -139,10 +145,10 @@ export default {
       const is_right = answer.length === result.length && !answer.find((i, index) => {
         return i !== result[index]
       })
-      return this.directSubmit({ is_right })
+      return this.directSubmit({ is_right, answer: result })
     },
-    directSubmit({ is_right, is_manual }) {
-      return this.$emit('onUserSubmit', { is_right, is_manual })
+    directSubmit ({ is_right, is_manual, answer }) {
+      return this.$emit('onUserSubmit', { is_right, is_manual, answer })
     },
     refresh (v) {
       const { data } = this
@@ -171,6 +177,7 @@ export default {
 .content-container {
   display: flex;
 }
+
 .p-ms {
   display: flex;
   align-items: center;

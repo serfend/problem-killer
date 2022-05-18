@@ -80,10 +80,10 @@ export default {
       const is_right = !answer.find((i, index) => {
         return i !== result[index]
       })
-      return this.directSubmit({ is_right })
+      return this.directSubmit({ is_right, answer: result })
     },
-    directSubmit({ is_right, is_manual }) {
-      return this.$emit('onUserSubmit', { is_right, is_manual })
+    directSubmit ({ is_right, is_manual, answer }) {
+      return this.$emit('onUserSubmit', { is_right, is_manual, answer })
     },
     refresh (v) {
       const content = this.data && this.data.content

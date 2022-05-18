@@ -53,7 +53,7 @@ export default {
     requireShowAnswer (show = true) {
       this.$emit('update:showAnswer', show)
     },
-    practice_submit ({ is_right, is_manual }) {
+    practice_submit ({ is_right, is_manual, answer }) {
       if (this.beenSolved) {
         this.$message.warning('已提交过答案啦')
         return
@@ -62,7 +62,7 @@ export default {
       else this.$message.success(is_manual ? '我会做！' : '做对啦~')
       this.requireShowAnswer()
       this.beenSolved = true
-      this.$emit('onAnswer', { is_right, is_manual })
+      this.$emit('onAnswer', { is_right, is_manual, answer })
     }
   }
 }
