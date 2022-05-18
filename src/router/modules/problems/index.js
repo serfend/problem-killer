@@ -38,6 +38,16 @@ const router = {
         icon: 'like_filled',
         noCache: true
       }
+    },
+    {
+      path: 'favorite',
+      component: () => import('@/views/problems/Favorite'),
+      name: 'Favorite',
+      meta: {
+        title: 'default.app.problems.favorite',
+        icon: 'likegood_fill',
+        noCache: true
+      }
     }
   ]
 }
