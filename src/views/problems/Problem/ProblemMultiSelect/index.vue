@@ -25,7 +25,7 @@
         </el-checkbox>
       </el-checkbox-group>
     </div>
-    <el-button :type="btn_submit.btn_types || 'text'" :size="btn_submit.btn_sizes || 'mini'" class="pb" @click="onSubmit()">
+    <el-button :type="btn_submit.btn_types || 'text'" :size="btn_submit.btn_sizes || 'mini'" class="pb" @click="onSubmit({})">
       提交</el-button>
     <el-button
       v-if="btn_select_all.btn_show || false"
