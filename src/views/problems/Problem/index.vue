@@ -15,7 +15,7 @@
 <script>
 import { importAllByDefault } from '@/utils/common/importAll'
 const modules = importAllByDefault(require.context('.', true, /\.vue$/))
-console.log(modules)
+import { tCheck, tArray } from '@/utils/type'
 import api from '@/api/problems'
 import { getTypeName } from './type_dispatch'
 export default {
@@ -64,7 +64,12 @@ export default {
     onClick () {
       this.$emit('requireFocus')
     },
-    onSubmit ({ is_right, is_manual, answer }) {
+    async onSubmit ({ is_right, is_manual, answer }) {
+      const is_empty_answer = !answer || (tCheck(answer) === tArray && !answer.length)
+      if (is_empty_answer) {
+        const result = await this.$confirm('确定要不填答案就提交吗').catch(e => { })
+        if (result !== 'confirm') return
+      }
       const c = this.$refs.base
       c && c.onSubmit({ is_right, is_manual, answer })
     },
