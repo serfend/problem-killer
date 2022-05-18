@@ -65,8 +65,8 @@ export default {
       this.$emit('requireFocus')
     },
     async onSubmit ({ is_right, is_manual, answer }) {
-      const is_empty_answer = !answer || (tCheck(answer) === tArray && !answer.length)
-      if (is_empty_answer) {
+      const is_empty_answer = !answer || (tCheck(answer) === tArray && (!answer.length || answer.find(i => i) === null))
+      if (is_empty_answer && is_manual) {
         const result = await this.$confirm('确定要不填答案就提交吗').catch(e => { })
         if (result !== 'confirm') return
       }
