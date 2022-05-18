@@ -246,7 +246,7 @@ export default {
       this.do_attach_analysis(items)
       if (combo_problem) items = this.filter_with_record({ items, predict: v => v.filter(i => ((dic[i.id] && dic[i.id].combo_kill) || 0) < combo_problem), reason: '筛选连对' })
       if (new_problem) items = this.filter_with_record({ items, predict: v => v.filter(v.filter(i => !(dic[i.id] && dic[i.id].total))), reason: '筛选新题' })
-      if (problem_max_num > 0) this.filter_with_record({ items, predict: v => v.slice(0, problem_max_num), reason: '筛选最大刷题数' })
+      if (problem_max_num > 0) items = this.filter_with_record({ items, predict: v => v.slice(0, problem_max_num), reason: '筛选最大刷题数' })
       return items
     },
     do_attach_analysis (r) {
