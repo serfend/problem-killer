@@ -18,8 +18,8 @@ export function get_all_database_summary ({ pageIndex = 0, pageSize = 2 }) {
     })
   })
 }
-export function build_span(i, value) {
-  const r = { type: 'span', i, value }
+export function build_span(i, value, type = 'span') {
+  const r = { type, i, value }
   r.style = { 'font-size': '1.2rem' }
   return r
 }
@@ -32,12 +32,20 @@ export function build_content(content) {
   if (!content) return { items: [], count: 0 }
   const r = []
   content = append_endchar(content)
-  const items = content.split('{{ANS}}') || []
-  items.map((v, index) => {
-    r.push(build_span(index, v))
-    if (index < items.length - 1) r.push(build_input(index, v))
+  const lines = content.split('\n')
+  let answer_length = 0
+  let index = 0
+  lines.map(content => {
+    r.push(build_span(index, '', 'div'))
+    const items = content.split('{{ANS}}') || []
+    answer_length += (items.length - 1)
+    items.map((v) => {
+      r.push(build_span(index, v))
+      if (index < items.length - 1) r.push(build_input(index, v))
+      index++
+    })
   })
-  return { items: r, count: items.length - 1 }
+  return { items: r, count: answer_length }
 }
 const default_attrs = {
   size: 'mini',
