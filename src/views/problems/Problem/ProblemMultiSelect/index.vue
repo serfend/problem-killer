@@ -119,7 +119,7 @@ export default {
         return this.directSubmit({ is_right: false, is_manual: true })
       } else if (key === 'ArrowLeft') {
         return this.directSubmit({ is_right: true, is_manual: true })
-      } else if (key === 'Enter') return this.onSubmit()
+      } else if (key === 'Enter') return this.onSubmit({})
       const value = parseInt(key)
       if (!value) return
       const index = this.user_input.findIndex(i => i === value)
