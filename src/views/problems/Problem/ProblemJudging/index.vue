@@ -50,7 +50,7 @@ export default {
   computed: {
     btn_submit () {
       return (this.preferences && this.preferences.btn_submit) || {}
-    },
+    }
   },
   watch: {
     'data.id': {
@@ -110,7 +110,7 @@ export default {
       const is_right = Number(answer) === Number(result)
       return this.directSubmit({ is_right })
     },
-    directSubmit({ is_right, is_manual }) {
+    directSubmit ({ is_right, is_manual }) {
       return this.$emit('onUserSubmit', { is_right, is_manual })
     },
     refresh (v) {

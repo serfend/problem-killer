@@ -1,5 +1,10 @@
 <template>
-  <el-card :style="{'box-shadow':iFocus?'0 2px 12px 0 #0ff7f0':null}" class="base-card" @mouseenter.native="onMouseEnter" @mouseleave.native="onMouseLeave">
+  <el-card
+    :style="{ 'box-shadow': iFocus ? '0 2px 12px 0 #0ff7f0' : null }"
+    class="base-card"
+    @mouseenter.native="onMouseEnter"
+    @mouseleave.native="onMouseLeave"
+  >
     <template #header>
       <ProblemHeader ref="header" :show-answer.sync="showAnswer" v-bind="$props" @onAnswer="onAnswer" />
     </template>
@@ -9,6 +14,7 @@
     <ProblemAnalysis
       :show-answer.sync="showAnswer"
       v-bind="$props"
+      :user-answer="user_answer"
       :user-answer-result="userAnswerResult"
       :user-answer-confirm-result="userAnswerConfirmResult"
       @onAnswerResult="onAnswerResult"
@@ -32,6 +38,7 @@ export default {
   },
   data: () => ({
     showAnswer: false,
+    user_answer: null,
     userAnswerResult: null,
     userAnswerConfirmResult: false,
     lastEnter: 0,
@@ -43,7 +50,7 @@ export default {
     options () {
       return this.$store.state.problems.current_options
     },
-    lighting_mode() {
+    lighting_mode () {
       return this.options && this.options.lighting_mode
     },
     current_database () {
@@ -87,8 +94,9 @@ export default {
       const d = new Date() - lastEnter
       this.time_spent += d
     },
-    onAnswer ({ is_right, is_manual }) {
+    onAnswer ({ is_right, is_manual, answer }) {
       this.userAnswerResult = is_right
+      this.user_answer = answer
       if (is_right && this.lighting_mode) return this.onAnswerResult({ is_right, is_manual })
       if (!is_right) this.update_problem({ is_right: false, is_manual })
     },

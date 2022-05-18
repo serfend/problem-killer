@@ -18,6 +18,13 @@
       </el-checkbox-group>
     </div>
     <el-button :type="btn_submit.btn_types||'text'" :size="btn_submit.btn_sizes||'mini'" class="pb" @click="onSubmit">提交</el-button>
+    <el-button
+      v-if="btn_select_all.btn_show || false"
+      :type="btn_select_all.btn_types || 'text'"
+      :size="btn_select_all.btn_sizes || 'mini'"
+      class="pb"
+      @click="onSubmitAll"
+    >全选并提交</el-button>
   </span>
 </template>
 
@@ -44,6 +51,9 @@ export default {
   computed: {
     btn_submit() {
       return (this.preferences && this.preferences.btn_submit) || {}
+    },
+    btn_select_all () {
+      return (this.preferences && this.preferences.btn_select_all) || {}
     },
     user_options () {
       return this.$store.state.problems.current_options
@@ -117,6 +127,10 @@ export default {
         .filter(i => i > 0)
         .sort((a, b) => a - b)
       return this.judgeSubmit(v)
+    },
+    onSubmitAll() {
+      this.is_select_all = true
+      return this.onSubmit()
     },
     judgeSubmit (result) {
       let answer = this.data.answer
