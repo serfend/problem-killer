@@ -112,7 +112,7 @@ export default {
     },
     onSubmit () {
       const { user_input, options } = this
-      const result = this.is_select_all ? options : user_input
+      const result = this.is_select_all ? options.map((i, index) => index) : user_input
       const v = result
         .filter(i => i > 0)
         .sort((a, b) => a - b)
