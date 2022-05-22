@@ -63,7 +63,7 @@ export default {
   watch: {
     userAnswerConfirmResult: {
       handler (val) {
-        this.$emit('update:completed', val)
+        this.$emit('update:completed', val ? new Date() : null)
       }
     }
   },
@@ -102,9 +102,11 @@ export default {
       if (!is_right) this.update_problem({ is_right: false, is_manual })
     },
     onAnswerResult ({ is_right, is_manual, answer }) {
+      console.log('onAnswerResult', is_right, is_manual, answer)
       this.userAnswerConfirmResult = true
       if (this.userAnswerResult === false) return
       this.showAnswer = false
+      console.log('update_problem', is_right, is_manual, answer)
       this.update_problem({ is_right, is_manual, answer })
     },
     update_problem ({ is_right, is_manual, answer }) {

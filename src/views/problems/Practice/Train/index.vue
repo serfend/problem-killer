@@ -1,5 +1,6 @@
 <template>
   <div v-if="name" v-loading="loading">
+
     <div v-if="database">
       <el-card class="right-hover-panel flashing-layout-right">
         <span>
@@ -10,6 +11,7 @@
       <div class="train-container">
         <div class="train">
           <h1>题库：{{ database.alias || database.description }}</h1>
+          <PracticeTip :show-tip.sync="show_tip" />
           <ProblemList :data="database.problems" @onStatus="v => problem_status = v" @requireInit="show_options=true" />
         </div>
       </div>
@@ -43,6 +45,7 @@ export default {
     ProblemList: () => import('./ProblemList'),
     TrainOptions: () => import('./TrainOptions'),
     TrainStatus: () => import('./TrainStatus'),
+    PracticeTip: () => import('../PracticeTip')
   },
   props: {
     name: { type: String, default: null }
@@ -53,7 +56,8 @@ export default {
     problem_focus: null,
     problem_status: null,
     show_options: false,
-    current_option_focus: '1'
+    current_option_focus: '1',
+    show_tip: false
   }),
   computed: {
     ...mapState({

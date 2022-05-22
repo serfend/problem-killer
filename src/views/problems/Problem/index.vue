@@ -34,7 +34,7 @@ export default {
   },
   data: () => ({
     ProblemType: api.ProblemType,
-    completed: false,
+    completed: null,
     submitted: false
   }),
   computed: {
@@ -57,7 +57,9 @@ export default {
   },
   methods: {
     handle_submit ({ is_right, is_manual, answer }) {
+      console.log('handle_submit', is_right, is_manual, answer)
       if (this.submitted) return
+      console.log('handle_submit_true', is_right, is_manual, answer)
       this.submitted = true
       return this.$emit('onSubmit', { is_right, is_manual, answer })
     },
@@ -74,7 +76,7 @@ export default {
       c && c.onSubmit({ is_right, is_manual, answer })
     },
     reset () {
-      this.completed = false
+      this.completed = null
       this.submitted = false
       const c = this.$refs.base
       c && c.reset()

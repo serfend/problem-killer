@@ -137,7 +137,7 @@ export default {
     beforeLeave,
     problem_show (d) {
       if (!d) return
-      return !this.kill_problem || !d.completed
+      return !this.kill_problem || (!d.completed || d.completed > new Date().getTime() - 1e3)
     },
     onKeyUp (v) {
       const { ctrlKey, shiftKey, key } = v
@@ -174,6 +174,7 @@ export default {
       this.handle_focus({ id: filtered_data[new_index].id, is_manual })
     },
     onSubmit ({ problem, is_right }) {
+      console.log('onsubmit to status', problem)
       this.$refs.completion_tip.update_status({ problem, is_right })
       this.focus_next({ focus_move_step: 1 })
     },
@@ -323,7 +324,7 @@ export default {
             return null // 如果id重复，则标记题目为待删除
           }
           id_dict[r.id] = 1 // 将题目加入重复判断字典中
-          r.completed = false
+          r.completed = null
           return r
         })
         prblems = this.do_filter_problems(prblems)
