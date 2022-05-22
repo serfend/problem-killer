@@ -39,7 +39,7 @@ export function build_content(content) {
     r.push(build_span(index, '', 'div'))
     const items = content.split('{{ANS}}') || []
     answer_length += (items.length - 1)
-    items.map((child_index, v) => {
+    items.map((v, child_index) => {
       r.push(build_span(index, v))
       if (child_index < items.length - 1) r.push(build_input(index, v))
       index++

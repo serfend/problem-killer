@@ -4,12 +4,6 @@
   "star": 5,
   "problems": [
     {
-      "content": "无效{{ 1+1 }}题干",
-      "options": ["选项A", "选项B", "选项C"],
-      "analysis": "",
-      "answer": null
-    },
-    {
       "content": "单选题干\n换行符号\n换行符号\n换行符号",
       "options": ["选项A", "选项B", "选项C"],
       "analysis": "这题选C",
@@ -45,6 +39,12 @@
     {
       "content": "简答题题干",
       "answer": "这里填入答案"
+    },
+    {
+      "content": "这是一道无效的题。提示：无效{{ 1+1 }}题干",
+      "options": ["选项A", "选项B", "选项C"],
+      "analysis": "",
+      "answer": null
     }
   ]
 }
