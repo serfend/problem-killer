@@ -99,7 +99,7 @@ export default {
     parseTime,
     convert_answer_from_raw(r) {
       if (!r) return '无答案'
-      if (r.length) return r.map(this.convert_answer)
+      if (r instanceof Array) return r.map(this.convert_answer)
       return this.convert_answer(r)
     },
     convert_answer (v) {
