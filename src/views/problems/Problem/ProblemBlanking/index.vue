@@ -48,12 +48,18 @@ export default {
         console.log('callback is set to', this.index)
         document.addEventListener('keyup', this.keyInput)
         this.focus_callback_set = true
+        this.onFocus({ i: 0, type: 'el-input' })
         return
       } else if (this.focus_callback_set) {
         console.log('callback remove from', this.index)
         document.removeEventListener('keyup', this.keyInput)
         this.focus_callback_set = false
       }
+    },
+    onFocus(v) {
+      const d = this.$refs[`${v.type}${v.i}`]
+      const c = d && d[0]
+      c && c.focus()
     },
     keyInput(v) {
       const { ctrlKey, altKey, key } = v
@@ -68,10 +74,7 @@ export default {
     onSubmit(v) {
       const iCount = v.i + 1
       if (iCount + 1 < this.user_input.length) {
-        const d = this.$refs[`${v.type}${v.i}`]
-        const c = d && d[0]
-        c && c.focus()
-        return
+        return this.onFocus(v)
       }
       return this.judgeSubmit(this.user_input)
     },
