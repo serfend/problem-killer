@@ -54,14 +54,16 @@ export default {
       this.$emit('update:showAnswer', show)
     },
     practice_submit ({ is_right, is_manual, answer }) {
-      if (this.beenSolved) {
+      if (this.beenSolved && !is_manual) {
         this.$message.warning('已提交过答案啦')
         return
       }
-      if (!is_right) this.$message.error((is_manual ? '不会做' : '做错了') + '，仔细看看哦~')
-      else this.$message.success(is_manual ? '我会做！' : '做对啦~')
-      this.requireShowAnswer()
-      this.beenSolved = true
+      if (!this.beenSolved) {
+        if (!is_right) this.$message.error((is_manual ? '不会做' : '做错了') + '，仔细看看哦~')
+        else this.$message.success(is_manual ? '我会做！' : '做对啦~')
+        this.requireShowAnswer()
+        this.beenSolved = true
+      }
       this.$emit('onAnswer', { is_right, is_manual, answer })
     }
   }

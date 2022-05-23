@@ -1,6 +1,6 @@
 <template>
   <el-card
-    :style="{ 'box-shadow': iFocus ? '0 2px 12px 0 #0ff7f0' : null }"
+    :style="{ 'box-shadow': styleBoxShadow }"
     class="base-card"
     @mouseenter.native="onMouseEnter"
     @mouseleave.native="onMouseLeave"
@@ -24,7 +24,9 @@
 
 <script>
 import { statistics_problem } from './statistics'
+import { problemColorSet } from '../type_dispatch'
 import api from '@/api/problems'
+import { debounce } from '@/utils'
 export default {
   name: 'ProblemBase',
   components: {
@@ -44,7 +46,9 @@ export default {
     lastEnter: 0,
     time_spent: 0,
     mouse_active: false,
-    reset_index: true
+    reset_index: true,
+    is_right: null,
+    styleBoxShadow: null
   }),
   computed: {
     options () {
@@ -56,8 +60,10 @@ export default {
     current_database () {
       return this.$store.state.problems.current_database
     },
-    iFocus () {
-      return this.focus || this.mouse_active
+    requireUpdateBoxShadow() {
+      return debounce(() => {
+        this.update_box_shadow()
+      }, 2e2)
     }
   },
   watch: {
@@ -65,9 +71,27 @@ export default {
       handler (val) {
         this.$emit('update:completed', val ? new Date() : null)
       }
-    }
+    },
+    mouse_active() { this.requireUpdateBoxShadow() },
+    focus() { this.requireUpdateBoxShadow() },
+    is_right() { this.requireUpdateBoxShadow() },
   },
   methods: {
+    update_box_shadow() {
+      const get_color = () => {
+        const { mouse_active, focus, is_right } = this
+        if (is_right === null) {
+          if (mouse_active) return `0 2px 12px 0 ${problemColorSet.mouse_focus}`
+          if (focus) return `0 2px 12px 0 ${problemColorSet.focus}`
+          return null
+        }
+        const t = '0 4px 12px 0 '
+        const r = `${t}${is_right ? problemColorSet.answer_right : problemColorSet.answer_wrong}`
+        console.log('change to ', r)
+        return r
+      }
+      this.styleBoxShadow = get_color()
+    },
     reset () {
       this.showAnswer = false
       this.userAnswerResult = null
@@ -95,16 +119,17 @@ export default {
       this.time_spent += d
     },
     onAnswer ({ is_right, is_manual, answer }) {
+      if (this.is_right === null || this.is_right) this.is_right = is_right
+      const is_confirm_submit = !(this.userAnswerResult === null)
       this.userAnswerResult = is_right
       this.user_answer = answer
-      // 当做对了 且 开启了急速过题 且是正常提交答案，则直接跳过该题显示答案
-      if (is_right && this.lighting_mode && !is_manual) return this.onAnswerResult({ is_right, is_manual })
-      if (!is_right) this.update_problem({ is_right: false, is_manual })
+      // 当 是确认答案 或 (做对了 且 开启了急速过题 且是正常提交答案)，则直接跳过该题显示答案
+      if (is_confirm_submit || (is_right && this.lighting_mode && !is_manual)) return this.onAnswerResult({ is_right, is_manual, answer })
     },
     onAnswerResult ({ is_right, is_manual, answer }) {
-      console.log('onAnswerResult', is_right, is_manual, answer)
+      if (this.is_right === null || this.is_right) this.is_right = is_right
+      console.warn('onAnswerResult', is_right, is_manual, answer)
       this.userAnswerConfirmResult = true
-      if (this.userAnswerResult === false) return
       this.showAnswer = false
       console.log('update_problem', is_right, is_manual, answer)
       this.update_problem({ is_right, is_manual, answer })
