@@ -6,6 +6,8 @@
         <Train :name="database">
           <template #sidebar>
             <span>
+              <ProblemSearch :name="database" />
+              <el-divider />
               <el-button type="danger" style="margin-bottom:0.5rem" @click="requireStart({ is_manual: true })">返回
               </el-button>
               <PracticeTip :show-tip.sync="show_tip" />
@@ -23,7 +25,8 @@ export default {
   components: {
     DataBaseSelector: () => import('./DataBaseSelector'),
     Train: () => import('./Train'),
-    PracticeTip: () => import('./PracticeTip')
+    PracticeTip: () => import('./PracticeTip'),
+    ProblemSearch: () => import('../ProblemSearch')
   },
   data: () => ({
     database: null,
