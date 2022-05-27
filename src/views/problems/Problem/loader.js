@@ -1,7 +1,7 @@
 import api from '@/api/problems'
-export function get_all_database_summary ({ pageIndex = 0, pageSize = 2 }) {
+export function get_all_database_summary ({ data, pageIndex = 0, pageSize = 2 }) {
   return new Promise((res, rej) => {
-    api.get_database({ pageIndex, pageSize }).then(data => {
+    api.get_database({ data, pageIndex, pageSize }).then(data => {
       const { databases, total } = data
       const db = databases.map(i => new Promise((res, rej) => {
         const name = i.name

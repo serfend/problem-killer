@@ -2,10 +2,12 @@ import request from '@/utils/request'
 import { common_data } from '@/api/common'
 import { tNum, tBool, tStr, tArray, tCheck } from '@/utils/type'
 const api = 'data/problems/'
-export function get_database ({ pageIndex, pageSize }) {
+export function get_database ({ data, pageIndex, pageSize }) {
+  const db_name = data && data.name
   return new Promise((res, rej) => {
     request.get(`${api}index.json`, {}).then(data => {
-      const databases = data.database
+      let databases = data.database
+      if (db_name) databases = databases.filter(i => i.name.indexOf(db_name) > -1)
       const total = databases && databases.length
       return res({
         databases: (databases && databases.splice(pageIndex * pageSize, pageSize)) || [],
@@ -110,7 +112,7 @@ export function user_database_detail ({ name, key, val }) {
  * @export
  * @param {*} { database, problem_id, val }
  */
-export function user_problem_result({ database, problem_id, val }) {
+export function user_problem_result ({ database, problem_id, val }) {
   return new Promise((res, rej) => {
     user_database_detail({ name: database }).then(data => {
       const problems = data.problems || {}

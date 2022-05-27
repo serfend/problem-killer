@@ -1,7 +1,11 @@
 <template>
   <div v-loading="loading">
     <h2>题库选取</h2>
-    <InfinityList :load-method="refresh" :load-payload="{}" :load-page-merge-method="merge_page_payload" :items.sync="database">
+    <div style="display:flex">
+      <el-input v-model="search.name" placeholder="搜索题库代号..." />
+      <el-button type="primary" @click="onSearch">搜索</el-button>
+    </div>
+    <InfinityList ref="list" :load-method="refresh" :load-payload="search" :load-page-merge-method="merge_page_payload" :items.sync="database">
       <template slot="items">
         <el-row :gutter="20">
           <el-col v-for="d in database_filtered" :key="d.name" :lg="12" :md="24" class="database-item">
@@ -24,7 +28,10 @@ export default {
   data: () => ({
     loading: false,
     database: [],
-    totalPage: 0
+    totalPage: 0,
+    search: {
+      name: null
+    }
   }),
   computed: {
     database_filtered () {
@@ -35,6 +42,11 @@ export default {
     }
   },
   methods: {
+    onSearch() {
+      const c = this.$refs.list
+      c.reset()
+      c.refresh()
+    },
     merge_page_payload(payload, page) {
       return Object.assign({ data: payload }, { pageIndex: page.index, pageSize: page.size })
     },

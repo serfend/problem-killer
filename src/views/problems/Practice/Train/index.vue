@@ -1,6 +1,5 @@
 <template>
   <div v-if="name" v-loading="loading">
-
     <div v-if="database">
       <el-card class="right-hover-panel flashing-layout-right">
         <span>
