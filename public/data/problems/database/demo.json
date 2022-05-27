@@ -39,12 +39,6 @@
     {
       "content": "简答题题干",
       "answer": "这里填入答案"
-    },
-    {
-      "content": "这是一道无效的题。提示：无效{{ 1+1 }}题干",
-      "options": ["选项A", "选项B", "选项C"],
-      "analysis": "",
-      "answer": null
     }
   ]
 }

@@ -181,6 +181,7 @@ export default {
       if (is_manual) {
         const result = await this.$confirm('是否要刷新题目').catch(e => { })
         if (result !== 'confirm') return
+        await this.$store.dispatch('problems/update_database')
       }
       this.filtered_data = null
       console.log('problem list reseting')
