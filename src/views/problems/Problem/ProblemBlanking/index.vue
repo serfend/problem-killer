@@ -1,6 +1,6 @@
 <template>
   <span>
-    <component :is="b.type" v-for="(b,bindex) in blanking" :ref="`${b.type}${b.i}`" :key="bindex" v-model="user_input[b.i]" v-bind="b.attrs" :style="b.style" @keyup.enter.native="onSubmit(b)">{{ b.value }}
+    <component :is="b.type" v-for="(b,bindex) in blanking" :ref="`${b.type}${b.i}`" :key="bindex" v-model="user_input[b.i]" v-bind="b.attrs" :style="b.style" @keyup.enter.native="onSubmit(b)" @click="current_index=b.i">{{ b.value }}
     </component>
   </span>
 </template>
@@ -21,7 +21,8 @@ export default {
   data: () => ({
     blanking: null,
     user_input: [],
-    focus_callback_set: null
+    focus_callback_set: null,
+    current_index: 0
   }),
   watch: {
     data: {
@@ -48,7 +49,7 @@ export default {
         console.log('callback is set to', this.index)
         document.addEventListener('keyup', this.keyInput)
         this.focus_callback_set = true
-        this.onFocus({ i: 0, type: 'el-input' })
+        this.onFocus({ type: 'el-input' })
         return
       } else if (this.focus_callback_set) {
         console.log('callback remove from', this.index)
@@ -57,23 +58,23 @@ export default {
       }
     },
     onFocus(v) {
-      const d = this.$refs[`${v.type}${v.i}`]
+      const d = this.$refs[`${v.type}${this.current_index}`]
       const c = d && d[0]
       c && c.focus()
     },
     keyInput(v) {
       const { ctrlKey, altKey, key } = v
-      console.log('key input', ctrlKey, altKey, key, this.data.id)
+      console.log('key input', v, ctrlKey, altKey, key, this.data.id)
       if (!ctrlKey || !altKey) return
       if (key === 'ArrowRight') {
         return this.directSubmit({ is_right: false, is_manual: true })
       } else if (key === 'ArrowLeft') {
         return this.directSubmit({ is_right: true, is_manual: true })
-      } else if (key === 'Enter') this.onSubmit({ type: 'el-input', i: -1 })
+      } else if (key === 'Enter') this.onSubmit({ type: 'el-input', i: this.current_index })
     },
     onSubmit(v) {
-      const iCount = v.i + 1
-      if (iCount + 1 < this.user_input.length) {
+      this.current_index = v.i + 1
+      if (v.i + 1 < this.user_input.length) {
         return this.onFocus(v)
       }
       return this.judgeSubmit(this.user_input)
