@@ -58,9 +58,9 @@ export default {
     updatedb ({ dict, is_manual = true }) {
       this.$emit('requireResetProblem', { is_manual, dict })
     },
-    init_status ({ prblems, duplicated }) {
+    init_status ({ problems, duplicated }) {
       const status = {
-        total: prblems.length,
+        total: problems.length,
         solved: 0,
         wrong: 0,
         duplicated

@@ -25,6 +25,7 @@ export default {
     ProblemBase: () => import('./ProblemBase')
   },
   props: {
+    onlyRead: { type: Boolean, default: false },
     show: { type: Boolean, default: true },
     data: { type: Object, default: null },
     focus: { type: Boolean, default: false },

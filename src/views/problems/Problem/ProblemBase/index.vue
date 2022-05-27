@@ -34,6 +34,7 @@ export default {
     ProblemHeader: () => import('../ProblemBase/ProblemHeader'),
   },
   props: {
+    onlyRead: { type: Boolean, default: false },
     data: { type: Object, default: null },
     focus: { type: Boolean, default: false },
     index: { type: Number, default: null }
