@@ -129,9 +129,9 @@ export function init_problems (data, options = {}) {
       r.completed = null
       return r
     })
+    const total_count = problems.length
     const { items, filter_record } = do_filter_problems(problems, options)
     problems = items.map((i, page_index) => Object.assign({ page_index }, i)) // 初始化题目的页面位置
-    const total_count = problems.length
     return res({ problems, duplicated: id_dict, total_count, filter_record })
   })
 }

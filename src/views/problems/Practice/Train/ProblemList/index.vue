@@ -200,14 +200,14 @@ export default {
     init (data) {
       if (!this.options) return this.$emit('requireInit')
       this.loading = true
-      init_problems(data || this.data, this.options).then(({ problems, duplicated, total_data_count, filter_record }) => {
+      init_problems(data || this.data, this.options).then(({ problems, duplicated, total_count, filter_record }) => {
         this.filtered_data = problems
         this.filter_record = filter_record
         this.$refs.completion_tip.init_status({ problems, duplicated })
         this.$refs.completion_tip.init_wrong_set(problems)
         setTimeout(() => {
           const visual_count = this.filtered_data.length
-          const hide_count = total_data_count - visual_count
+          const hide_count = total_count - visual_count
           const { filter_record } = this
           if (hide_count > 0) {
             this.$notify.warning({
