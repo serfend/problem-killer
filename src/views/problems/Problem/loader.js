@@ -38,12 +38,12 @@ export function build_content(content) {
   lines.map(content => {
     r.push(build_span(index, '', 'div'))
     const items = content.split('{{ANS}}') || []
-    answer_length += (items.length - 1)
     items.map((v, child_index) => {
       r.push(build_span(index, v))
-      if (child_index < items.length - 1) r.push(build_input(index, v))
+      if (child_index < items.length - 1) r.push(build_input(answer_length + child_index, v))
       index++
     })
+    answer_length += (items.length - 1)
   })
   return { items: r, count: answer_length }
 }
