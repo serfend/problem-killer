@@ -1,6 +1,9 @@
 <template>
   <el-card>
-    <el-form v-if="data" label-width="5rem">
+    <el-form v-if="data" label-width="6rem">
+      <el-form-item label="开始时间">
+        <span>{{ parseTime(time_start) }}</span>
+      </el-form-item>
       <el-form-item label="总题数">
         <span>
           <span>{{ data.total }}</span>
@@ -9,17 +12,22 @@
           }}题重复)</el-button>
         </span>
       </el-form-item>
-      <el-form-item label="已完成">
+      <el-form-item label="轮/次 完成">
         <span>{{ data.solved }}</span>
+        <span> / </span>
+        <span>{{ data.global_solved }}</span>
       </el-form-item>
-      <el-form-item label="总错题">
+      <el-form-item label="轮/次 错题">
         <span>{{ data.wrong }}</span>
+        <span> / </span>
+        <span>{{ data.global_wrong }}</span>
       </el-form-item>
-      <el-form-item label="开始时间">
-        <span>{{ parseTime(time_start) }}</span>
-      </el-form-item>
-      <el-form-item label="已耗时">
+      <el-form-item label="总/题均 耗时">
         <span>{{ time_spent || '未开始' }}</span>
+        <span> / </span>
+        <span>{{ `${Math.ceil((time_spent_seconds && data.global_solved && (time_spent_seconds /
+          data.global_solved)) * 100) / 100}秒` || '暂无'
+        }}</span>
       </el-form-item>
     </el-form>
     <el-dialog v-if="showDuplicated" :visible.sync="showDuplicated" append-to-body>
@@ -43,7 +51,7 @@
 </template>
 
 <script>
-import { parseTime } from '@/utils'
+import { parseTime, datedifference } from '@/utils'
 export default {
   name: 'TrainStatus',
   props: {
@@ -52,6 +60,7 @@ export default {
   data: () => ({
     time_start: new Date(),
     time_spent: null,
+    time_spent_seconds: 0,
     timer: null,
     showDuplicated: false
   }),
@@ -67,7 +76,8 @@ export default {
   mounted () {
     this.timer = setInterval(() => {
       const t = new Date()
-      this.time_spent = parseTime(t - this.time_start - 8 * 3600e3, '{h}:{i}:{s}')
+      this.time_spent = parseTime(t - this.time_start - 8 * 3600e3, '{d}d{h}h{i}m{s}s')
+      this.time_spent_seconds = datedifference(new Date(), this.time_start, 'second')
     }, 1e3)
   },
   destroyed () {

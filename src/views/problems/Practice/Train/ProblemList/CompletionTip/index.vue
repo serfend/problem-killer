@@ -24,6 +24,10 @@ export default {
       solved: 0,
       wrong: 0
     },
+    global_status: {
+      global_solved: 0,
+      global_wrong: 0
+    },
     action_record: {
       wrong_history: {},
       wrong_current: {},
@@ -48,7 +52,8 @@ export default {
   watch: {
     status: {
       handler (v) {
-        this.$emit('onStatus', v)
+        v = Object.assign({}, v)
+        this.$emit('onStatus', Object.assign(v, this.global_status))
       },
       immediate: true,
       deep: true
@@ -80,8 +85,10 @@ export default {
     },
     update_status ({ problem, is_right }) {
       const { status } = this
+      this.global_status.global_solved++
       status.solved++
       if (!is_right) {
+        this.global_status.global_wrong++
         status.wrong++
         this.action_record.wrong_current[problem.id] = true
       }
