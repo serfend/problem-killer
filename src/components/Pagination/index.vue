@@ -42,14 +42,29 @@ export default {
   watch: {
     pagesetting: {
       handler(val) {
-        this.innerPages.pageIndex = val.pageIndex + 1
-        this.innerPages.pageSize = val.pageSize
+        const p = this.innerPages
+        p.pageIndex = val.pageIndex + 1
+        p.pageSize = val.pageSize
+        this.checkTotalCount()
       },
       deep: true,
+      immediate: true
+    },
+    totalCount: {
+      handler(val) {
+        this.checkTotalCount()
+      },
       immediate: true
     }
   },
   methods: {
+    checkTotalCount() {
+      const p = this.innerPages
+      if ((p.pageIndex - 1) * p.pageSize > this.totalCount) {
+        p.pageIndex = Math.ceil(this.totalCount / p.pageSize)
+        this.handleChange()
+      }
+    },
     handleSizeChange(val) {
       this.innerPages.pageSize = val
       this.handleChange()
