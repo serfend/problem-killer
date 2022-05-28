@@ -49,7 +49,6 @@ export default {
         console.log('callback is set to', this.index)
         document.addEventListener('keyup', this.keyInput)
         this.focus_callback_set = true
-        this.onFocus({ type: 'el-input' })
         return
       } else if (this.focus_callback_set) {
         console.log('callback remove from', this.index)

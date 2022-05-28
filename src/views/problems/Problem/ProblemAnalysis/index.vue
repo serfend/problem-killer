@@ -88,10 +88,10 @@ export default {
   watch: {
     userAnswerResult: {
       handler (val) {
-        setTimeout(() => {
-          const e = this.$refs.btn_confirm
-          e && e.$el.focus()
-        }, 2e2)
+        // setTimeout(() => {
+        //   const e = this.$refs.btn_confirm
+        //   e && e.$el.focus()
+        // }, 2e2)
       }
     }
   },
