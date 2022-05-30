@@ -5,11 +5,13 @@
 > 不需要数据库，不需要服务器。
 
 <p align="center">
+<a href="https://github.com/serfend/pydumpck/"><img alt="views" src="https://visitor-badge.glitch.me/badge?page_id=serfend/problem-killer&left_text=views" /></a> 
 <a href="https://github.com/serfend/problem-killer/releases"><img alt="GitHub release" src="https://img.shields.io/github/release/serfend/problem-killer.svg?style=flat-square" /></a>
 <a href="https://github.com/serfend/problem-killer/releases"><img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/serfend/problem-killer/total.svg?style=flat-square&color=%2364ff82" /></a>
 <a href="https://github.com/serfend/problem-killer/commits"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/serfend/problem-killer.svg?style=flat-square" /></a>
 <a href="https://github.com/serfend/problem-killer/actions/workflows/node.js.yml"><img alt="GitHub Workflow Status" src="https://github.com/serfend/problem-killer/actions/workflows/node.js.yml/badge.svg" /></a>
 </p>
+
 
 ## **在线体验**
 
