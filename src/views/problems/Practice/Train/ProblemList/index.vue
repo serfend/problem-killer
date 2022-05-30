@@ -178,6 +178,7 @@ export default {
       this.focus_next({ focus_move_step: 1 })
     },
     async reset ({ data, is_manual }) {
+      if (this.loading) return
       if (is_manual) {
         const result = await this.$confirm('是否要刷新题目').catch(e => { })
         if (result !== 'confirm') return
@@ -199,6 +200,7 @@ export default {
     },
     init (data) {
       if (!this.options) return this.$emit('requireInit')
+      if (this.loading) return
       this.loading = true
       init_problems(data || this.data, this.options).then(({ problems, duplicated, total_count, filter_record }) => {
         this.filtered_data = problems
@@ -218,8 +220,11 @@ export default {
           const item = this.filtered_data[0]
           if (!item) return
           this.handle_focus({ id: item.id })
+          setTimeout(() => {
+            this.loading = false
+          }, 5e2)
         }, 2e2)
-      }).finally(() => {
+      }).catch(() => {
         this.loading = false
       })
     }
