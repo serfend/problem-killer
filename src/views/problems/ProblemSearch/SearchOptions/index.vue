@@ -1,7 +1,7 @@
 <template>
   <div style="display:flex">
-    <el-input v-model="inner_search.name" placeholder="题目内容" />
-    <el-button type="primary" @click="$emit('onSearch')">搜索</el-button>
+    <el-input v-model="inner_search.name" placeholder="题目内容" @keyup.enter.native="handleSearch" />
+    <el-button type="primary" @click="handleSearch">搜索</el-button>
   </div>
 </template>
 
@@ -28,6 +28,11 @@ export default {
       }
     }
   },
+  methods: {
+    handleSearch() {
+      this.$emit('onSearch')
+    }
+  }
 }
 </script>
 
