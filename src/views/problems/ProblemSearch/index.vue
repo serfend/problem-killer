@@ -5,7 +5,7 @@
       <template #title>
         <h3>题库:{{ database_data.alias }}(共{{ total_data_count }}题)</h3>
       </template>
-      <SearchOptions v-model="search" @onSearch="onSearch" />
+      <SearchOptions v-model="search" :advance="true" @onSearch="onSearch" />
       <transition-group
         name="slide-fade"
         mode="out-in"
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-
+import { build_options } from './SearchOptions/options'
 import { beforeLeave, enter, beforeEnter } from '../Practice/Train/ProblemList/animations'
 import { mapState } from 'vuex'
 import { init_problems } from '../Practice/Train/ProblemList/problem_init'
@@ -43,7 +43,13 @@ export default {
   data: () => ({
     loading: false,
     search: {
-      name: null
+      content: null,
+      name: null,
+      answer: null,
+      option: null,
+      count_wrong: 0,
+      count_right: 0,
+      count_total: 0,
     },
     database_data: {},
     problems: [],
@@ -62,11 +68,48 @@ export default {
       return filtered_problems.slice(start, end)
     },
     filtered_problems () {
-      const data = this.problems
+      let data = this.problems
       if (!data) return []
-      const name = this.search.name
-      if (!name) return data
-      return data.filter(i => JSON.stringify(i).indexOf(name) > -1)
+      const options_arr = build_options(this.search)
+      const options = options_arr.reduce((prev, cur) => (prev[cur.k] = cur.v) && prev, {})
+      const { name, answer, option, count_wrong, count_right, count_total } = options
+      console.log({ name, answer, option, count_wrong, count_right, count_total })
+      if (name) {
+        name.map(name => {
+          data = data.filter(i => i.content.indexOf(name) > -1)
+        })
+      }
+      if (answer) {
+        answer.map(answer => {
+          data = data.filter(i => {
+            const p_answer = i.answer
+            if (!p_answer) return false
+            if (p_answer.push) {
+              return p_answer.find(a => `${a}`.indexOf(answer) > -1)
+            }
+            return `${p_answer}`.indexOf(answer) > -1
+          })
+        })
+      }
+      if (option) {
+        option.map(option => {
+          data = data.filter(i => {
+            const p_option = i.option
+            if (!p_option) return false
+            return p_option.find(a => a.indexOf(option) > -1)
+          })
+        })
+      }
+      if (count_wrong) {
+        // not support yet
+      }
+      if (count_right) {
+        // not support yet
+      }
+      if (count_total) {
+        // not support yet
+      }
+      return data
     },
     ...mapState({
       device: (state) => state.app.device,
