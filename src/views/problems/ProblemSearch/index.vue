@@ -94,7 +94,7 @@ export default {
       if (option) {
         option.map(option => {
           data = data.filter(i => {
-            const p_option = i.option
+            const p_option = i.options
             if (!p_option) return false
             return p_option.find(a => a.indexOf(option) > -1)
           })
