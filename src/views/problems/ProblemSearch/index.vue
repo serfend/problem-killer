@@ -76,27 +76,30 @@ export default {
       console.log({ name, answer, option, count_wrong, count_right, count_total })
       if (name) {
         name.map(name => {
-          data = data.filter(i => i.content.indexOf(name) > -1)
+          name = name && name.toLocaleLowerCase()
+          data = data.filter(i => i && i.content && (i.content.toLocaleLowerCase().indexOf(name) > -1))
         })
       }
       if (answer) {
         answer.map(answer => {
+          answer = answer && answer.toLocaleLowerCase()
           data = data.filter(i => {
             const p_answer = i.answer
             if (!p_answer) return false
             if (p_answer.push) {
-              return p_answer.find(a => `${a}`.indexOf(answer) > -1)
+              return p_answer.find(a => `${a}`.toLocaleLowerCase().indexOf(answer) > -1)
             }
-            return `${p_answer}`.indexOf(answer) > -1
+            return `${p_answer}`.toLocaleLowerCase().indexOf(answer) > -1
           })
         })
       }
       if (option) {
         option.map(option => {
+          option = option && option.toLocaleLowerCase()
           data = data.filter(i => {
             const p_option = i.options
             if (!p_option) return false
-            return p_option.find(a => a.indexOf(option) > -1)
+            return p_option.find(a => a && (a.toLocaleLowerCase().indexOf(option) > -1))
           })
         })
       }
