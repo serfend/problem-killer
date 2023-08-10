@@ -5,7 +5,7 @@
 > 不需要数据库，不需要服务器。
 
 <p align="center">
-<a href="https://github.com/serfend/problem-killer/"><img alt="views" src="https://visitor-badge.glitch.me/badge?page_id=serfend/problem-killer&left_text=views" /></a> 
+<a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fserfend%2Fproblem-killer%2F"><img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fserfend%2Fproblem-killer%2F&labelColor=%23697689&countColor=%23ff8a65&style=plastic&labelStyle=none" /></a>
 <a href="https://github.com/serfend/problem-killer/releases"><img alt="GitHub release" src="https://img.shields.io/github/release/serfend/problem-killer.svg?style=flat-square" /></a>
 <a href="https://github.com/serfend/problem-killer/releases"><img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/serfend/problem-killer/total.svg?style=flat-square&color=%2364ff82" /></a>
 <a href="https://github.com/serfend/problem-killer/commits"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/serfend/problem-killer.svg?style=flat-square" /></a>
